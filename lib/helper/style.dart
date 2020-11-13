@@ -4,7 +4,7 @@ import 'Constants.dart';
 
 TextStyle simpleTextStyle() {
   return TextStyle(
-    color: appTextColor,
+    color: appWhiteColor,
     fontSize: 16,
   );
 }
@@ -20,21 +20,23 @@ InputDecoration textFieldInputDecoration(String hintText) {
   return InputDecoration(
     focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
-      color: appLightTextColor,
+      color: appWhiteColor,
       width: 2,
     )),
-    errorStyle: TextStyle(fontSize: 9),
+
+    errorStyle: TextStyle(fontSize: 9,color: appWhiteColor),
     errorBorder: OutlineInputBorder(
         borderSide: BorderSide(color: appLightTextColor, width: 1)),
     hintStyle: TextStyle(fontSize: 12, color: appWhiteColor),
     enabledBorder: OutlineInputBorder(
-        borderSide: BorderSide(color: appLightTextColor, width: 1)),
+        borderSide: BorderSide(color: appWhiteColor, width: 1)),
     hintText: hintText,
     alignLabelWithHint: true,
     labelText: hintText,
     labelStyle: TextStyle(
       color: appWhiteColor
     ),
+
     border: null,
   );
 }

@@ -19,7 +19,6 @@ Color lightGreyColor = Color(0xffb8b8b8);
 Color appSplashWhiteColor = Color(0xfff2f2f2);
 
 // Strings
-const kGoogleApiKey = "AIzaSyB7cXNxkeoI-_I82XgYKccHC9D4e3nlUhs";
 const emailText = "Email / Phone number";
 const passwordText = "Password";
 const nameText = "Name";

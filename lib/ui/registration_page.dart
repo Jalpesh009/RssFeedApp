@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rss_feed_app/firebase/registration_queries.dart';
 import 'package:rss_feed_app/helper/Constants.dart';
 import 'package:rss_feed_app/helper/style.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
@@ -9,14 +10,15 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  TextEditingController _passwordController;
-  TextEditingController _nameController;
-  TextEditingController _emailController;
-  TextEditingController _phoneNumberController;
-  TextEditingController _confirmPasswordController;
-  TextEditingController _paypalIdController;
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _nameController= TextEditingController();
+  TextEditingController _emailController= TextEditingController();
+  TextEditingController _phoneNumberController= TextEditingController();
+  TextEditingController _confirmPasswordController= TextEditingController();
+  TextEditingController _paypalIdController= TextEditingController();
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
+  Map<String, dynamic> registrationData;
   String pass;
 
   @override
@@ -40,7 +42,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   style: simpleTextStyle(),
                   decoration: textFieldInputDecoration(nameText),
                   textCapitalization: TextCapitalization.sentences,
-
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (v) {
                     FocusScope.of(context).nextFocus();
@@ -179,7 +180,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     elevation: 0,
                     onPressed: () {
                      if( _formKey.currentState.validate()){
-
+                       registrationData = {
+                         'name' : _nameController.text,
+                          'email' : _emailController.text,
+                         'phone_number' : _phoneNumberController.text,
+                         'paypal_id' : _paypalIdController.text,
+                         'password' : _passwordController.text,
+                       };
+                       RegistrationQueries().register(registrationData);
                      }
                     },
                     color: Colors.amber,

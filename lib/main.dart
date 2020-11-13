@@ -1,7 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:rss_feed_app/ui/home_page.dart';
 
-void main(){
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (Firebase.apps.length == 0) {
+    Firebase.initializeApp();
+  }
   runApp(MyApp());
 }
 

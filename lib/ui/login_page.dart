@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:rss_feed_app/firebase/login_queries.dart';
 import 'package:rss_feed_app/helper/Constants.dart';
 import 'package:rss_feed_app/helper/style.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
@@ -10,9 +12,10 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  TextEditingController _emailController;
-  TextEditingController _passwordController;
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +62,7 @@ class _LoginPageState extends State<LoginPage> {
                     controller: _passwordController,
                     //  initialValue: socialLogin ? name[1] : null,
                     style: simpleTextStyle(),
+
                     decoration: textFieldInputDecoration(passwordText),
                     textCapitalization: TextCapitalization.sentences,
                     autofocus: true,
@@ -83,7 +87,15 @@ class _LoginPageState extends State<LoginPage> {
                     buttonColor: appRedColor,
                     child: RaisedButton(
                       elevation: 0,
-                      onPressed: () {},
+                      onPressed: () {
+                       if( _formKey.currentState.validate()) {
+                        var data = FirebaseFirestore.instance
+                             .collection('users')
+                             .where('email',isEqualTo: _emailController.text)
+                             .where('password', isEqualTo: _passwordController.text)
+                             .getDocuments();
+                       }
+                      },
                       color: Colors.amber,
                       child: TextView(
                         loginText,

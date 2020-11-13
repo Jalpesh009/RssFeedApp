@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "583692980274",
+    "firebase_url": "https://rss-feed-app.firebaseio.com",
+    "project_id": "rss-feed-app",
+    "storage_bucket": "rss-feed-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:583692980274:android:b3407030424850309dac2b",
+        "android_client_info": {
+          "package_name": "com.albiorix.rss_feed_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "583692980274-k5lpjd5p27s06qfqshiief3qj67575jf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.albiorix.rss_feed_app",
+            "certificate_hash": "46f730bdb3071ce2e621ac704c76522c6b6a5f4c"
+          }
+        },
+        {
+          "client_id": "583692980274-dvmc4ufau1efte8uth7sveshjnefpulb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDeaszIwca04aNIyBZJtrCPe8dwT62EeEY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "583692980274-dvmc4ufau1efte8uth7sveshjnefpulb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-
 
 Color appDarkGreyColor = Color.fromRGBO(58, 66, 86, 1.0);
 Color appGreyColor = Color.fromRGBO(64, 75, 96, .9);
@@ -26,7 +24,8 @@ const phoneNumberText = "Phone number";
 const emailHintText = "email";
 const paypalIdText = "Pay pal ID";
 const confirmPasswordText = "Confirm Password";
-const passwordErrorText = "Make combination password of 1 Upper case, 1 lowercase, 1 Numeric Number, 1 Special Character ";
+const passwordErrorText =
+    "Make combination password of 1 Upper case, 1 lowercase, 1 Numeric Number, 1 Special Character ";
 const loginText = "Login";
 const registerText = "Register";
 const signUpText = "Don't have an account ? Sign up";
@@ -34,10 +33,8 @@ const lastNameErrorText = "Please enter last name";
 const nameErrorText = "Please enter first name";
 const emailErrorText = "Please enter valid email";
 const payPalErrorText = "Please enter valid paypal ID";
-const confirmPasswordErrorText = "Your confirm password is not match with password";
-
-
-
+const confirmPasswordErrorText =
+    "Your confirm password is not match with password";
 
 // Chat username string
 class Const {

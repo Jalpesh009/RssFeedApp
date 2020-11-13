@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rss_feed_app/ui/login_page.dart';
+import 'package:rss_feed_app/ui/home_page.dart';
 
 void main(){
   runApp(MyApp());
@@ -14,9 +14,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primaryColor: Colors.amberAccent,
           primarySwatch: Colors.amber,
-          backgroundColor: Colors.black
-      ),
-      home: LoginPage(),
+          backgroundColor: Colors.black),
+      home: HomePage(),
     );
   }
 }

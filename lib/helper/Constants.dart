@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:rss_feed_app/helper/text_view.dart';
 
 Color appDarkGreyColor = Color.fromRGBO(58, 66, 86, 1.0);
 Color appGreyColor = Color.fromRGBO(64, 75, 96, .9);
@@ -39,7 +41,11 @@ const cashOutText = "Cash Out";
 const timeRemainingText = "Time Remaining";
 const skipText = "Skip";
 const pauseText = "Pause";
+const playText = "Play";
 const homeText = "Home";
+const yesText = "Yes";
+const noText = "No";
+const appTitle = "Rss Feed App";
 
 // Chat username string
 class Const {
@@ -69,3 +75,29 @@ Image appCountryFlag = Image.asset(
   height: 25,
   width: 41,
 );
+
+showAlertDialogWithTwoButtonOkAndCancel(
+    BuildContext context, String message, VoidCallback ontap) {
+  // set up the button
+  Widget okButton = FlatButton(child: TextView(yesText), onPressed: ontap);
+  Widget cancelButton = FlatButton(
+      child: TextView(noText),
+      onPressed: () {
+        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      });
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: TextView(appTitle),
+    content: TextView(message),
+    actions: [okButton, cancelButton],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

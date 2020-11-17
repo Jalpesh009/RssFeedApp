@@ -22,6 +22,17 @@ class _RegistrationPageState extends State<RegistrationPage> {
   String pass;
 
   @override
+  void dispose() {
+    _passwordController.dispose();
+    _emailController.dispose();
+    _nameController.dispose();
+    _phoneNumberController.dispose();
+    _confirmPasswordController.dispose();
+    _paypalIdController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
@@ -187,7 +198,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                          'paypal_id' : _paypalIdController.text,
                          'password' : _passwordController.text,
                        };
-                       RegistrationQueries().register(registrationData);
+                       RegistrationQueries().register(registrationData, context);
+                       _nameController.clear();
+                       _emailController.clear();
+                       _phoneNumberController.clear();
+                       _paypalIdController.clear();
+                       _passwordController.clear();
                      }
                     },
                     color: Colors.amber,

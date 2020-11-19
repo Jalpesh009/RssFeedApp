@@ -17,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _passwordController = TextEditingController();
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
 
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -100,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
                               ));
                         } else {
                           showAlertDialogWithTwoButtonOkAndCancel(
-                              context, 'Invalid credentials', () {
+                              context, 'Invalid credentials.', () {
                             Navigator.pop(context);
                           });
                         }

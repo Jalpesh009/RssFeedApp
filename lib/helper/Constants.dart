@@ -44,6 +44,7 @@ const pauseText = "Pause";
 const playText = "Play";
 const homeText = "Home";
 const yesText = "Yes";
+const okText = "Ok";
 const noText = "No";
 const appTitle = "Rss Feed App";
 
@@ -79,18 +80,14 @@ Image appCountryFlag = Image.asset(
 showAlertDialogWithTwoButtonOkAndCancel(
     BuildContext context, String message, VoidCallback ontap) {
   // set up the button
-  Widget okButton = FlatButton(child: TextView(yesText), onPressed: ontap);
-  Widget cancelButton = FlatButton(
-      child: TextView(noText),
-      onPressed: () {
-        SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-      });
+  Widget okButton = FlatButton(child: TextView(okText), onPressed: ontap);
+
 
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
-    title: TextView(appTitle),
-    content: TextView(message),
-    actions: [okButton, cancelButton],
+    title: Center(child: TextView(appTitle,fontSize: 20,)),
+    content: TextView(message,fontSize: 16,),
+    actions: [okButton],
   );
 
   // show the dialog

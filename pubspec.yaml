@@ -30,8 +30,9 @@ dependencies:
   cupertino_icons: ^1.0.0
   cloud_firestore: ^0.14.3
   firebase_core: ^0.5.2
-  video_player: ^1.0.0
+  video_player: ^1.0.1
   flutter_countdown_timer: ^1.4.0
+  firebase_database: ^4.3.0
 
 dev_dependencies:
   flutter_test:

@@ -117,6 +117,12 @@ class _HomePageState extends State<HomePage> {
                             var dur = value.duration;
                             var difference = dur - pos;
 
+                            var timemonitored = value.duration.inMinutes /
+                                value.position.inMinutes *
+                                10;
+
+                            percenttime(timemonitored);
+
                             var remaining =
                                 difference.toString().lastIndexOf('.');
                             String result = (pos != -1)
@@ -195,6 +201,19 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-          );
+    );
+  }
+
+  void percenttime(double timemonitored) {
+    print("timemonitored :- " + timemonitored.toString());
+    if (timemonitored > 25.0) {
+      print("player has reached 25%");
+    }
+    else if (timemonitored > 50.0) {
+      print("player has reached 50%");
+    }
+    else if (timemonitored > 75.0) {
+      print("player has reached 75%");
+    }
   }
 }

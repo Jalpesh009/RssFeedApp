@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
 
 Color appDarkGreyColor = Color.fromRGBO(58, 66, 86, 1.0);
@@ -47,6 +46,7 @@ const yesText = "Yes";
 const okText = "Ok";
 const noText = "No";
 const appTitle = "Rss Feed App";
+const lastPodCast = "This is last podcast";
 
 // Chat username string
 class Const {

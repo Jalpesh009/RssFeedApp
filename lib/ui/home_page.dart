@@ -18,7 +18,9 @@ class _HomePageState extends State<HomePage> {
   Map<dynamic, dynamic> map;
   bool isLoading = true;
   bool isPlaying = false;
+  bool isOverData = false;
   int count = 0;
+  int skipCount = 0;
   int time = 0;
 
   @override
@@ -31,16 +33,6 @@ class _HomePageState extends State<HomePage> {
         fetchData(value.value);
       });
     });
-
-    _controller = VideoPlayerController.network(
-        'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-    _controller.initialize().then((_) =>
-        setState(() {
-          time = _controller.value.duration.inSeconds;
-          print(time);
-          isLoading = false;
-        }));
-    _controller.play();
   }
 
   void fetchData(List<dynamic> dataSnapshot) {
@@ -50,6 +42,10 @@ class _HomePageState extends State<HomePage> {
       podcastData.type = dataSnapshot[i]['type'];
       podcastData.link = dataSnapshot[i]['link'];
       podcastDataList.add(podcastData);
+    }
+
+    if (podcastDataList.length != 0) {
+      playPodcast(skipCount);
     }
   }
 
@@ -103,15 +99,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void playPodcast(int position) {
+    _controller = VideoPlayerController.network(
+        podcastDataList[position].link);
+    _controller.initialize().then((_) =>
+        setState(() {
+          time = _controller.value.duration.inSeconds;
+          print(time);
+          isLoading = false;
+        }));
+    _controller.play();
+  }
+
   @override
   Widget build(BuildContext context) {
     return isLoading
         ? Center(child: CircularProgressIndicator())
         : Scaffold(
-            backgroundColor: Colors.black,
-            appBar: appBar(),
-            body: Stack(
-              children: [
+      backgroundColor: Colors.black,
+      appBar: appBar(),
+      body: Stack(
+        children: [
                 Center(
                   child: _controller.value.initialized
                       ? AspectRatio(
@@ -180,10 +188,27 @@ class _HomePageState extends State<HomePage> {
                                     double val = time * 0.6;
                                     print(val.toString());
                                   },
-                                  child: TextView(
-                                    skipText,
-                                    textColor: appWhiteColor,
-                                    fontSize: 24,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      if (skipCount <= podcastDataList.length) {
+                                        isOverData = false;
+                                        skipCount++;
+                                        playPodcast(skipCount);
+                                      }
+                                      else {
+                                        showAlertDialogWithTwoButtonOkAndCancel(
+                                            context, lastPodCast, () {
+                                          Navigator.pop(context);
+                                        });
+                                      }
+                                    },
+                                    child: TextView(
+                                      skipText,
+                                      textColor: isOverData
+                                          ? appGreyColor
+                                          : appWhiteColor,
+                                      fontSize: 24,
+                                    ),
                                   )),
                             ),
                             ButtonTheme(

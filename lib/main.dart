@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.amberAccent,
           primarySwatch: Colors.amber,
           backgroundColor: Colors.black),
-      home: LoginPage(),
+      home: HomePage('akwoulf@gmail.com'),
     );
   }
 }

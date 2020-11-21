@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
   bool isPlaying = false;
   bool isOverData = false;
   bool isLimitReached = false;
-  int count = 0;
+  int count;
   int skipCount = 0;
   int time = 0;
 
@@ -32,12 +32,15 @@ class _HomePageState extends State<HomePage> {
   Future<void> initState() {
     super.initState();
 
-    FirebaseFirestore.instance.collection('users').where('email',isEqualTo: widget.email).getDocuments().then((value) {
-    var map = value.docs.first.data();
-
-    setState(() {
-      count = map['coinCount'];
-    });
+    FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: widget.email)
+        .getDocuments()
+        .then((value) {
+      var map = value.docs.first.data();
+      setState(() {
+        count = map['coinCount'];
+      });
     });
 
     databaseRef.child('data').once().then((value) {
@@ -79,7 +82,7 @@ class _HomePageState extends State<HomePage> {
             child: Padding(
               padding: const EdgeInsets.only(top: 10, right: 10),
               child: Container(
-                width: 110,
+                width: 90,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.all(Radius.circular(20)),
@@ -93,17 +96,16 @@ class _HomePageState extends State<HomePage> {
                       height: 30,
                     ),
                     TextView(count.toString()),
-                    Image.asset(
-                      'assets/plus.png',
-                      width: 30,
-                      height: 30,
-                    ),
+                    SizedBox(width: 15,)
                   ],
                 ),
               ),
             ),
           ),
         ),
+        IconButton(icon: Icon(Icons.logout), onPressed: (){
+
+        },)
       ],
       title: TextView(
         homeText,
@@ -114,10 +116,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void playPodcast(int position) {
-    _controller = VideoPlayerController.network(
-        podcastDataList[position].link);
-    _controller.initialize().then((_) =>
-        setState(() {
+    _controller = VideoPlayerController.network(podcastDataList[position].link);
+    _controller.initialize().then((_) => setState(() {
           isLimitReached = false;
           time = _controller.value.duration.inSeconds;
           print(time);
@@ -131,14 +131,20 @@ class _HomePageState extends State<HomePage> {
     return isLoading
         ? Center(child: CircularProgressIndicator())
         : Scaffold(
-      backgroundColor: Colors.black,
-      appBar: appBar(),
-      body: Stack(
-        children: [
-                TextView(
-                  podcastDataList[skipCount].title,
-                  textColor: Colors.white,
-                  fontSize: 12,
+            backgroundColor: Colors.black,
+            appBar: appBar(),
+            body: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: TextView(
+                      podcastDataList[skipCount].title,
+                      textColor: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
                 ),
                 Center(
                   child: _controller.value.initialized
@@ -213,22 +219,29 @@ class _HomePageState extends State<HomePage> {
                                       if (skipCount <= podcastDataList.length) {
                                         isOverData = false;
                                         skipCount++;
-                                        if(isLimitReached){
-                                            count++;
+                                        if (isLimitReached) {
+                                          count++;
                                         }
                                         String docId;
-                                        FirebaseFirestore.instance.collection('users').where('email',isEqualTo: widget.email).getDocuments().then((value) {
-                                         docId = value.docs.first.documentID;
+                                        FirebaseFirestore.instance
+                                            .collection('users')
+                                            .where('email',
+                                                isEqualTo: widget.email)
+                                            .getDocuments()
+                                            .then((value) {
+                                          docId = value.docs.first.documentID;
+                                          FirebaseFirestore.instance
+                                              .collection('users')
+                                              .doc(docId)
+                                              .update({'coinCount': count}).catchError((e){
+                                                print(e.toString());
+                                          });
                                         });
-                                        FirebaseFirestore.instance.collection('users').doc(docId).update(
-                                            {
-                                            'coinCount' : count
-                                            });
+
                                         playPodcast(skipCount);
                                         print("title " +
                                             podcastDataList[skipCount].title);
-                                      }
-                                      else {
+                                      } else {
                                         showAlertDialogWithTwoButtonOkAndCancel(
                                             context, lastPodCast, () {
                                           Navigator.pop(context);

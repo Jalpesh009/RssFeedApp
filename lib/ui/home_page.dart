@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'package:rss_feed_app/model/podcast.dart';
 import 'package:video_player/video_player.dart';
 
 class HomePage extends StatefulWidget {
+  String userId;
+  HomePage(@required this.userId);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -15,6 +18,7 @@ class _HomePageState extends State<HomePage> {
   final databaseRef = FirebaseDatabase.instance.reference();
   VideoPlayerController _controller;
   List<PodcastData> podcastDataList;
+  var viewDataCount;
   Map<dynamic, dynamic> map;
   bool isLoading = true;
   bool isPlaying = false;
@@ -26,6 +30,12 @@ class _HomePageState extends State<HomePage> {
   @override
   Future<void> initState() {
     super.initState();
+
+    viewDataCount = FirebaseFirestore.instance
+        .collection('views')
+        .doc(widget.userId)
+        .get()
+        .then((value) {});
 
     databaseRef.child('data').once().then((value) {
       setState(() {
@@ -265,11 +275,11 @@ class _HomePageState extends State<HomePage> {
     print(upperLimit);
     print(lowerLimit);
     print(diff);
-    if (lowerLimit > diff &&  upperLimit < diff) {
+    if (lowerLimit > diff && upperLimit < diff) {
       print("player has reached safe zone");
-    } else if(lowerLimit < diff){
+    } else if (lowerLimit < diff) {
       print('Player is lower bound');
-    } else if(diff < upperLimit){
+    } else if (diff < upperLimit) {
       print('Player is upper bound');
     }
   }

@@ -50,7 +50,7 @@ const lastPodCast = "This is last podcast";
 
 // Chat username string
 class Const {
-  static String myName = "";
+  static String userId = "";
 }
 
 // SHARED PREFERENCE KEY

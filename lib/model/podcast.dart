@@ -1,13 +1,15 @@
-class podcast {
-  List<Data> data;
 
-  podcast({this.data});
 
-  podcast.fromJson(Map<String, dynamic> json) {
+class Podcast {
+  List<PodcastData> data;
+
+  Podcast({this.data});
+
+  Podcast.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = new List<Data>();
+      data = new List<PodcastData>();
       json['data'].forEach((v) {
-        data.add(new Data.fromJson(v));
+        data.add(new PodcastData.fromJson(v));
       });
     }
   }
@@ -21,14 +23,14 @@ class podcast {
   }
 }
 
-class Data {
+class PodcastData {
   String podId;
   String type;
   String link;
 
-  Data({this.podId, this.type, this.link});
+  PodcastData({this.podId, this.type, this.link});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  PodcastData.fromJson(Map<String, dynamic> json) {
     podId = json['pod_id'];
     type = json['type'];
     link = json['link'];

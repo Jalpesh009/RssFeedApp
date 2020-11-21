@@ -1,7 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:rss_feed_app/firebase/getDataList.dart';
 import 'package:rss_feed_app/helper/Constants.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
+import 'package:rss_feed_app/model/podcast.dart';
 import 'package:video_player/video_player.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,7 +14,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final databaseRef = FirebaseDatabase.instance.reference();
   VideoPlayerController _controller;
+  DataSnapshot podcastData;
   bool isLoading = true;
   bool isPlaying = false;
   int time = 0;
@@ -18,6 +24,18 @@ class _HomePageState extends State<HomePage> {
   @override
   Future<void> initState() {
     super.initState();
+
+    databaseRef.child('data').once().then((value) {
+      setState(() {
+      //  podcastData = new List<PodcastData>();
+
+        podcastData=(value.value);
+
+        print(podcastData.value.toString());
+       // Podcast(data: data.value);
+      });
+    });
+
     _controller = VideoPlayerController.network(
         //    'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4'
         'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
@@ -117,9 +135,7 @@ class _HomePageState extends State<HomePage> {
                             var dur = value.duration;
                             var difference = dur - pos;
 
-                            var timemonitored = value.duration.inMinutes /
-                                value.position.inMinutes *
-                                10;
+                            var timemonitored = value.duration.inSeconds * 0.3;
 
                             percenttime(timemonitored);
 
@@ -201,18 +217,16 @@ class _HomePageState extends State<HomePage> {
                 )
               ],
             ),
-    );
+          );
   }
 
   void percenttime(double timemonitored) {
     print("timemonitored :- " + timemonitored.toString());
     if (timemonitored > 25.0) {
       print("player has reached 25%");
-    }
-    else if (timemonitored > 50.0) {
+    } else if (timemonitored > 50.0) {
       print("player has reached 50%");
-    }
-    else if (timemonitored > 75.0) {
+    } else if (timemonitored > 75.0) {
       print("player has reached 75%");
     }
   }

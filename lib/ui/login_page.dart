@@ -93,11 +93,13 @@ class _LoginPageState extends State<LoginPage> {
                               isEqualTo: _passwordController.text)
                           .getDocuments()
                           .then((value) {
+                           Const.userId = value.docs[0].documentID;
                         if (value.docs.isNotEmpty) {
+
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HomePage(),
+                                builder: (context) => HomePage(Const.userId),
                               ));
                         } else {
                           showAlertDialogWithTwoButtonOkAndCancel(

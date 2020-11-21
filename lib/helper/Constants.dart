@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
 
 Color appDarkGreyColor = Color.fromRGBO(58, 66, 86, 1.0);
@@ -50,7 +49,7 @@ const appTitle = "Rss Feed App";
 
 // Chat username string
 class Const {
-  static String myName = "";
+  static String userId = "";
 }
 
 // SHARED PREFERENCE KEY

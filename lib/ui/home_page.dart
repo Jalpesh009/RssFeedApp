@@ -96,16 +96,19 @@ class _HomePageState extends State<HomePage> {
                       height: 30,
                     ),
                     TextView(count.toString()),
-                    SizedBox(width: 15,)
+                    SizedBox(
+                      width: 15,
+                    )
                   ],
                 ),
               ),
             ),
           ),
         ),
-        IconButton(icon: Icon(Icons.logout), onPressed: (){
-
-        },)
+        IconButton(
+          icon: Icon(Icons.logout),
+          onPressed: () {},
+        )
       ],
       title: TextView(
         homeText,
@@ -146,6 +149,17 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
+                podcastDataList[skipCount].type == 'audio' ? Padding(
+                  padding: const EdgeInsets.only(top: 100),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: Image.network(
+                      'https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/8506164/8506164-1598477159942-19e402e194d0f.jpg',
+                      width: 200,
+                      height: 300,
+                    ),
+                  ),
+                ):
                 Center(
                   child: _controller.value.initialized
                       ? AspectRatio(
@@ -233,8 +247,10 @@ class _HomePageState extends State<HomePage> {
                                           FirebaseFirestore.instance
                                               .collection('users')
                                               .doc(docId)
-                                              .update({'coinCount': count}).catchError((e){
-                                                print(e.toString());
+                                              .update({
+                                            'coinCount': count
+                                          }).catchError((e) {
+                                            print(e.toString());
                                           });
                                         });
 

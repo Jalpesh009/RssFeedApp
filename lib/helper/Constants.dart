@@ -46,6 +46,7 @@ const yesText = "Yes";
 const okText = "Ok";
 const noText = "No";
 const appTitle = "Rss Feed App";
+const lastPodCast = "This is last podcast";
 
 // Chat username string
 class Const {

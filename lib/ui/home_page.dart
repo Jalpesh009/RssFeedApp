@@ -41,6 +41,7 @@ class _HomePageState extends State<HomePage> {
       podcastData.podId = dataSnapshot[i]['pod_id'];
       podcastData.type = dataSnapshot[i]['type'];
       podcastData.link = dataSnapshot[i]['link'];
+      podcastData.title = dataSnapshot[i]['title'];
       podcastDataList.add(podcastData);
     }
 
@@ -120,6 +121,11 @@ class _HomePageState extends State<HomePage> {
       appBar: appBar(),
       body: Stack(
         children: [
+                TextView(
+                  podcastDataList[skipCount].title,
+                  textColor: Colors.white,
+                  fontSize: 12,
+                ),
                 Center(
                   child: _controller.value.initialized
                       ? AspectRatio(
@@ -170,7 +176,7 @@ class _HomePageState extends State<HomePage> {
                           },
                         ),
                         TextView(
-                          'Time remaining',
+                          timeRemainingText,
                           fontSize: 16,
                           textColor: appWhiteColor,
                         ),
@@ -194,6 +200,8 @@ class _HomePageState extends State<HomePage> {
                                         isOverData = false;
                                         skipCount++;
                                         playPodcast(skipCount);
+                                        print("title " +
+                                            podcastDataList[skipCount].title);
                                       }
                                       else {
                                         showAlertDialogWithTwoButtonOkAndCancel(

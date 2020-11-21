@@ -19,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   DataSnapshot podcastData;
   bool isLoading = true;
   bool isPlaying = false;
+  int count = 0;
   int time = 0;
 
   @override
@@ -27,12 +28,12 @@ class _HomePageState extends State<HomePage> {
 
     databaseRef.child('data').once().then((value) {
       setState(() {
-      //  podcastData = new List<PodcastData>();
+        //  podcastData = new List<PodcastData>();
 
-        podcastData=(value.value);
+        podcastData = (value.value);
 
         print(podcastData.value.toString());
-       // Podcast(data: data.value);
+        // Podcast(data: data.value);
       });
     });
 
@@ -76,7 +77,7 @@ class _HomePageState extends State<HomePage> {
                       width: 30,
                       height: 30,
                     ),
-                    TextView("5"),
+                    TextView(count.toString()),
                     Image.asset(
                       'assets/plus.png',
                       width: 30,
@@ -135,9 +136,11 @@ class _HomePageState extends State<HomePage> {
                             var dur = value.duration;
                             var difference = dur - pos;
 
-                            var timemonitored = value.duration.inSeconds * 0.3;
-
-                            percenttime(timemonitored);
+                            percenttime(
+                                value.duration.inSeconds * 0.7,
+                                value.duration.inSeconds * 0.97,
+                                value.duration.inSeconds -
+                                    value.position.inSeconds);
 
                             var remaining =
                                 difference.toString().lastIndexOf('.');
@@ -220,14 +223,16 @@ class _HomePageState extends State<HomePage> {
           );
   }
 
-  void percenttime(double timemonitored) {
-    print("timemonitored :- " + timemonitored.toString());
-    if (timemonitored > 25.0) {
-      print("player has reached 25%");
-    } else if (timemonitored > 50.0) {
-      print("player has reached 50%");
-    } else if (timemonitored > 75.0) {
-      print("player has reached 75%");
+  void percenttime(double upperLimit, double lowerLimit, int diff) {
+    print(upperLimit);
+    print(lowerLimit);
+    print(diff);
+    if (lowerLimit > diff &&  upperLimit < diff) {
+      print("player has reached safe zone");
+    } else if(lowerLimit < diff){
+      print('Player is lower bound');
+    } else if(diff < upperLimit){
+      print('Player is upper bound');
     }
   }
 }

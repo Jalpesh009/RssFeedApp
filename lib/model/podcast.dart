@@ -27,6 +27,7 @@ class PodcastData {
   String podId;
   String type;
   String link;
+  String title;
 
   PodcastData({this.podId, this.type, this.link});
 
@@ -34,6 +35,7 @@ class PodcastData {
     podId = json['pod_id'];
     type = json['type'];
     link = json['link'];
+    title = json['title'];
   }
 
   Map<String, dynamic> toJson() {
@@ -41,6 +43,7 @@ class PodcastData {
     data['pod_id'] = this.podId;
     data['type'] = this.type;
     data['link'] = this.link;
+    data['title'] = this.title;
     return data;
   }
 }

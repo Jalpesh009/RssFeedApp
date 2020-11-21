@@ -1,8 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rss_feed_app/firebase/getDataList.dart';
 import 'package:rss_feed_app/helper/Constants.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
 import 'package:rss_feed_app/model/podcast.dart';
@@ -16,7 +14,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final databaseRef = FirebaseDatabase.instance.reference();
   VideoPlayerController _controller;
-  DataSnapshot podcastData;
+  List<PodcastData> podcastDataList;
+  Map<dynamic, dynamic> map;
   bool isLoading = true;
   bool isPlaying = false;
   int time = 0;
@@ -27,24 +26,30 @@ class _HomePageState extends State<HomePage> {
 
     databaseRef.child('data').once().then((value) {
       setState(() {
-      //  podcastData = new List<PodcastData>();
-
-        podcastData=(value.value);
-
-        print(podcastData.value.toString());
-       // Podcast(data: data.value);
+        podcastDataList = new List();
+        fetchData(value.value);
       });
     });
 
     _controller = VideoPlayerController.network(
-        //    'https://www.sample-videos.com/video123/mp4/720/big_buck_bunny_720p_20mb.mp4'
         'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-    _controller.initialize().then((_) => setState(() {
+    _controller.initialize().then((_) =>
+        setState(() {
           time = _controller.value.duration.inSeconds;
           print(time);
           isLoading = false;
         }));
     _controller.play();
+  }
+
+  void fetchData(List<dynamic> dataSnapshot) {
+    for (int i = 0; i < dataSnapshot.length; i++) {
+      PodcastData podcastData = new PodcastData();
+      podcastData.podId = dataSnapshot[i]['pod_id'];
+      podcastData.type = dataSnapshot[i]['type'];
+      podcastData.link = dataSnapshot[i]['link'];
+      podcastDataList.add(podcastData);
+    }
   }
 
   @override

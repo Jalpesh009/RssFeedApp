@@ -3,13 +3,13 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rss_feed_app/helper/Constants.dart';
+import 'package:rss_feed_app/helper/shared_data.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
 import 'package:rss_feed_app/model/podcast.dart';
+import 'package:rss_feed_app/model/user_data.dart';
 import 'package:video_player/video_player.dart';
 
 class HomePage extends StatefulWidget {
-  String email;
-  HomePage(@required this.email);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -20,6 +20,7 @@ class _HomePageState extends State<HomePage> {
   List<PodcastData> podcastDataList;
   var viewDataCount;
   Map<dynamic, dynamic> map;
+  bool loginKey;
   bool isLoading = true;
   bool isPlaying = false;
   bool isOverData = false;
@@ -27,14 +28,25 @@ class _HomePageState extends State<HomePage> {
   int count;
   int skipCount = 0;
   int time = 0;
+  UserData data;
+
+  loadSharedPref() async {
+    try {
+      loginKey = await SharedData.readUserLoggedIn();
+      data = await UserData.fromJson(await SharedData.readUserPreferences());
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 
   @override
   Future<void> initState() {
+    loadSharedPref();
     super.initState();
 
     FirebaseFirestore.instance
         .collection('users')
-        .where('email', isEqualTo: widget.email)
+        .where('email', isEqualTo: data.email)
         .getDocuments()
         .then((value) {
       var map = value.docs.first.data();
@@ -240,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                                         FirebaseFirestore.instance
                                             .collection('users')
                                             .where('email',
-                                                isEqualTo: widget.email)
+                                                isEqualTo: data.email)
                                             .getDocuments()
                                             .then((value) {
                                           docId = value.docs.first.documentID;

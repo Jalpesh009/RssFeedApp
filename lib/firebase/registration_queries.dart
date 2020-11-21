@@ -14,5 +14,6 @@ class RegistrationQueries {
         Navigator.pop(context);
       });
     });
+
   }
 }

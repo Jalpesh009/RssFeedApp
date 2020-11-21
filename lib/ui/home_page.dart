@@ -8,8 +8,8 @@ import 'package:rss_feed_app/model/podcast.dart';
 import 'package:video_player/video_player.dart';
 
 class HomePage extends StatefulWidget {
-  String userId;
-  HomePage(@required this.userId);
+  String email;
+  HomePage(@required this.email);
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -23,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   bool isLoading = true;
   bool isPlaying = false;
   bool isOverData = false;
+  bool isLimitReached = false;
   int count = 0;
   int skipCount = 0;
   int time = 0;
@@ -31,11 +32,13 @@ class _HomePageState extends State<HomePage> {
   Future<void> initState() {
     super.initState();
 
-    viewDataCount = FirebaseFirestore.instance
-        .collection('views')
-        .doc(widget.userId)
-        .get()
-        .then((value) {});
+    FirebaseFirestore.instance.collection('users').where('email',isEqualTo: widget.email).getDocuments().then((value) {
+    var map = value.docs.first.data();
+
+    setState(() {
+      count = map['coinCount'];
+    });
+    });
 
     databaseRef.child('data').once().then((value) {
       setState(() {
@@ -114,6 +117,7 @@ class _HomePageState extends State<HomePage> {
         podcastDataList[position].link);
     _controller.initialize().then((_) =>
         setState(() {
+          isLimitReached = false;
           time = _controller.value.duration.inSeconds;
           print(time);
           isLoading = false;
@@ -203,6 +207,17 @@ class _HomePageState extends State<HomePage> {
                                       if (skipCount <= podcastDataList.length) {
                                         isOverData = false;
                                         skipCount++;
+                                        if(isLimitReached){
+                                            count++;
+                                        }
+                                        String docId;
+                                        FirebaseFirestore.instance.collection('users').where('email',isEqualTo: widget.email).getDocuments().then((value) {
+                                         docId = value.docs.first.documentID;
+                                        });
+                                        FirebaseFirestore.instance.collection('users').doc(docId).update(
+                                            {
+                                            'coinCount' : count
+                                            });
                                         playPodcast(skipCount);
                                       }
                                       else {
@@ -268,10 +283,13 @@ class _HomePageState extends State<HomePage> {
     print(lowerLimit);
     print(diff);
     if (lowerLimit > diff && upperLimit < diff) {
+      isLimitReached = true;
       print("player has reached safe zone");
     } else if (lowerLimit < diff) {
+      isLimitReached = false;
       print('Player is lower bound');
     } else if (diff < upperLimit) {
+      isLimitReached = true;
       print('Player is upper bound');
     }
   }

@@ -52,7 +52,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   //  initialValue: socialLogin ? name[1] : null,
                   style: simpleTextStyle(),
                   decoration: textFieldInputDecoration(nameText),
-                  textCapitalization: TextCapitalization.sentences,
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (v) {
                     FocusScope.of(context).nextFocus();
@@ -73,8 +72,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   //  initialValue: socialLogin ? name[1] : null,
                   style: simpleTextStyle(),
                   decoration: textFieldInputDecoration(phoneNumberText),
-                  textCapitalization: TextCapitalization.sentences,
-
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (v) {
                     FocusScope.of(context).nextFocus();
@@ -95,8 +92,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   //  initialValue: socialLogin ? name[1] : null,
                   style: simpleTextStyle(),
                   decoration: textFieldInputDecoration(emailHintText),
-                  textCapitalization: TextCapitalization.sentences,
-
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (v) {
                     FocusScope.of(context).nextFocus();
@@ -119,8 +114,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   //  initialValue: socialLogin ? name[1] : null,
                   style: simpleTextStyle(),
                   decoration: textFieldInputDecoration(paypalIdText),
-                  textCapitalization: TextCapitalization.sentences,
-
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (v) {
                     FocusScope.of(context).nextFocus();
@@ -141,9 +134,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   //  initialValue: socialLogin ? name[1] : null,
                   style: simpleTextStyle(),
                   decoration: textFieldInputDecoration(passwordText),
-                  textCapitalization: TextCapitalization.sentences,
-
-                  textInputAction: TextInputAction.next,
+                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (v) {
                     FocusScope.of(context).nextFocus();
                   },
@@ -166,8 +157,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   //  initialValue: socialLogin ? name[1] : null,
                   style: simpleTextStyle(),
                   decoration: textFieldInputDecoration(confirmPasswordText),
-                  textCapitalization: TextCapitalization.sentences,
-
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (v) {
                     FocusScope.of(context).nextFocus();
@@ -197,6 +186,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                          'phone_number' : _phoneNumberController.text,
                          'paypal_id' : _paypalIdController.text,
                          'password' : _passwordController.text,
+                         'coinCount' : 0
                        };
                        RegistrationQueries().register(registrationData, context);
                        _nameController.clear();

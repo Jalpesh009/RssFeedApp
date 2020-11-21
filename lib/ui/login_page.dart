@@ -38,7 +38,6 @@ class _LoginPageState extends State<LoginPage> {
                 //  initialValue: socialLogin ? name[1] : null,
                 style: simpleTextStyle(),
                 decoration: textFieldInputDecoration(emailText),
-                textCapitalization: TextCapitalization.sentences,
                 autofocus: true,
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (v) {
@@ -61,7 +60,6 @@ class _LoginPageState extends State<LoginPage> {
                 style: simpleTextStyle(),
 
                 decoration: textFieldInputDecoration(passwordText),
-                textCapitalization: TextCapitalization.sentences,
                 autofocus: true,
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (v) {
@@ -93,13 +91,13 @@ class _LoginPageState extends State<LoginPage> {
                               isEqualTo: _passwordController.text)
                           .getDocuments()
                           .then((value) {
-                           Const.userId = value.docs[0].documentID;
+
                         if (value.docs.isNotEmpty) {
 
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => HomePage(Const.userId),
+                                builder: (context) => HomePage(_emailController.text),
                               ));
                         } else {
                           showAlertDialogWithTwoButtonOkAndCancel(

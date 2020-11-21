@@ -28,7 +28,8 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.amberAccent,
           primarySwatch: Colors.amber,
           backgroundColor: Colors.black),
-      home: HomePage('uOiW2CxjXj2eR5sEotTf'),
+      home: LoginPage(),
     );
   }
 }
+//uOiW2CxjXj2eR5sEotTf

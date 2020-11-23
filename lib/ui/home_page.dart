@@ -7,9 +7,13 @@ import 'package:rss_feed_app/helper/shared_data.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
 import 'package:rss_feed_app/model/podcast.dart';
 import 'package:rss_feed_app/model/user_data.dart';
+import 'package:rss_feed_app/ui/edit_profile.dart';
 import 'package:video_player/video_player.dart';
 
 class HomePage extends StatefulWidget {
+  String email;
+  HomePage(this.email);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -46,7 +50,7 @@ class _HomePageState extends State<HomePage> {
 
     FirebaseFirestore.instance
         .collection('users')
-        .where('email', isEqualTo: data.email)
+        .where('email', isEqualTo: widget.email)
         .getDocuments()
         .then((value) {
       var map = value.docs.first.data();
@@ -148,6 +152,85 @@ class _HomePageState extends State<HomePage> {
         : Scaffold(
             backgroundColor: Colors.black,
             appBar: appBar(),
+            drawer: Drawer(
+              child: Container(
+                color: Theme.of(context).backgroundColor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DrawerHeader(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                  color: Colors.amberAccent,
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Center(
+                                child: TextView(
+                                  'A',
+                                  fontSize: 80,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 40),
+                              child: TextView(
+                                'John Doe',
+                                fontSize: 20,
+                                textColor: appWhiteColor,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      height: 1,
+                      color: Colors.grey,
+                    ),
+                    createDrawerItem(
+                        icon: Icon(
+                          Icons.edit,
+                          color: appWhiteColor,
+                        ),
+                        text: editProfileText,
+                        onTap: () {
+                          _controller.pause();
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditProfile(),
+                              ));
+                        }),
+                    Divider(
+                      height: 1,
+                      color: Colors.grey,
+                    ),
+                    createDrawerItem(
+                        icon: Icon(
+                          Icons.logout,
+                          color: appWhiteColor,
+                        ),
+                        text: logOutText,
+                        onTap: () {}),
+                    Divider(
+                      height: 1,
+                      color: Colors.grey,
+                    ),
+                  ],
+                ),
+              ),
+            ),
             body: Stack(
               children: [
                 Padding(
@@ -161,25 +244,26 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                podcastDataList[skipCount].type == 'audio' ? Padding(
-                  padding: const EdgeInsets.only(top: 100),
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: Image.network(
-                      'https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/8506164/8506164-1598477159942-19e402e194d0f.jpg',
-                      width: 200,
-                      height: 300,
-                    ),
-                  ),
-                ):
-                Center(
-                  child: _controller.value.initialized
-                      ? AspectRatio(
-                          aspectRatio: _controller.value.aspectRatio,
-                          child: VideoPlayer(_controller),
-                        )
-                      : Container(),
-                ),
+                podcastDataList[skipCount].type == 'audio'
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 100),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Image.network(
+                            'https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/8506164/8506164-1598477159942-19e402e194d0f.jpg',
+                            width: 200,
+                            height: 300,
+                          ),
+                        ),
+                      )
+                    : Center(
+                        child: _controller.value.initialized
+                            ? AspectRatio(
+                                aspectRatio: _controller.value.aspectRatio,
+                                child: VideoPlayer(_controller),
+                              )
+                            : Container(),
+                      ),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Padding(
@@ -252,7 +336,7 @@ class _HomePageState extends State<HomePage> {
                                         FirebaseFirestore.instance
                                             .collection('users')
                                             .where('email',
-                                                isEqualTo: data.email)
+                                                isEqualTo: widget.email)
                                             .getDocuments()
                                             .then((value) {
                                           docId = value.docs.first.documentID;

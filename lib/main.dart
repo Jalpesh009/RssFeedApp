@@ -27,11 +27,12 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.amberAccent,
           primarySwatch: Colors.amber,
           backgroundColor: Colors.black),
-      home: GetData(),
+      home: HomePage('akwoulf@gmail.com'),
     );
   }
 }
 
+/*
 class GetData extends StatefulWidget {
   @override
   _GetDataState createState() => _GetDataState();
@@ -70,3 +71,4 @@ class _GetDataState extends State<GetData> {
     );
   }
 }
+*/

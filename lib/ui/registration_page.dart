@@ -36,6 +36,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
+      appBar: AppBar(
+
+      ),
       backgroundColor: Colors.black,
       body: Align(
         alignment: Alignment.bottomCenter,

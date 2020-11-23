@@ -17,3 +17,8 @@ class RegistrationQueries {
 
   }
 }
+
+
+class EditProfileQuery{
+
+}

@@ -47,6 +47,8 @@ const okText = "Ok";
 const noText = "No";
 const appTitle = "Rss Feed App";
 const lastPodCast = "This is last podcast";
+const editProfileText = 'Edit Profile';
+const logOutText = 'Log out';
 
 // Chat username string
 class Const {
@@ -96,5 +98,24 @@ showAlertDialogWithTwoButtonOkAndCancel(
     builder: (BuildContext context) {
       return alert;
     },
+  );
+}
+
+Widget createDrawerItem(
+    {Widget icon, String text, GestureTapCallback onTap}) {
+  return ListTile(
+    leading: icon,
+    title: Row(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(left: 8.0),
+          child: TextView(
+            text,
+            textColor: appWhiteColor,
+          ),
+        )
+      ],
+    ),
+    onTap: onTap,
   );
 }

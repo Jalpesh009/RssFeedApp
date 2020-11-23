@@ -53,6 +53,7 @@ flutter:
   assets:
     - assets/take.png
     - assets/plus.png
+    - assets/placeholder.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

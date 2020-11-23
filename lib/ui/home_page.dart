@@ -153,12 +153,12 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.only(top: 100),
                   child: Align(
                     alignment: Alignment.topCenter,
-                    child: Image.network(
-                      'https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded_nologo/8506164/8506164-1598477159942-19e402e194d0f.jpg',
-                      width: 200,
-                      height: 300,
-                    ),
-                  ),
+                          child: Image.asset(
+                            'assets/placeholder.jpg',
+                            width: 200,
+                            height: 300,
+                          ),
+                        ),
                 ):
                 Center(
                   child: _controller.value.initialized

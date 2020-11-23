@@ -11,7 +11,6 @@ import 'package:rss_feed_app/model/podcast.dart';
 import 'package:rss_feed_app/model/user_data.dart';
 import 'package:rss_feed_app/ui/edit_profile.dart';
 import 'package:rss_feed_app/ui/login_page.dart';
-import 'package:rss_feed_app/ui/spalsh.dart';
 import 'package:video_player/video_player.dart';
 
 class HomePage extends StatefulWidget {
@@ -413,9 +412,6 @@ class _HomePageState extends State<HomePage> {
 
   void percenttime(double upperLimit, double lowerLimit, int diff,
       double skipValue) {
-    /* print(upperLimit);
-    print(lowerLimit);
-   */
     print("diff " + diff.toString());
     print("skipValue " + skipValue.toInt().toString());
     if (diff == skipValue.toInt()) {

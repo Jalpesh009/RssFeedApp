@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rss_feed_app/helper/Constants.dart';
 import 'package:rss_feed_app/helper/shared_data.dart';
+import 'package:rss_feed_app/model/user_data.dart';
 import 'package:rss_feed_app/ui/home_page.dart';
 
 import 'login_page.dart';
@@ -12,6 +13,7 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
   bool loginKey;
+  UserData data;
 
   @override
   void initState() {
@@ -27,7 +29,7 @@ class _SplashState extends State<Splash> {
         Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) => loginKey ? HomePage() : LoginPage()));
+                builder: (context) => loginKey ? HomePage(data) : LoginPage()));
       });
     });
   }
@@ -35,6 +37,7 @@ class _SplashState extends State<Splash> {
   loadSharedPref() async {
     try {
       loginKey = await SharedData.readUserLoggedIn();
+      data = await UserData.fromJson(await SharedData.readUserPreferences());
     } catch (e) {
       print(e.toString());
     }

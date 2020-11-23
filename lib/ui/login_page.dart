@@ -4,6 +4,7 @@ import 'package:rss_feed_app/helper/Constants.dart';
 import 'package:rss_feed_app/helper/shared_data.dart';
 import 'package:rss_feed_app/helper/style.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
+import 'package:rss_feed_app/model/user_data.dart';
 import 'package:rss_feed_app/ui/home_page.dart';
 import 'package:rss_feed_app/ui/registration_page.dart';
 
@@ -92,12 +93,15 @@ class _LoginPageState extends State<LoginPage> {
                           .then((value) {
 
                         if (value.docs.isNotEmpty) {
-
                           SharedData.isUserLoggedIn(true);
-                          SharedData.saveUserPreferences(value.docs.first.data());
+                          SharedData.saveUserPreferences(
+                              value.docs.first.data());
+                          UserData userData =
+                              UserData.fromJson(value.docs.first.data());
                           Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (context) => HomePage()),
-                                  (Route<dynamic> route) => false);
+                              MaterialPageRoute(
+                                  builder: (context) => HomePage(userData)),
+                              (Route<dynamic> route) => false);
                         } else {
                           showAlertDialogWithTwoButtonOkAndCancel(
                               context, 'Invalid credentials.', () {

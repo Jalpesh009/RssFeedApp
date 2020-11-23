@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
@@ -148,13 +150,12 @@ class _HomePageState extends State<HomePage> {
     _controller = VideoPlayerController.network(podcastDataList[position].link);
     _controller.initialize().then((_) => setState(() {
       isLimitReached = false;
-          time = _controller.value.duration.inSeconds;
-          print("time " + time.toString());
-          isLoading = false;
-        }));
+      time = _controller.value.duration.inSeconds;
+      print("time " + time.toString());
+      isLoading = false;
+    }));
     _controller.play();
   }
-
 
 
   @override
@@ -162,147 +163,147 @@ class _HomePageState extends State<HomePage> {
     return isLoading
         ? Center(child: CircularProgressIndicator())
         : Scaffold(
-            backgroundColor: Colors.black,
-            appBar: appBar(),
-            drawer: Drawer(
-              child: Container(
-                color: Theme.of(context).backgroundColor,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DrawerHeader(
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  color: Colors.amberAccent,
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Center(
-                                child: TextView(
-                                  widget.userData.name[0].toUpperCase(),
-                                  fontSize: 80,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 40),
-                              child: TextView(
-                                widget.userData.name,
-                                fontSize: 20,
-                                textColor: appWhiteColor,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      height: 1,
-                      color: Colors.grey,
-                    ),
-                    createDrawerItem(
-                        icon: Icon(
-                          Icons.edit,
-                          color: appWhiteColor,
-                        ),
-                        text: editProfileText,
-                        onTap: () {
-                          _controller.pause();
-                          Navigator.pop(context);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    EditProfile(widget.userData),
-                              ));
-                        }),
-                    Divider(
-                      height: 1,
-                      color: Colors.grey,
-                    ),
-                    createDrawerItem(
-                        icon: Icon(
-                          Icons.logout,
-                          color: appWhiteColor,
-                        ),
-                        text: logOutText,
-                        onTap: () {
-                          _controller.pause();
-                          SharedData.removeAllPrefs();
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (context) => Splash()),
-                              (Route<dynamic> route) => false);
-                        }),
-                    Divider(
-                      height: 1,
-                      color: Colors.grey,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            body: Stack(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: TextView(
-                      podcastDataList[skipCount].title,
-                      textColor: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                podcastDataList[skipCount].type == 'audio'
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 100),
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Image.asset(
-                            'assets/placeholder.jpg',
-                            width: 200,
-                            height: 300,
+      backgroundColor: Colors.black,
+      appBar: appBar(),
+      drawer: Drawer(
+        child: Container(
+          color: Theme.of(context).backgroundColor,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              DrawerHeader(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Container(
+                        height: 100,
+                        width: 100,
+                        decoration: BoxDecoration(
+                            color: Colors.amberAccent,
+                            borderRadius: BorderRadius.circular(50)),
+                        child: Center(
+                          child: TextView(
+                            widget.userData.name[0].toUpperCase(),
+                            fontSize: 80,
                           ),
                         ),
-                      )
-                    : Center(
-                        child: _controller.value.initialized
-                            ? AspectRatio(
-                                aspectRatio: _controller.value.aspectRatio,
-                                child: VideoPlayer(_controller),
-                              )
-                            : Container(),
                       ),
-                Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 40),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ValueListenableBuilder(
-                          valueListenable: _controller,
-                          builder: (context, VideoPlayerValue value, child) {
-                            //Do Something with the value.
-                            return Text(value.position.toString());
-                          },
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 40),
+                        child: TextView(
+                          widget.userData.name,
+                          fontSize: 20,
+                          textColor: appWhiteColor,
                         ),
-                        ValueListenableBuilder(
-                          valueListenable: _controller,
-                          builder: (context, VideoPlayerValue value, child) {
-                            var pos = value.position;
-                            var dur = value.duration;
-                            var difference = dur - pos;
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Divider(
+                height: 1,
+                color: Colors.grey,
+              ),
+              createDrawerItem(
+                  icon: Icon(
+                    Icons.edit,
+                    color: appWhiteColor,
+                  ),
+                  text: editProfileText,
+                  onTap: () {
+                    _controller.pause();
+                    Navigator.pop(context);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              EditProfile(widget.userData),
+                        ));
+                  }),
+              Divider(
+                height: 1,
+                color: Colors.grey,
+              ),
+              createDrawerItem(
+                  icon: Icon(
+                    Icons.logout,
+                    color: appWhiteColor,
+                  ),
+                  text: logOutText,
+                  onTap: () {
+                    _controller.pause();
+                    SharedData.removeAllPrefs();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) => Splash()),
+                            (Route<dynamic> route) => false);
+                  }),
+              Divider(
+                height: 1,
+                color: Colors.grey,
+              ),
+            ],
+          ),
+        ),
+      ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: TextView(
+                podcastDataList[skipCount].title,
+                textColor: Colors.white,
+                fontSize: 20,
+              ),
+            ),
+          ),
+          podcastDataList[skipCount].type == 'audio'
+              ? Padding(
+            padding: const EdgeInsets.only(top: 100),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Image.asset(
+                'assets/placeholder.jpg',
+                width: 200,
+                height: 300,
+              ),
+            ),
+          )
+              : Center(
+            child: _controller.value.initialized
+                ? AspectRatio(
+              aspectRatio: _controller.value.aspectRatio,
+              child: VideoPlayer(_controller),
+            )
+                : Container(),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 40),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  ValueListenableBuilder(
+                    valueListenable: _controller,
+                    builder: (context, VideoPlayerValue value, child) {
+                      //Do Something with the value.
+                      return Text(value.position.toString());
+                    },
+                  ),
+                  ValueListenableBuilder(
+                    valueListenable: _controller,
+                    builder: (context, VideoPlayerValue value, child) {
+                      var pos = value.position;
+                      var dur = value.duration;
+                      var difference = dur - pos;
 
                       if (skipCount <= podcastDataList.length) {
                         percenttime(
@@ -320,69 +321,44 @@ class _HomePageState extends State<HomePage> {
                           ? difference.toString().substring(0, remaining)
                           : difference;
 
-                            return TextView(
-                              result,
-                              fontSize: 50,
-                              textColor: appWhiteColor,
-                            );
-                          },
-                        ),
-                        TextView(
-                          timeRemainingText,
-                          fontSize: 16,
-                          textColor: appWhiteColor,
-                        ),
-                        SizedBox(
-                          height: 40,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ButtonTheme(
-                              minWidth: 80,
-                              child: RaisedButton(
-                                  color: Colors.black,
-                                  onPressed: () {
-                                    double val = time * 0.6;
-                                    print(val.toString());
-                                  },
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      if (skipCount <= podcastDataList.length) {
-                                        isOverData = false;
-                                        skipCount++;
-                                        if (isLimitReached) {
-                                          count++;
-                                        }
-                                        String docId;
-                                        FirebaseFirestore.instance
-                                            .collection('users')
-                                            .where('email',
-                                                isEqualTo:
-                                                    widget.userData.email)
-                                            .getDocuments()
-                                            .then((value) {
-                                          docId = value.docs.first.documentID;
-                                          FirebaseFirestore.instance
-                                              .collection('users')
-                                              .doc(docId)
-                                              .update({
-                                            'coinCount': count
-                                          }).catchError((e) {
-                                            print(e.toString());
-                                          });
+                      return TextView(
+                        result,
+                        fontSize: 50,
+                        textColor: appWhiteColor,
+                      );
+                    },
+                  ),
+                  TextView(
+                    timeRemainingText,
+                    fontSize: 16,
+                    textColor: appWhiteColor,
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ButtonTheme(
+                        minWidth: 80,
+                        child: RaisedButton(
+                            color: Colors.black,
+                            onPressed: () {
+                              double val = time * 0.6;
+                              print(val.toString());
+                            },
+                            child: GestureDetector(
+                              onTap: () {
+                                      if (skipCount <
+                                          podcastDataList.length - 1) {
+                                        callNextPodcast();
+                                      } else {
+                                        showAlertDialogWithTwoButtonOkAndCancel(
+                                            context, lastPodCast, () {
+                                          Navigator.pop(context);
                                         });
-
-                                  playPodcast(skipCount);
-                                  print("title " +
-                                      podcastDataList[skipCount].title);
-                                } else {
-                                  showAlertDialogWithTwoButtonOkAndCancel(
-                                      context, lastPodCast, () {
-                                    Navigator.pop(context);
-                                  });
-                                }
-                              },
+                                      }
+                                    },
                               child: TextView(
                                 skipText,
                                 textColor: isOverData
@@ -443,33 +419,7 @@ class _HomePageState extends State<HomePage> {
     print("skipValue " + skipValue.toInt().toString());
     if (diff == skipValue.toInt()) {
       if (skipCount < podcastDataList.length - 1) {
-        isOverData = false;
-        skipCount++;
-        if (isLimitReached) {
-          count++;
-        }
-        String docId;
-        FirebaseFirestore.instance
-            .collection('users')
-            .where('email',
-            isEqualTo:
-            widget.userData.email)
-            .getDocuments()
-            .then((value) {
-          docId = value.docs.first.documentID;
-          FirebaseFirestore.instance
-              .collection('users')
-              .doc(docId)
-              .update({
-            'coinCount': count
-          }).catchError((e) {
-            print(e.toString());
-          });
-        });
-
-        playPodcast(skipCount);
-        print("title " +
-            podcastDataList[skipCount].title);
+        callNextPodcast();
       } else {
         showAlertDialogWithTwoButtonOkAndCancel(
             context, lastPodCast, () {
@@ -486,5 +436,33 @@ class _HomePageState extends State<HomePage> {
       isLimitReached = true;
       print('Player is upper bound');
     }
+  }
+
+  callNextPodcast() {
+    isOverData = false;
+    skipCount++;
+    if (isLimitReached) {
+      count++;
+    }
+    String docId;
+    FirebaseFirestore.instance
+        .collection('users')
+        .where('email',
+        isEqualTo:
+        widget.userData.email)
+        .getDocuments()
+        .then((value) {
+      docId = value.docs.first.documentID;
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(docId)
+          .update({
+        'coinCount': count
+      }).catchError((e) {
+        print(e.toString());
+      });
+    });
+
+    playPodcast(skipCount);
   }
 }

@@ -20,5 +20,13 @@ class RegistrationQueries {
 
 
 class EditProfileQuery{
-
+  Future<void> editRegister(registrationData, email, BuildContext context) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get()
+        .catchError((e){
+       print(e.toString());
+    });
+  }
 }

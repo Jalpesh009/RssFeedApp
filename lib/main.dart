@@ -1,8 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rss_feed_app/helper/shared_data.dart';
-import 'package:rss_feed_app/ui/home_page.dart';
+import 'package:rss_feed_app/ui/spalsh.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,46 +26,7 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.amberAccent,
           primarySwatch: Colors.amber,
           backgroundColor: Colors.black),
-      home: GetData(),
-    );
-  }
-}
-
-class GetData extends StatefulWidget {
-  @override
-  _GetDataState createState() => _GetDataState();
-}
-
-class _GetDataState extends State<GetData> {
-  bool loginKey;
-  bool isLoading = true;
-  loadSharedPref() async {
-    try {
-      loginKey = await SharedData.readUserLoggedIn();
-      if(loginKey != null){
-        isLoading = false;
-      }
-    } catch (e) {
-      print(e.toString());
-    }
-  }
-
-  @override
-  void initState() {
-    loadSharedPref();
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: isLoading ? Center(
-        child: CircularProgressIndicator(),
-      ) : Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-              loginKey ? HomePage() : LoginPage())),
+      home: Splash(),
     );
   }
 }

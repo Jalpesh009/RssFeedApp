@@ -16,8 +16,10 @@ Color appBackgroundColor = Color(0xfff9f9f9);
 Color lightTextColor = Color(0xffbbbaba);
 Color lightGreyColor = Color(0xffb8b8b8);
 Color appSplashWhiteColor = Color(0xfff2f2f2);
+Color appSplashColor = Color(0xff4c2b36);
 
 // Strings
+const rssFeedText = "Rss Feed";
 const emailText = "Email / Phone number";
 const passwordText = "Password";
 const nameText = "Name";

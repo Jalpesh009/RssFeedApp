@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:rss_feed_app/firebase/login_queries.dart';
 import 'package:rss_feed_app/helper/Constants.dart';
 import 'package:rss_feed_app/helper/shared_data.dart';
 import 'package:rss_feed_app/helper/style.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
-import 'package:rss_feed_app/model/user_data.dart';
 import 'package:rss_feed_app/ui/home_page.dart';
 import 'package:rss_feed_app/ui/registration_page.dart';
 
@@ -18,8 +16,6 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-
-
 
   @override
   Widget build(BuildContext context) {

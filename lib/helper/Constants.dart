@@ -20,7 +20,7 @@ Color appSplashColor = Color(0xff4c2b36);
 
 // Strings
 const rssFeedText = "Rss Feed";
-const emailText = "Email / Phone number";
+const emailText = "Email";
 const passwordText = "Password";
 const nameText = "Name";
 const phoneNumberText = "Phone number";

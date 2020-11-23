@@ -10,6 +10,7 @@ import 'package:rss_feed_app/helper/text_view.dart';
 import 'package:rss_feed_app/model/podcast.dart';
 import 'package:rss_feed_app/model/user_data.dart';
 import 'package:rss_feed_app/ui/edit_profile.dart';
+import 'package:rss_feed_app/ui/login_page.dart';
 import 'package:rss_feed_app/ui/spalsh.dart';
 import 'package:video_player/video_player.dart';
 
@@ -163,149 +164,149 @@ class _HomePageState extends State<HomePage> {
     return isLoading
         ? Center(child: CircularProgressIndicator())
         : Scaffold(
-      backgroundColor: Colors.black,
-      appBar: appBar(),
-      drawer: Drawer(
-        child: Container(
-          color: Theme.of(context).backgroundColor,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              DrawerHeader(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Container(
-                        height: 100,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            color: Colors.amberAccent,
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Center(
-                          child: TextView(
-                            widget.userData.name[0].toUpperCase(),
-                            fontSize: 80,
-                          ),
+            backgroundColor: Colors.black,
+            appBar: appBar(),
+            drawer: Drawer(
+              child: Container(
+                color: Theme.of(context).backgroundColor,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DrawerHeader(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                  color: Colors.amberAccent,
+                                  borderRadius: BorderRadius.circular(50)),
+                              child: Center(
+                                child: TextView(
+                                  widget.userData.name[0].toUpperCase(),
+                                  fontSize: 80,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 16,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 40),
+                              child: TextView(
+                                widget.userData.name,
+                                fontSize: 20,
+                                textColor: appWhiteColor,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 40),
-                        child: TextView(
-                          widget.userData.name,
-                          fontSize: 20,
-                          textColor: appWhiteColor,
+                    ),
+                    Divider(
+                      height: 1,
+                      color: Colors.grey,
+                    ),
+                    createDrawerItem(
+                        icon: Icon(
+                          Icons.edit,
+                          color: appWhiteColor,
                         ),
-                      ),
-                    ],
-                  ),
+                        text: editProfileText,
+                        onTap: () {
+                          _controller.pause();
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    EditProfile(widget.userData),
+                              ));
+                        }),
+                    Divider(
+                      height: 1,
+                      color: Colors.grey,
+                    ),
+                    createDrawerItem(
+                        icon: Icon(
+                          Icons.logout,
+                          color: appWhiteColor,
+                        ),
+                        text: logOutText,
+                        onTap: () {
+                          _controller.pause();
+                          SharedData.removeAllPrefs();
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(builder: (context) => LoginPage()),
+                              (Route<dynamic> route) => false);
+                        }),
+                    Divider(
+                      height: 1,
+                      color: Colors.grey,
+                    ),
+                  ],
                 ),
               ),
-              Divider(
-                height: 1,
-                color: Colors.grey,
-              ),
-              createDrawerItem(
-                  icon: Icon(
-                    Icons.edit,
-                    color: appWhiteColor,
-                  ),
-                  text: editProfileText,
-                  onTap: () {
-                    _controller.pause();
-                    Navigator.pop(context);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              EditProfile(widget.userData),
-                        ));
-                  }),
-              Divider(
-                height: 1,
-                color: Colors.grey,
-              ),
-              createDrawerItem(
-                  icon: Icon(
-                    Icons.logout,
-                    color: appWhiteColor,
-                  ),
-                  text: logOutText,
-                  onTap: () {
-                    _controller.pause();
-                    SharedData.removeAllPrefs();
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) => Splash()),
-                            (Route<dynamic> route) => false);
-                  }),
-              Divider(
-                height: 1,
-                color: Colors.grey,
-              ),
-            ],
-          ),
-        ),
-      ),
-      body: Stack(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: TextView(
-                podcastDataList[skipCount].title,
-                textColor: Colors.white,
-                fontSize: 20,
-              ),
             ),
-          ),
-          podcastDataList[skipCount].type == 'audio'
-              ? Padding(
-            padding: const EdgeInsets.only(top: 100),
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Image.asset(
-                'assets/placeholder.jpg',
-                width: 200,
-                height: 300,
-              ),
-            ),
-          )
-              : Center(
-            child: _controller.value.initialized
-                ? AspectRatio(
-              aspectRatio: _controller.value.aspectRatio,
-              child: VideoPlayer(_controller),
-            )
-                : Container(),
-          ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Padding(
-              padding: const EdgeInsets.only(bottom: 40),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  ValueListenableBuilder(
-                    valueListenable: _controller,
-                    builder: (context, VideoPlayerValue value, child) {
-                      //Do Something with the value.
-                      return Text(value.position.toString());
-                    },
+            body: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Align(
+                    alignment: Alignment.topCenter,
+                    child: TextView(
+                      podcastDataList[skipCount].title,
+                      textColor: Colors.white,
+                      fontSize: 20,
+                    ),
                   ),
-                  ValueListenableBuilder(
-                    valueListenable: _controller,
-                    builder: (context, VideoPlayerValue value, child) {
-                      var pos = value.position;
-                      var dur = value.duration;
-                      var difference = dur - pos;
+                ),
+                podcastDataList[skipCount].type == 'audio'
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 100),
+                        child: Align(
+                          alignment: Alignment.topCenter,
+                          child: Image.asset(
+                            'assets/placeholder.jpg',
+                            width: 200,
+                            height: 300,
+                          ),
+                        ),
+                      )
+                    : Center(
+                        child: _controller.value.initialized
+                            ? AspectRatio(
+                                aspectRatio: _controller.value.aspectRatio,
+                                child: VideoPlayer(_controller),
+                              )
+                            : Container(),
+                      ),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 40),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ValueListenableBuilder(
+                          valueListenable: _controller,
+                          builder: (context, VideoPlayerValue value, child) {
+                            //Do Something with the value.
+                            return Text(value.position.toString());
+                          },
+                        ),
+                        ValueListenableBuilder(
+                          valueListenable: _controller,
+                          builder: (context, VideoPlayerValue value, child) {
+                            var pos = value.position;
+                            var dur = value.duration;
+                            var difference = dur - pos;
 
-                      if (skipCount <= podcastDataList.length) {
+                      if (skipCount < podcastDataList.length - 1) {
                         percenttime(
                             value.duration.inSeconds * 0.7,
                             value.duration.inSeconds * 0.97,

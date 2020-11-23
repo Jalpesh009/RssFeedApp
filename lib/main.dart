@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rss_feed_app/helper/Constants.dart';
 import 'package:rss_feed_app/ui/spalsh.dart';
 
 void main() async {
@@ -21,10 +22,10 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      color: Colors.amberAccent,
+      color: appSplashColor,
       theme: ThemeData(
-          primaryColor: Colors.amberAccent,
-          primarySwatch: Colors.amber,
+          primaryColor: appSplashColor,
+          primarySwatch: Colors.purple,
           backgroundColor: Colors.black),
       home: Splash(),
     );

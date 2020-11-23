@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
                       width: 30,
                       height: 30,
                     ),
-                    TextView(count.toString()),
+                    TextView(count.toString(),textColor: appTextColor,),
                     SizedBox(
                       width: 15,
                     )
@@ -123,7 +123,7 @@ class _HomePageState extends State<HomePage> {
       ],
       title: TextView(
         homeText,
-        textColor: appTextColor,
+        textColor: appWhiteColor,
         fontSize: 20,
       ),
     );
@@ -168,7 +168,7 @@ class _HomePageState extends State<HomePage> {
                                   borderRadius: BorderRadius.circular(50)),
                               child: Center(
                                 child: TextView(
-                                  'A',
+                                  widget.userData.name[0].toUpperCase(),
                                   fontSize: 80,
                                 ),
                               ),
@@ -179,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                             Padding(
                               padding: const EdgeInsets.only(top: 40),
                               child: TextView(
-                                'John Doe',
+                                widget.userData.name,
                                 fontSize: 20,
                                 textColor: appWhiteColor,
                               ),
@@ -204,7 +204,7 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => EditProfile(),
+                                builder: (context) => EditProfile(widget.userData),
                               ));
                         }),
                     Divider(

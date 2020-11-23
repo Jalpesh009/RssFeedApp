@@ -3,8 +3,13 @@ import 'package:rss_feed_app/firebase/registration_queries.dart';
 import 'package:rss_feed_app/helper/Constants.dart';
 import 'package:rss_feed_app/helper/style.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
+import 'package:rss_feed_app/model/user_data.dart';
 
 class EditProfile extends StatefulWidget {
+
+  UserData userData;
+  EditProfile(this.userData);
+
   @override
   _EditProfileState createState() => _EditProfileState();
 }
@@ -26,7 +31,7 @@ class _EditProfileState extends State<EditProfile> {
       appBar: AppBar(
         title: TextView(
           editProfileText,
-          textColor: Theme.of(context).backgroundColor,
+          textColor: appWhiteColor,
           fontSize: 20,
         ),
       ),
@@ -123,7 +128,6 @@ class _EditProfileState extends State<EditProfile> {
               ButtonTheme(
                 height: 50,
                 minWidth: (width / 2) - 20,
-                buttonColor: appRedColor,
                 child: RaisedButton(
                   elevation: 0,
                   onPressed: () {
@@ -138,7 +142,7 @@ class _EditProfileState extends State<EditProfile> {
                       _paypalIdController.clear();
                     }
                   },
-                  color: Colors.amber,
+                  color: appSplashColor,
                   child: TextView(
                     registerText,
                     textColor: appWhiteColor,

@@ -111,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                       });
                     }
                   },
-                  color: Colors.amber,
+                  color: appSplashColor,
                   child: TextView(
                     loginText,
                     textColor: appWhiteColor,

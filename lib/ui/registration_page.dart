@@ -212,7 +212,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         _passwordController.clear();
                       }
                     },
-                    color: Colors.amber,
+                    color: appSplashColor,
                     child: TextView(
                       registerText,
                       textColor: appWhiteColor,

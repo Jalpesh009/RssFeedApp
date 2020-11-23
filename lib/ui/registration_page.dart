@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rss_feed_app/firebase/registration_queries.dart';
 import 'package:rss_feed_app/helper/Constants.dart';
+import 'package:rss_feed_app/helper/shared_data.dart';
 import 'package:rss_feed_app/helper/style.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
+import 'package:rss_feed_app/model/user_data.dart';
+
+import 'home_page.dart';
 
 class RegistrationPage extends StatefulWidget {
   @override
@@ -11,8 +15,8 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController _passwordController = TextEditingController();
-  TextEditingController _nameController= TextEditingController();
-  TextEditingController _emailController= TextEditingController();
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _phoneNumberController= TextEditingController();
   TextEditingController _confirmPasswordController= TextEditingController();
   TextEditingController _paypalIdController= TextEditingController();
@@ -184,20 +188,29 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     onPressed: () {
                      if( _formKey.currentState.validate()){
                        registrationData = {
-                         'name' : _nameController.text,
-                          'email' : _emailController.text,
-                         'phone_number' : _phoneNumberController.text,
-                         'paypal_id' : _paypalIdController.text,
-                         'password' : _passwordController.text,
-                         'coinCount' : 0
-                       };
-                       RegistrationQueries().register(registrationData, context);
-                       _nameController.clear();
-                       _emailController.clear();
-                       _phoneNumberController.clear();
-                       _paypalIdController.clear();
-                       _passwordController.clear();
-                     }
+                          'name': _nameController.text,
+                          'email': _emailController.text,
+                          'phone_number': _phoneNumberController.text,
+                          'paypal_id': _paypalIdController.text,
+                          'password': _passwordController.text,
+                          'coinCount': 0
+                        };
+                        RegistrationQueries()
+                            .register(registrationData, context);
+
+                        SharedData.isUserLoggedIn(true);
+                        SharedData.saveUserPreferences(registrationData);
+                        UserData userData = UserData.fromJson(registrationData);
+                        Navigator.of(context).pushAndRemoveUntil(
+                            MaterialPageRoute(
+                                builder: (context) => HomePage(userData)),
+                            (Route<dynamic> route) => false);
+                        _nameController.clear();
+                        _emailController.clear();
+                        _phoneNumberController.clear();
+                        _paypalIdController.clear();
+                        _passwordController.clear();
+                      }
                     },
                     color: Colors.amber,
                     child: TextView(

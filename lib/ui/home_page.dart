@@ -11,6 +11,10 @@ import 'package:rss_feed_app/ui/edit_profile.dart';
 import 'package:video_player/video_player.dart';
 
 class HomePage extends StatefulWidget {
+  UserData userData;
+
+  HomePage(this.userData);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -45,7 +49,7 @@ class _HomePageState extends State<HomePage> {
 
     FirebaseFirestore.instance
         .collection('users')
-        .where('email', isEqualTo: data.email)
+        .where('email', isEqualTo: widget.userData.email)
         .getDocuments()
         .then((value) {
       var map = value.docs.first.data();
@@ -116,10 +120,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        IconButton(
-          icon: Icon(Icons.logout),
-          onPressed: () {},
-        )
       ],
       title: TextView(
         homeText,
@@ -330,7 +330,7 @@ class _HomePageState extends State<HomePage> {
                                         FirebaseFirestore.instance
                                             .collection('users')
                                             .where('email',
-                                                isEqualTo: data.email)
+                                            isEqualTo: widget.userData.email)
                                             .getDocuments()
                                             .then((value) {
                                           docId = value.docs.first.documentID;

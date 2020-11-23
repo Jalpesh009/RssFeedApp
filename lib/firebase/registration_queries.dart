@@ -9,10 +9,7 @@ class RegistrationQueries {
         .add(registrationData)
         .then((value) {
       showAlertDialogWithTwoButtonOkAndCancel(
-          context, 'You registered sucessfully!! Now login with your credentials.', () {
-        Navigator.pop(context);
-        Navigator.pop(context);
-      });
+          context, 'You registered sucessfully!! Now login with your credentials.', () {});
     });
 
   }

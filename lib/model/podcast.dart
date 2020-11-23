@@ -28,14 +28,16 @@ class PodcastData {
   String type;
   String link;
   String title;
+  double skipValue;
 
-  PodcastData({this.podId, this.type, this.link});
+  PodcastData({this.podId, this.type, this.link, this.title, this.skipValue});
 
   PodcastData.fromJson(Map<String, dynamic> json) {
     podId = json['pod_id'];
     type = json['type'];
     link = json['link'];
     title = json['title'];
+    skipValue = 0.0;
   }
 
   Map<String, dynamic> toJson() {
@@ -44,6 +46,7 @@ class PodcastData {
     data['type'] = this.type;
     data['link'] = this.link;
     data['title'] = this.title;
+    data['skipValue'] = this.title;
     return data;
   }
 }

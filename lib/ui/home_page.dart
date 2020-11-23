@@ -21,7 +21,6 @@ class _HomePageState extends State<HomePage> {
   List<PodcastData> podcastDataList;
   var viewDataCount;
   Map<dynamic, dynamic> map;
-  bool loginKey;
   bool isLoading = true;
   bool isPlaying = false;
   bool isOverData = false;
@@ -33,7 +32,6 @@ class _HomePageState extends State<HomePage> {
 
   loadSharedPref() async {
     try {
-      loginKey = await SharedData.readUserLoggedIn();
       data = await UserData.fromJson(await SharedData.readUserPreferences());
     } catch (e) {
       print(e.toString());

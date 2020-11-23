@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
                           SharedData.isUserLoggedIn(true);
                           SharedData.saveUserPreferences(value.docs.first.data());
                           Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (context) => HomePage('akwoulf@gmail.com')),
+                              MaterialPageRoute(builder: (context) => HomePage()),
                                   (Route<dynamic> route) => false);
                         } else {
                           showAlertDialogWithTwoButtonOkAndCancel(

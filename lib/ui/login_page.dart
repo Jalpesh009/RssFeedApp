@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _passwordController,
                       //  initialValue: socialLogin ? name[1] : null,
                       style: simpleTextStyle(),
-
+                      obscureText: true,
                       decoration: textFieldInputDecoration(passwordText),
                       autofocus: true,
                       textInputAction: TextInputAction.next,

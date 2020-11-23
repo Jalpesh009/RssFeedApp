@@ -93,6 +93,7 @@ class _EditProfileState extends State<EditProfile> {
               TextFormField(
                 controller: _passwordController,
                 //  initialValue: socialLogin ? name[1] : null,
+                obscureText: true,
                 style: simpleTextStyle(),
                 decoration: textFieldInputDecoration(passwordText),
                 textInputAction: TextInputAction.next,
@@ -116,6 +117,7 @@ class _EditProfileState extends State<EditProfile> {
               TextFormField(
                 controller: _confirmPasswordController,
                 //  initialValue: socialLogin ? name[1] : null,
+                obscureText: true,
                 style: simpleTextStyle(),
                 decoration: textFieldInputDecoration(confirmPasswordText),
                 textInputAction: TextInputAction.next,

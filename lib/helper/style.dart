@@ -30,6 +30,8 @@ InputDecoration textFieldInputDecoration(String hintText) {
     hintStyle: TextStyle(fontSize: 12, color: appWhiteColor),
     enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: appWhiteColor, width: 1)),
+    focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: appWhiteColor, width: 1)),
     hintText: hintText,
     alignLabelWithHint: true,
     labelText: hintText,

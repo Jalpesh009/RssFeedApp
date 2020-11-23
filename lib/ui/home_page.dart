@@ -111,7 +111,10 @@ class _HomePageState extends State<HomePage> {
                       width: 30,
                       height: 30,
                     ),
-                    TextView(count.toString(),textColor: appTextColor,),
+                    TextView(
+                      count.toString(),
+                      textColor: appTextColor,
+                    ),
                     SizedBox(
                       width: 15,
                     )
@@ -205,7 +208,8 @@ class _HomePageState extends State<HomePage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => EditProfile(widget.userData),
+                                builder: (context) =>
+                                    EditProfile(widget.userData),
                               ));
                         }),
                     Divider(
@@ -221,9 +225,8 @@ class _HomePageState extends State<HomePage> {
                         onTap: () {
                           SharedData.removeAllPrefs();
                           Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => Splash()),
-                                  (Route<dynamic> route) => false);
+                              MaterialPageRoute(builder: (context) => Splash()),
+                              (Route<dynamic> route) => false);
                         }),
                     Divider(
                       height: 1,
@@ -246,25 +249,26 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                podcastDataList[skipCount].type == 'audio' ? Padding(
-                  padding: const EdgeInsets.only(top: 100),
-                  child: Align(
-                    alignment: Alignment.topCenter,
+                podcastDataList[skipCount].type == 'audio'
+                    ? Padding(
+                        padding: const EdgeInsets.only(top: 100),
+                        child: Align(
+                          alignment: Alignment.topCenter,
                           child: Image.asset(
                             'assets/placeholder.jpg',
                             width: 200,
                             height: 300,
                           ),
                         ),
-                ):
-                Center(
-                  child: _controller.value.initialized
-                      ? AspectRatio(
-                          aspectRatio: _controller.value.aspectRatio,
-                          child: VideoPlayer(_controller),
-                        )
-                      : Container(),
-                ),
+                      )
+                    : Center(
+                        child: _controller.value.initialized
+                            ? AspectRatio(
+                                aspectRatio: _controller.value.aspectRatio,
+                                child: VideoPlayer(_controller),
+                              )
+                            : Container(),
+                      ),
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Padding(
@@ -337,7 +341,8 @@ class _HomePageState extends State<HomePage> {
                                         FirebaseFirestore.instance
                                             .collection('users')
                                             .where('email',
-                                            isEqualTo: widget.userData.email)
+                                                isEqualTo:
+                                                    widget.userData.email)
                                             .getDocuments()
                                             .then((value) {
                                           docId = value.docs.first.documentID;

@@ -141,6 +141,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     //  initialValue: socialLogin ? name[1] : null,
                     style: simpleTextStyle(),
                     decoration: textFieldInputDecoration(passwordText),
+                     obscureText: true,
                      textInputAction: TextInputAction.next,
                     onFieldSubmitted: (v) {
                       FocusScope.of(context).nextFocus();
@@ -164,6 +165,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     //  initialValue: socialLogin ? name[1] : null,
                     style: simpleTextStyle(),
                     decoration: textFieldInputDecoration(confirmPasswordText),
+                    obscureText: true,
                     textInputAction: TextInputAction.next,
                     onFieldSubmitted: (v) {
                       FocusScope.of(context).nextFocus();

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rss_feed_app/firebase/registration_queries.dart';
 import 'package:rss_feed_app/helper/Constants.dart';
+import 'package:rss_feed_app/helper/shared_data.dart';
 import 'package:rss_feed_app/helper/style.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
 import 'package:rss_feed_app/model/user_data.dart';
 
 class EditProfile extends StatefulWidget {
-
   UserData userData;
   EditProfile(this.userData);
 
@@ -15,13 +15,30 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  TextEditingController _nameController = TextEditingController();
+  TextEditingController _nameController;
   TextEditingController _paypalIdController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
   GlobalKey<FormState> _editProfile = new GlobalKey<FormState>();
   Map<String, dynamic> registrationData;
   String pass;
+
+  @override
+  void initState() {
+    _nameController = TextEditingController(text: widget.userData.name);
+    _paypalIdController =
+        TextEditingController(text: widget.userData.paypal_id);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    _confirmPasswordController.dispose();
+    _nameController.dispose();
+    _paypalIdController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,6 +102,7 @@ class _EditProfileState extends State<EditProfile> {
               TextFormField(
                 controller: _passwordController,
                 //  initialValue: socialLogin ? name[1] : null,
+                obscureText: true,
                 style: simpleTextStyle(),
                 decoration: textFieldInputDecoration(passwordText),
                 textInputAction: TextInputAction.next,
@@ -108,6 +126,7 @@ class _EditProfileState extends State<EditProfile> {
               TextFormField(
                 controller: _confirmPasswordController,
                 //  initialValue: socialLogin ? name[1] : null,
+                obscureText: true,
                 style: simpleTextStyle(),
                 decoration: textFieldInputDecoration(confirmPasswordText),
                 textInputAction: TextInputAction.next,
@@ -135,10 +154,17 @@ class _EditProfileState extends State<EditProfile> {
                       registrationData = {
                         'name': _nameController.text,
                         'paypal_id': _paypalIdController.text,
-                        'password' : _passwordController.text,
+                        'password': _passwordController.text,
                       };
-                      RegistrationQueries().register(registrationData, context);
+
+                      SharedData.isUserLoggedIn(true);
+                      SharedData.saveUserPreferences(registrationData);
+                      UserData userData = UserData.fromJson(registrationData);
+                      EditProfileQuery().editRegister(
+                          registrationData, widget.userData.email, context);
                       _nameController.clear();
+                      _passwordController.clear();
+                      _confirmPasswordController.clear();
                       _paypalIdController.clear();
                     }
                   },

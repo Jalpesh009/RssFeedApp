@@ -9,21 +9,32 @@ class RegistrationQueries {
         .add(registrationData)
         .then((value) {
       showAlertDialogWithTwoButtonOkAndCancel(
-          context, 'You registered sucessfully!! Now login with your credentials.', () {});
+          context, 'You registered sucessfully!!', () {});
     });
-
   }
 }
 
-
-class EditProfileQuery{
-  Future<void> editRegister(registrationData, email, BuildContext context) async {
-    await FirebaseFirestore.instance
+class EditProfileQuery {
+  Future<void> editRegister(
+      registrationData, email, BuildContext context) async {
+    String docId;
+    FirebaseFirestore.instance
         .collection('users')
         .where('email', isEqualTo: email)
-        .get()
-        .catchError((e){
-       print(e.toString());
+        .getDocuments()
+        .then((value) {
+      docId = value.docs.first.documentID;
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(docId)
+          .update(registrationData)
+          .then((value) {
+        showAlertDialogWithTwoButtonOkAndCancel(
+            context, 'Profile edited successfully.', () {
+          Navigator.pop(context);
+          Navigator.pop(context);
+        });
+      });
     });
   }
 }

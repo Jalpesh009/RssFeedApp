@@ -144,6 +144,8 @@ class _HomePageState extends State<HomePage> {
     _controller.play();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     return isLoading
@@ -223,6 +225,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         text: logOutText,
                         onTap: () {
+                          _controller.pause();
                           SharedData.removeAllPrefs();
                           Navigator.of(context).pushAndRemoveUntil(
                               MaterialPageRoute(builder: (context) => Splash()),

@@ -29,4 +29,10 @@ class SharedData {
       return false;
     }
   }
+
+  // REMOVE ALL PREFERENCES
+  static removeAllPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+  }
 }

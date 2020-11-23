@@ -8,6 +8,7 @@ import 'package:rss_feed_app/helper/text_view.dart';
 import 'package:rss_feed_app/model/podcast.dart';
 import 'package:rss_feed_app/model/user_data.dart';
 import 'package:rss_feed_app/ui/edit_profile.dart';
+import 'package:rss_feed_app/ui/spalsh.dart';
 import 'package:video_player/video_player.dart';
 
 class HomePage extends StatefulWidget {
@@ -217,7 +218,13 @@ class _HomePageState extends State<HomePage> {
                           color: appWhiteColor,
                         ),
                         text: logOutText,
-                        onTap: () {}),
+                        onTap: () {
+                          SharedData.removeAllPrefs();
+                          Navigator.of(context).pushAndRemoveUntil(
+                              MaterialPageRoute(
+                                  builder: (context) => Splash()),
+                                  (Route<dynamic> route) => false);
+                        }),
                     Divider(
                       height: 1,
                       color: Colors.grey,

@@ -25,116 +25,126 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       backgroundColor: Colors.black26,
-      body: Form(
-        key: _formKey,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 50, left: 16,right: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: _emailController,
-                //  initialValue: socialLogin ? name[1] : null,
-                style: simpleTextStyle(),
-                decoration: textFieldInputDecoration(emailText),
-                autofocus: true,
-                textInputAction: TextInputAction.next,
-                onFieldSubmitted: (v) {
-                  FocusScope.of(context).nextFocus();
-                },
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return lastNameErrorText;
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                controller: _passwordController,
-                //  initialValue: socialLogin ? name[1] : null,
-                style: simpleTextStyle(),
-
-                decoration: textFieldInputDecoration(passwordText),
-                autofocus: true,
-                textInputAction: TextInputAction.next,
-                onFieldSubmitted: (v) {
-                  FocusScope.of(context).nextFocus();
-                },
-                validator: (value) {
-                  if (value.isEmpty) {
-                    return passwordErrorText;
-                  } else {
-                    return null;
-                  }
-                },
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              ButtonTheme(
-                height: 50,
-                minWidth: (width / 2) - 20,
-                buttonColor: appRedColor,
-                child: RaisedButton(
-                  elevation: 0,
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      var data = FirebaseFirestore.instance
-                          .collection('users')
-                          .where('email', isEqualTo: _emailController.text)
-                          .where('password',
-                              isEqualTo: _passwordController.text)
-                          .getDocuments()
-                          .then((value) {
-
-                        if (value.docs.isNotEmpty) {
-                          SharedData.isUserLoggedIn(true);
-                          SharedData.saveUserPreferences(
-                              value.docs.first.data());
-                          UserData userData =
-                              UserData.fromJson(value.docs.first.data());
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage(userData)),
-                              (Route<dynamic> route) => false);
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Form(
+              key: _formKey,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 50, left: 16,right: 16),
+                child: Column(
+               //   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset('assets/logo.png',height: 150,width: 150,),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    TextFormField(
+                      controller: _emailController,
+                      //  initialValue: socialLogin ? name[1] : null,
+                      style: simpleTextStyle(),
+                      decoration: textFieldInputDecoration(emailText),
+                      autofocus: true,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (v) {
+                        FocusScope.of(context).nextFocus();
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return lastNameErrorText;
                         } else {
-                          showAlertDialogWithTwoButtonOkAndCancel(
-                              context, 'Invalid credentials.', () {
-                            Navigator.pop(context);
-                          });
+                          return null;
                         }
-                      });
-                    }
-                  },
-                  color: appSplashColor,
-                  child: TextView(
-                    loginText,
-                    textColor: appWhiteColor,
-                    fontSize: 16,
-                  ),
+                      },
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    TextFormField(
+                      controller: _passwordController,
+                      //  initialValue: socialLogin ? name[1] : null,
+                      style: simpleTextStyle(),
+
+                      decoration: textFieldInputDecoration(passwordText),
+                      autofocus: true,
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (v) {
+                        FocusScope.of(context).nextFocus();
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return passwordErrorText;
+                        } else {
+                          return null;
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    ButtonTheme(
+                      height: 50,
+                      minWidth: (width / 2) - 20,
+                      buttonColor: appRedColor,
+                      child: RaisedButton(
+                        elevation: 0,
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            var data = FirebaseFirestore.instance
+                                .collection('users')
+                                .where('email', isEqualTo: _emailController.text)
+                                .where('password',
+                                    isEqualTo: _passwordController.text)
+                                .getDocuments()
+                                .then((value) {
+
+                              if (value.docs.isNotEmpty) {
+                                SharedData.isUserLoggedIn(true);
+                                SharedData.saveUserPreferences(
+                                    value.docs.first.data());
+                                UserData userData =
+                                    UserData.fromJson(value.docs.first.data());
+                                Navigator.of(context).pushAndRemoveUntil(
+                                    MaterialPageRoute(
+                                        builder: (context) => HomePage(userData)),
+                                    (Route<dynamic> route) => false);
+                              } else {
+                                showAlertDialogWithTwoButtonOkAndCancel(
+                                    context, 'Invalid credentials.', () {
+                                  Navigator.pop(context);
+                                });
+                              }
+                            });
+                          }
+                        },
+                        color: appSplashColor,
+                        child: TextView(
+                          loginText,
+                          textColor: appWhiteColor,
+                          fontSize: 16,
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RegistrationPage(),
+                              ));
+                        },
+                        child: TextView(
+                          signUpText,
+                          textColor: appWhiteColor,
+                        )),
+                  ],
                 ),
               ),
-              SizedBox(
-                height: 16,
-              ),
-              InkWell(
-                  onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => RegistrationPage(),
-                        ));
-                  },
-                  child: TextView(
-                    signUpText,
-                    textColor: appWhiteColor,
-                  )),
-            ],
+            ),
           ),
         ),
       ),

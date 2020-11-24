@@ -20,6 +20,8 @@ class _EditProfileState extends State<EditProfile> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
   GlobalKey<FormState> _editProfile = new GlobalKey<FormState>();
+  bool confirmPasswordVisible = true;
+  bool passwordVisible = true;
   Map<String, dynamic> registrationData;
   String pass;
 
@@ -102,9 +104,48 @@ class _EditProfileState extends State<EditProfile> {
               TextFormField(
                 controller: _passwordController,
                 //  initialValue: socialLogin ? name[1] : null,
-                obscureText: true,
+                obscureText: passwordVisible,
                 style: simpleTextStyle(),
-                decoration: textFieldInputDecoration(passwordText),
+                decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: appWhiteColor,
+                        width: 2,
+                      )),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        passwordVisible = !passwordVisible;
+                      });
+                    },
+                    icon: passwordVisible
+                        ? Icon(
+                      Icons.visibility,
+                      color: appWhiteColor,
+                    )
+                        : Icon(
+                      Icons.visibility_off,
+                      color: appWhiteColor,
+                    ),
+                  ),
+                  errorStyle: TextStyle(fontSize: 9, color: appWhiteColor),
+                  errorBorder: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(color: appLightTextColor, width: 1)),
+                  hintStyle: TextStyle(fontSize: 12, color: appWhiteColor),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(color: appWhiteColor, width: 1)),
+                  focusedErrorBorder: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(color: appWhiteColor, width: 1)),
+                  hintText: passwordText,
+                  alignLabelWithHint: true,
+                  labelText: passwordText,
+                  errorText: passwordErrorText,
+                  labelStyle: TextStyle(color: appWhiteColor),
+                  border: null,
+                ),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (v) {
                   FocusScope.of(context).nextFocus();
@@ -126,9 +167,48 @@ class _EditProfileState extends State<EditProfile> {
               TextFormField(
                 controller: _confirmPasswordController,
                 //  initialValue: socialLogin ? name[1] : null,
-                obscureText: true,
+                obscureText: confirmPasswordVisible,
                 style: simpleTextStyle(),
-                decoration: textFieldInputDecoration(confirmPasswordText),
+                decoration: InputDecoration(
+                  focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: appWhiteColor,
+                        width: 2,
+                      )),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        confirmPasswordVisible = !confirmPasswordVisible;
+                      });
+                    },
+                    icon: confirmPasswordVisible
+                        ? Icon(
+                      Icons.visibility,
+                      color: appWhiteColor,
+                    )
+                        : Icon(
+                      Icons.visibility_off,
+                      color: appWhiteColor,
+                    ),
+                  ),
+                  errorStyle: TextStyle(fontSize: 9, color: appWhiteColor),
+                  errorBorder: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(color: appLightTextColor, width: 1)),
+                  hintStyle: TextStyle(fontSize: 12, color: appWhiteColor),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(color: appWhiteColor, width: 1)),
+                  focusedErrorBorder: OutlineInputBorder(
+                      borderSide:
+                      BorderSide(color: appWhiteColor, width: 1)),
+                  hintText: confirmPasswordText,
+                  alignLabelWithHint: true,
+                  labelText: confirmPasswordText,
+                  errorText: confirmPasswordErrorText,
+                  labelStyle: TextStyle(color: appWhiteColor),
+                  border: null,
+                ),
                 textInputAction: TextInputAction.next,
                 onFieldSubmitted: (v) {
                   FocusScope.of(context).nextFocus();

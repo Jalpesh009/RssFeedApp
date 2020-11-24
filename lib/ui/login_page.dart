@@ -17,6 +17,7 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
+  bool passwordVisible = true;
 
 
   @override
@@ -73,8 +74,47 @@ class _LoginPageState extends State<LoginPage> {
                       controller: _passwordController,
                       //  initialValue: socialLogin ? name[1] : null,
                       style: simpleTextStyle(),
-                      obscureText: true,
-                      decoration: textFieldInputDecoration(passwordText),
+                      obscureText: passwordVisible,
+                      decoration: InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              color: appWhiteColor,
+                              width: 2,
+                            )),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              passwordVisible = !passwordVisible;
+                            });
+                          },
+                          icon: passwordVisible
+                              ? Icon(
+                            Icons.visibility,
+                            color: appWhiteColor,
+                          )
+                              : Icon(
+                            Icons.visibility_off,
+                            color: appWhiteColor,
+                          ),
+                        ),
+                        errorStyle: TextStyle(fontSize: 9, color: appWhiteColor),
+                        errorBorder: OutlineInputBorder(
+                            borderSide:
+                            BorderSide(color: appLightTextColor, width: 1)),
+                        hintStyle: TextStyle(fontSize: 12, color: appWhiteColor),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide:
+                            BorderSide(color: appWhiteColor, width: 1)),
+                        focusedErrorBorder: OutlineInputBorder(
+                            borderSide:
+                            BorderSide(color: appWhiteColor, width: 1)),
+                        hintText: passwordText,
+                        alignLabelWithHint: true,
+                        labelText: passwordText,
+                        errorText: passwordErrorText,
+                        labelStyle: TextStyle(color: appWhiteColor),
+                        border: null,
+                      ),
                       autofocus: true,
                       textInputAction: TextInputAction.next,
                       onFieldSubmitted: (v) {

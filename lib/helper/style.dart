@@ -42,3 +42,32 @@ InputDecoration textFieldInputDecoration(String hintText) {
     border: null,
   );
 }
+
+
+
+InputDecoration textFeildPasswordDecoration(String hintText) {
+  return InputDecoration(
+    focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+      color: appWhiteColor,
+      width: 2,
+    )),
+
+    errorStyle: TextStyle(fontSize: 9,color: appWhiteColor),
+    errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: appLightTextColor, width: 1)),
+    hintStyle: TextStyle(fontSize: 12, color: appWhiteColor),
+    enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: appWhiteColor, width: 1)),
+    focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(color: appWhiteColor, width: 1)),
+    hintText: hintText,
+    alignLabelWithHint: true,
+    labelText: hintText,
+    labelStyle: TextStyle(
+      color: appWhiteColor
+    ),
+
+    border: null,
+  );
+}

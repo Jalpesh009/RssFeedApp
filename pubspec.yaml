@@ -34,6 +34,10 @@ dependencies:
   flutter_countdown_timer: ^1.4.0
   firebase_database: ^4.3.0
   shared_preferences: ^0.5.10
+  flutter_mailer: ^1.0.0
+  sms: ^0.2.0
+  mailer: ^2.0.2
+  mailer2: ^1.2.5
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +61,7 @@ flutter:
     - assets/placeholder.jpg
     - assets/logo.png
     - assets/background.png
+    - assets/payment.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

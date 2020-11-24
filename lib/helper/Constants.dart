@@ -51,6 +51,10 @@ const appTitle = "Rss Feed App";
 const lastPodCast = "This is last podcast";
 const editProfileText = 'Edit Profile';
 const logOutText = 'Log out';
+const subjectText = 'RSS FEED Payment';
+const adminEmailText = 'storydutyfirebase@gmail.com';
+const adminEmailPassword = '3%6um%SEuz';
+const mailSuccusefully = "Email Successufully send to Admin for your payment.";
 
 // Chat username string
 class Const {

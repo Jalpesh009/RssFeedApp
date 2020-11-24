@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:mailer/mailer.dart';
 import 'package:rss_feed_app/helper/Constants.dart';
 import 'package:rss_feed_app/helper/shared_data.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
@@ -107,33 +108,13 @@ class _HomePageState extends State<HomePage> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: GestureDetector(
-            onTap: () {},
-            child: Padding(
-              padding: const EdgeInsets.only(top: 10, right: 10),
-              child: Container(
-                width: 90,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset(
-                      'assets/take.png',
-                      width: 30,
-                      height: 30,
-                    ),
-                    TextView(
-                      count.toString(),
-                      textColor: appTextColor,
-                    ),
-                    SizedBox(
-                      width: 15,
-                    )
-                  ],
-                ),
-              ),
+            onTap: () {
+              sendAgain();
+            },
+            child: Image.asset(
+              'assets/payment.png',
+              width: 45,
+              height: 45,
             ),
           ),
         ),
@@ -146,17 +127,57 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  sendAgain() {
+    // ignore: deprecated_member_use
+    var options = new GmailSmtpOptions()
+      ..username = adminEmailText
+      ..password =
+          adminEmailPassword; // Note: if you have Google's "app specific passwords" enabled,
+    // you need to use one of those here.
+
+    // How you use and store passwords is up to you. Beware of storing passwords in plain.
+
+    // Create our email transport.
+    // ignore: deprecated_member_use
+    var emailTransport = new SmtpTransport(options);
+
+    // Create our mail/envelope.
+    // ignore: deprecated_member_use
+    var bodymessage =
+        '''<h4><strong>Hello Admin,</strong>&nbsp;</h4><p>I've to inform you that I've listened&nbsp;<strong>{{podcastNo}} podcasts</strong>. I'm requesting you to process&nbsp; payment on my Paypal email:&nbsp;<strong>{{payPalEmail}}</strong>.<br /><br />Below are my User Information:<br /><strong><br />Name:</strong>&nbsp;{{username}}<br /><strong>Email:&nbsp;</strong>{{email}}<br /><strong>Phone:</strong>&nbsp;{{mobileNO}}<br /><strong><br /></strong><strong>Thank you&nbsp;</strong><strong><br /></strong></p>''';
+
+    var envelope = new Envelope()
+      ..from = widget.userData.email
+      ..recipients.add(adminEmailText)
+      //..ccRecipients.addAll([widget.userData.email])
+      ..subject = subjectText
+      ..html = bodymessage
+          .replaceAll("{{podcastNo}}", widget.userData.coinCount.toString())
+          .replaceAll("{{payPalEmail}}", widget.userData.paypal_id)
+          .replaceAll("{{username}}", widget.userData.name)
+          .replaceAll("{{email}}", widget.userData.email)
+          .replaceAll("{{mobileNO}}", widget.userData.phone_number);
+
+    // Email it.
+    emailTransport
+        .send(envelope)
+        .then((envelope) => showAlertDialogWithTwoButtonOkAndCancel(
+                context, mailSuccusefully, () {
+              Navigator.pop(context);
+            }))
+        .catchError((e) => print('Error occurred: $e'));
+  }
+
   void playPodcast(int position) {
     _controller = VideoPlayerController.network(podcastDataList[position].link);
     _controller.initialize().then((_) => setState(() {
-      isLimitReached = false;
-      time = _controller.value.duration.inSeconds;
-      print("time " + time.toString());
-      isLoading = false;
-    }));
+          isLimitReached = false;
+          time = _controller.value.duration.inSeconds;
+          print("time " + time.toString());
+          isLoading = false;
+        }));
     _controller.play();
   }
-
 
   @override
   Widget build(BuildContext context) {

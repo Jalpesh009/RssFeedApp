@@ -1,4 +1,4 @@
-package com.albio.rss_feed_app
+package com.albiorix.rssFeedApp
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -54,7 +54,6 @@ class _LoginPageState extends State<LoginPage> {
                       //  initialValue: socialLogin ? name[1] : null,
                       style: simpleTextStyle(),
                       decoration: textFieldInputDecoration(emailText),
-                      autofocus: true,
                       textInputAction: TextInputAction.next,
                       onFieldSubmitted: (v) {
                         FocusScope.of(context).nextFocus();
@@ -115,7 +114,6 @@ class _LoginPageState extends State<LoginPage> {
                         labelStyle: TextStyle(color: appWhiteColor),
                         border: null,
                       ),
-                      autofocus: true,
                       textInputAction: TextInputAction.next,
                       onFieldSubmitted: (v) {
                         FocusScope.of(context).nextFocus();

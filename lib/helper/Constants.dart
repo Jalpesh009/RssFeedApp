@@ -31,6 +31,7 @@ const passwordErrorText =
     "Make combination password of 1 Upper case, 1 lowercase, 1 Numeric Number, 1 Special Character ";
 const loginText = "Login";
 const registerText = "Register";
+const editProfileText = "Update";
 const signUpText = "Already have an account ? Sign up";
 const lastNameErrorText = "Please enter last name";
 const nameErrorText = "Please enter first name";

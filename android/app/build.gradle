@@ -39,7 +39,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId "com.albio.rss_feed_app"
+        applicationId "com.albiorix.rssFeedApp"
         multiDexEnabled true
         minSdkVersion 16
         targetSdkVersion 29

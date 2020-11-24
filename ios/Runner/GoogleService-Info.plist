@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>549657071600-35fdn2ikeijamki35tb9kitc7qao5ha3.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.549657071600-35fdn2ikeijamki35tb9kitc7qao5ha3</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>549657071600-8k41tn3onhj8idvenfiauesea830ua6l.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDxL6vjRHCynLbz-C9UL6u4mM9or4BwEGc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>549657071600</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.albiorix.rssFeedApp</string>
+	<key>PROJECT_ID</key>
+	<string>rss-feed-app-97a7f</string>
+	<key>STORAGE_BUCKET</key>
+	<string>rss-feed-app-97a7f.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:549657071600:ios:705c87a04ace7d51205735</string>
+	<key>DATABASE_URL</key>
+	<string>https://rss-feed-app-97a7f.firebaseio.com</string>
+</dict>
+</plist>

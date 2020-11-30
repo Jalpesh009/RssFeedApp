@@ -88,13 +88,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     //  initialValue: socialLogin ? name[1] : null,
                     style: simpleTextStyle(),
                     decoration: textFieldInputDecoration(phoneNumberText),
+                    keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.next,
                     onFieldSubmitted: (v) {
                       FocusScope.of(context).nextFocus();
                     },
                     validator: (value) {
-                      if (value.isEmpty) {
-                        return lastNameErrorText;
+                      if (value.length < 10 || value.length >10) {
+                        return phoneNumberErrorText;
                       } else {
                         return null;
                       }
@@ -140,7 +141,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           .hasMatch(value)) {
                         return null;
                       } else {
-                        return emailErrorText;
+                        return paypalErrorText;
                       }
                     },
                   ),
@@ -187,7 +188,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       hintText: passwordText,
                       alignLabelWithHint: true,
                       labelText: passwordText,
-                      errorText: passwordErrorText,
                       labelStyle: TextStyle(color: appWhiteColor),
                       border: null,
                     ),
@@ -198,7 +198,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     },
                     validator: (value) {
                       pass = value;
-                      if (RegExp(
+                      if(value.isEmpty){
+                        return passwordNotNullText;
+                      }else if (RegExp(
                               r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
                           .hasMatch(value)) {
                         return null;
@@ -250,7 +252,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       hintText: confirmPasswordText,
                       alignLabelWithHint: true,
                       labelText: confirmPasswordText,
-                      errorText: confirmPasswordErrorText,
                       labelStyle: TextStyle(color: appWhiteColor),
                       border: null,
                     ),
@@ -277,6 +278,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     child: RaisedButton(
                       elevation: 0,
                       onPressed: () {
+                        FocusManager.instance.primaryFocus.unfocus();
                         if (_formKey.currentState.validate()) {
                           registrationData = {
                             'name': _nameController.text,

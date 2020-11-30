@@ -59,10 +59,12 @@ class _LoginPageState extends State<LoginPage> {
                         FocusScope.of(context).nextFocus();
                       },
                       validator: (value) {
-                        if (value.isEmpty) {
-                          return emailErrorText;
-                        } else {
+                        if (RegExp(
+                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value)) {
                           return null;
+                        } else {
+                          return emailErrorText;
                         }
                       },
                     ),
@@ -110,7 +112,6 @@ class _LoginPageState extends State<LoginPage> {
                         hintText: passwordText,
                         alignLabelWithHint: true,
                         labelText: passwordText,
-                        errorText: passwordErrorText,
                         labelStyle: TextStyle(color: appWhiteColor),
                         border: null,
                       ),
@@ -119,10 +120,14 @@ class _LoginPageState extends State<LoginPage> {
                         FocusScope.of(context).nextFocus();
                       },
                       validator: (value) {
-                        if (value.isEmpty) {
-                          return passwordErrorText;
-                        } else {
+                        if(value.isEmpty){
+                          return passwordNotNullText;
+                        }else if (RegExp(
+                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                            .hasMatch(value)) {
                           return null;
+                        } else {
+                          return passwordErrorText;
                         }
                       },
                     ),
@@ -136,6 +141,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: RaisedButton(
                         elevation: 0,
                         onPressed: () {
+                          FocusManager.instance.primaryFocus.unfocus();
                           if (_formKey.currentState.validate()) {
                             var data = FirebaseFirestore.instance
                                 .collection('users')

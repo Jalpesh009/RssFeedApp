@@ -320,7 +320,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         Navigator.pop(context);
                       },
                       child: TextView(
-                        signUpText,
+                        alreadyRegisterText,
                         textColor: appWhiteColor,
                       )),
                 ],

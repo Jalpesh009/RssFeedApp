@@ -155,8 +155,10 @@ class _EditProfileState extends State<EditProfile> {
                     },
                     validator: (value) {
                       pass = value;
-                      if (RegExp(
-                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                      if(value.isEmpty){
+                        return passwordNotNullText;
+                      }else if (RegExp(
+                          r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
                           .hasMatch(value)) {
                         return null;
                       } else {

@@ -35,7 +35,10 @@ const signUpText = "Don't have an account ? Register";
 const alreadyRegisterText = "Already have an account ? Login";
 const lastNameErrorText = "Please enter last name";
 const nameErrorText = "Please enter first name";
+const passwordNotNullText = "Please enter password";
+const phoneNumberErrorText = "Phone number must be at least 10 numbers";
 const emailErrorText = "Please enter valid email";
+const paypalErrorText = "Please enter valid PayPal email";
 const payPalErrorText = "Please enter valid paypal ID";
 const confirmPasswordErrorText =
     "Your confirm password is not match with password";

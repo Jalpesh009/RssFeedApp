@@ -257,11 +257,15 @@ class _HomePageState extends State<HomePage> {
                         ),
                         text: logOutText,
                         onTap: () {
-                          _controller.pause();
-                          SharedData.removeAllPrefs();
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(builder: (context) => LoginPage()),
-                              (Route<dynamic> route) => false);
+                          showAlertDialogWithTwoButton(context,
+                              'Are you sure you want to logout?', 'Yes', () {
+                            _controller.pause();
+                            SharedData.removeAllPrefs();
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => LoginPage()),
+                                (Route<dynamic> route) => false);
+                          });
                         }),
                     Divider(
                       height: 1,
@@ -325,50 +329,50 @@ class _HomePageState extends State<HomePage> {
                             var dur = value.duration;
                             var difference = dur - pos;
 
-                      if (skipCount < podcastDataList.length - 1) {
-                        percenttime(
-                            value.duration.inSeconds * 0.7,
-                            value.duration.inSeconds * 0.97,
-                            value.duration.inSeconds -
-                                value.position.inSeconds,
-                            value.duration.inSeconds *
-                                podcastDataList[skipCount].skipValue);
-                      }
+                            if (skipCount < podcastDataList.length - 1) {
+                              percenttime(
+                                  value.duration.inSeconds * 0.7,
+                                  value.duration.inSeconds * 0.97,
+                                  value.duration.inSeconds -
+                                      value.position.inSeconds,
+                                  value.duration.inSeconds *
+                                      podcastDataList[skipCount].skipValue);
+                            }
 
-                      var remaining =
-                      difference.toString().lastIndexOf('.');
-                      String result = (pos != -1)
-                          ? difference.toString().substring(0, remaining)
-                          : difference;
+                            var remaining =
+                                difference.toString().lastIndexOf('.');
+                            String result = (pos != -1)
+                                ? difference.toString().substring(0, remaining)
+                                : difference;
 
-                      return TextView(
-                        result,
-                        fontSize: 50,
-                        textColor: appWhiteColor,
-                      );
-                    },
-                  ),
-                  TextView(
-                    timeRemainingText,
-                    fontSize: 16,
-                    textColor: appWhiteColor,
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      ButtonTheme(
-                        minWidth: 80,
-                        child: RaisedButton(
-                            color: Colors.black,
-                            onPressed: () {
-                              double val = time * 0.6;
-                              print(val.toString());
-                            },
-                            child: GestureDetector(
-                              onTap: () {
+                            return TextView(
+                              result,
+                              fontSize: 50,
+                              textColor: appWhiteColor,
+                            );
+                          },
+                        ),
+                        TextView(
+                          timeRemainingText,
+                          fontSize: 16,
+                          textColor: appWhiteColor,
+                        ),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ButtonTheme(
+                              minWidth: 80,
+                              child: RaisedButton(
+                                  color: Colors.black,
+                                  onPressed: () {
+                                    double val = time * 0.6;
+                                    print(val.toString());
+                                  },
+                                  child: GestureDetector(
+                                    onTap: () {
                                       if (skipCount <
                                           podcastDataList.length - 1) {
                                         callNextPodcast();
@@ -379,67 +383,66 @@ class _HomePageState extends State<HomePage> {
                                         });
                                       }
                                     },
-                              child: TextView(
-                                skipText,
-                                textColor: isOverData
-                                    ? appGreyColor
-                                    : appWhiteColor,
-                                fontSize: 24,
+                                    child: TextView(
+                                      skipText,
+                                      textColor: isOverData
+                                          ? appGreyColor
+                                          : appWhiteColor,
+                                      fontSize: 24,
+                                    ),
+                                  )),
+                            ),
+                            ButtonTheme(
+                              minWidth: 80,
+                              child: RaisedButton(
+                                color: Colors.black,
+                                onPressed: () {
+                                  _controller.value.isPlaying
+                                      ? _controller.pause()
+                                      : _controller.play();
+                                  _controller.value.isPlaying
+                                      ? isPlaying = true
+                                      : isPlaying = false;
+                                },
+                                child: ValueListenableBuilder(
+                                  valueListenable: _controller,
+                                  builder:
+                                      (context, VideoPlayerValue value, child) {
+                                    return value.isPlaying
+                                        ? TextView(
+                                            pauseText,
+                                            textColor: appWhiteColor,
+                                            fontSize: 24,
+                                          )
+                                        : TextView(
+                                            playText,
+                                            textColor: appWhiteColor,
+                                            fontSize: 24,
+                                          );
+                                  },
+                                ),
                               ),
-                            )),
-                      ),
-                      ButtonTheme(
-                        minWidth: 80,
-                        child: RaisedButton(
-                          color: Colors.black,
-                          onPressed: () {
-                            _controller.value.isPlaying
-                                ? _controller.pause()
-                                : _controller.play();
-                            _controller.value.isPlaying
-                                ? isPlaying = true
-                                : isPlaying = false;
-                          },
-                          child: ValueListenableBuilder(
-                            valueListenable: _controller,
-                            builder:
-                                (context, VideoPlayerValue value, child) {
-                              return value.isPlaying
-                                  ? TextView(
-                                pauseText,
-                                textColor: appWhiteColor,
-                                fontSize: 24,
-                              )
-                                  : TextView(
-                                playText,
-                                textColor: appWhiteColor,
-                                fontSize: 24,
-                              );
-                            },
-                          ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
+                      ],
+                    ),
                   ),
-                ],
-              ),
+                )
+              ],
             ),
-          )
-        ],
-      ),
-    );
+          );
   }
 
-  void percenttime(double upperLimit, double lowerLimit, int diff,
-      double skipValue) {
+  void percenttime(
+      double upperLimit, double lowerLimit, int diff, double skipValue) {
     print("diff " + diff.toString());
     print("skipValue " + skipValue.toInt().toString());
     if (diff == skipValue.toInt()) {
       if (skipCount < podcastDataList.length - 1) {
         callNextPodcast();
       } else {
-        showAlertDialogWithTwoButtonOkAndCancel(
-            context, lastPodCast, () {
+        showAlertDialogWithTwoButtonOkAndCancel(context, lastPodCast, () {
           Navigator.pop(context);
         });
       }
@@ -464,18 +467,14 @@ class _HomePageState extends State<HomePage> {
     String docId;
     FirebaseFirestore.instance
         .collection('users')
-        .where('email',
-        isEqualTo:
-        widget.userData.email)
+        .where('email', isEqualTo: widget.userData.email)
         .getDocuments()
         .then((value) {
       docId = value.docs.first.documentID;
       FirebaseFirestore.instance
           .collection('users')
           .doc(docId)
-          .update({
-        'coinCount': count
-      }).catchError((e) {
+          .update({'coinCount': count}).catchError((e) {
         print(e.toString());
       });
     });

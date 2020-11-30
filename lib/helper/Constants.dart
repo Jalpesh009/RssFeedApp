@@ -129,3 +129,30 @@ Widget createDrawerItem(
     onTap: onTap,
   );
 }
+
+
+showAlertDialogWithTwoButton(BuildContext context, String message,
+    String okButtonText, VoidCallback ontap) {
+  // set up the button
+  Widget okButton = FlatButton(child: TextView(okButtonText), onPressed: ontap);
+  Widget cancelButton = FlatButton(
+      child: TextView(noText),
+      onPressed: () {
+        Navigator.pop(context);
+      });
+
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: TextView(appTitle),
+    content: TextView(message),
+    actions: [okButton, cancelButton],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}

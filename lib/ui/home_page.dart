@@ -147,9 +147,8 @@ class _HomePageState extends State<HomePage> {
         '''<h4><strong>Hello Admin,</strong>&nbsp;</h4><p>I've to inform you that I've listened&nbsp;<strong>{{podcastNo}} podcasts</strong>. I'm requesting you to process&nbsp; payment on my Paypal email:&nbsp;<strong>{{payPalEmail}}</strong>.<br /><br />Below are my User Information:<br /><strong><br />Name:</strong>&nbsp;{{username}}<br /><strong>Email:&nbsp;</strong>{{email}}<br /><strong>Phone:</strong>&nbsp;{{mobileNO}}<br /><strong><br /></strong><strong>Thank you&nbsp;</strong><strong><br /></strong></p>''';
 
     var envelope = new Envelope()
-      ..from = widget.userData.email
+      ..from = adminEmailText
       ..recipients.add(adminEmailText)
-      //..ccRecipients.addAll([widget.userData.email])
       ..subject = subjectText
       ..html = bodymessage
           .replaceAll("{{podcastNo}}", widget.userData.coinCount.toString())

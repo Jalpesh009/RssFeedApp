@@ -93,10 +93,12 @@ class _EditProfileState extends State<EditProfile> {
                       FocusScope.of(context).nextFocus();
                     },
                     validator: (value) {
-                      if (value.isEmpty) {
-                        return nameErrorText;
-                      } else {
+                      if (RegExp(
+                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)) {
                         return null;
+                      } else {
+                        return paypalErrorText;
                       }
                     },
                   ),
@@ -144,7 +146,6 @@ class _EditProfileState extends State<EditProfile> {
                       hintText: passwordText,
                       alignLabelWithHint: true,
                       labelText: passwordText,
-                      errorText: passwordErrorText,
                       labelStyle: TextStyle(color: appWhiteColor),
                       border: null,
                     ),
@@ -207,7 +208,6 @@ class _EditProfileState extends State<EditProfile> {
                       hintText: confirmPasswordText,
                       alignLabelWithHint: true,
                       labelText: confirmPasswordText,
-                      errorText: confirmPasswordErrorText,
                       labelStyle: TextStyle(color: appWhiteColor),
                       border: null,
                     ),

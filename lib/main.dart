@@ -12,6 +12,7 @@ void main() async {
   if (Firebase.apps.length == 0) {
     await Firebase.initializeApp();
   }
+
   runApp(MyApp());
 }
 

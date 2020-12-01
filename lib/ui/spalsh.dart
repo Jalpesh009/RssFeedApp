@@ -34,7 +34,6 @@ class _SplashState extends State<Splash> {
     });
   }
 
-  //load pref
   loadSharedPref() async {
     try {
       loginKey = await SharedData.readUserLoggedIn();
@@ -59,7 +58,6 @@ class _SplashState extends State<Splash> {
                 children: [
                   Image(
                     image: AssetImage('assets/background.png'),
-                    // fit: BoxFit.none,
                   ),
                   SizedBox(
                     height: 50,

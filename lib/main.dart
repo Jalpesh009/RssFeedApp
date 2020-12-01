@@ -8,6 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp();
+
   if (Firebase.apps.length == 0) {
     await Firebase.initializeApp();
   }

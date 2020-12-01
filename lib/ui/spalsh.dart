@@ -34,6 +34,7 @@ class _SplashState extends State<Splash> {
     });
   }
 
+  //load pref
   loadSharedPref() async {
     try {
       loginKey = await SharedData.readUserLoggedIn();

@@ -6,12 +6,10 @@ import 'package:rss_feed_app/ui/spalsh.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
   if (Firebase.apps.length == 0) {
     await Firebase.initializeApp();
   }
-
   runApp(MyApp());
 }
 

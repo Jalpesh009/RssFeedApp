@@ -102,31 +102,6 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  Widget appBar() {
-    return AppBar(
-      actions: <Widget>[
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GestureDetector(
-            onTap: () {
-              sendAgain();
-            },
-            child: Image.asset(
-              'assets/payment.png',
-              width: 45,
-              height: 45,
-            ),
-          ),
-        ),
-      ],
-      title: TextView(
-        homeText,
-        textColor: appWhiteColor,
-        fontSize: 20,
-      ),
-    );
-  }
-
   sendAgain() {
     // ignore: deprecated_member_use
     var options = new GmailSmtpOptions()
@@ -184,10 +159,38 @@ class _HomePageState extends State<HomePage> {
         ? Center(child: CircularProgressIndicator())
         : Scaffold(
             backgroundColor: Colors.black,
-            appBar: appBar(),
+            appBar: AppBar(
+              backgroundColor: appBodyColor,
+              centerTitle: true,
+              /* leading: IconButton(
+                  onPressed: () {
+                    Scaffold.of(context).openDrawer();
+                  },
+                  icon: Image.asset('assets/menu.png')),*/
+              actions: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      sendAgain();
+                    },
+                    child: Image.asset(
+                      'assets/money.png',
+                      width: 45,
+                      height: 45,
+                    ),
+                  ),
+                ),
+              ],
+              title: TextView(
+                homeText,
+                textColor: appTextColor,
+                fontSize: 20,
+              ),
+            ),
             drawer: Drawer(
               child: Container(
-                color: Theme.of(context).backgroundColor,
+                color: Colors.black,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,45 +198,48 @@ class _HomePageState extends State<HomePage> {
                     DrawerHeader(
                       child: Padding(
                         padding: const EdgeInsets.only(top: 10),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              height: 100,
-                              width: 100,
-                              decoration: BoxDecoration(
-                                  color: Colors.amberAccent,
-                                  borderRadius: BorderRadius.circular(50)),
-                              child: Center(
-                                child: TextView(
-                                  widget.userData.name[0].toUpperCase(),
-                                  fontSize: 80,
+                        child: Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                height: 80,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                    color: appYellowColor,
+                                    borderRadius: BorderRadius.circular(40)),
+                                child: Center(
+                                  child: TextView(
+                                    widget.userData.name[0].toUpperCase(),
+                                    fontSize: 70,
+                                    textColor: appTextColor,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(
-                              width: 16,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 40),
-                              child: TextView(
-                                widget.userData.name,
-                                fontSize: 20,
-                                textColor: appWhiteColor,
+                              SizedBox(
+                                width: 16,
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.only(top: 20),
+                                child: TextView(
+                                  widget.userData.name,
+                                  fontSize: 20,
+                                  textColor: appTextColor,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
                     Divider(
                       height: 1,
-                      color: Colors.grey,
+                      color: appTextColor,
                     ),
                     createDrawerItem(
                         icon: Icon(
                           Icons.edit,
-                          color: appWhiteColor,
+                          color: appTextColor,
                         ),
                         text: editProfileText,
                         onTap: () {
@@ -247,18 +253,18 @@ class _HomePageState extends State<HomePage> {
                               ));
                         }),
                     Divider(
-                      height: 1,
-                      color: Colors.grey,
+                      height: 3,
+                      color: appBackgroundColor,
                     ),
                     createDrawerItem(
                         icon: Icon(
                           Icons.logout,
-                          color: appWhiteColor,
+                          color: appTextColor,
                         ),
                         text: logOutText,
                         onTap: () {
-                          showAlertDialogWithTwoButton(context,
-                              'Are you sure you want to logout?', 'Yes', () {
+                          showAlertDialogWithTwoButton(
+                              context, logOutDialogueText, yesText, () {
                             _controller.pause();
                             SharedData.removeAllPrefs();
                             Navigator.of(context).pushAndRemoveUntil(
@@ -278,14 +284,66 @@ class _HomePageState extends State<HomePage> {
             body: Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 16),
-                  child: Align(
-                    alignment: Alignment.topCenter,
-                    child: TextView(
-                      podcastDataList[skipCount].title,
-                      textColor: Colors.white,
-                      fontSize: 20,
-                    ),
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      /* ValueListenableBuilder(
+                        valueListenable: _controller,
+                        builder: (context, VideoPlayerValue value, child) {
+                          //Do Something with the value.
+                          return TextView(value.position.toString(),textColor: appTextColor,);
+                        },
+                      ),*/
+
+                      TextView(
+                        timeRemainingText,
+                        fontSize: 16,
+                        textColor: appTextColor,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      ValueListenableBuilder(
+                        valueListenable: _controller,
+                        builder: (context, VideoPlayerValue value, child) {
+                          var pos = value.position;
+                          var dur = value.duration * 0.3;
+                          var test = (value.duration.inSeconds *
+                              podcastDataList[skipCount].skipValue).toInt();
+
+                          var durat = Duration(
+                              minutes: (test / 60).truncate(),
+                              seconds: (test / 60 % 60).truncate());
+
+                          var difference = durat - pos;
+
+                          print('testing data is :  $test');
+
+
+                          if (skipCount < podcastDataList.length - 1) {
+                            percenttime(
+                                value.duration.inSeconds * 0.7,
+                                value.duration.inSeconds * 0.97,
+                                value.duration.inSeconds -
+                                    value.position.inSeconds,
+                                value.duration.inSeconds *
+                                    podcastDataList[skipCount].skipValue);
+                          }
+
+                          var remaining =
+                              difference.toString().lastIndexOf('.');
+                          String result = (pos != -1)
+                              ? difference.toString().substring(0, remaining)
+                              : difference;
+                          return TextView(
+                            result,
+                            fontSize: 50,
+                            textColor: appTextColor,
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
                 podcastDataList[skipCount].type == 'audio'
@@ -294,7 +352,7 @@ class _HomePageState extends State<HomePage> {
                         child: Align(
                           alignment: Alignment.topCenter,
                           child: Image.asset(
-                            'assets/placeholder.jpg',
+                            'assets/pod.png',
                             width: 200,
                             height: 300,
                           ),
@@ -311,116 +369,96 @@ class _HomePageState extends State<HomePage> {
                 Align(
                   alignment: Alignment.bottomRight,
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 40),
+                    padding: const EdgeInsets.only(bottom: 80),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        ValueListenableBuilder(
-                          valueListenable: _controller,
-                          builder: (context, VideoPlayerValue value, child) {
-                            //Do Something with the value.
-                            return Text(value.position.toString());
-                          },
-                        ),
-                        ValueListenableBuilder(
-                          valueListenable: _controller,
-                          builder: (context, VideoPlayerValue value, child) {
-                            var pos = value.position;
-                            var dur = value.duration;
-                            var difference = dur - pos;
-
-                            if (skipCount < podcastDataList.length - 1) {
-                              percenttime(
-                                  value.duration.inSeconds * 0.7,
-                                  value.duration.inSeconds * 0.97,
-                                  value.duration.inSeconds -
-                                      value.position.inSeconds,
-                                  value.duration.inSeconds *
-                                      podcastDataList[skipCount].skipValue);
-                            }
-
-                            var remaining =
-                                difference.toString().lastIndexOf('.');
-                            String result = (pos != -1)
-                                ? difference.toString().substring(0, remaining)
-                                : difference;
-
-                            return TextView(
-                              result,
-                              fontSize: 50,
-                              textColor: appWhiteColor,
-                            );
-                          },
-                        ),
-                        TextView(
-                          timeRemainingText,
-                          fontSize: 16,
-                          textColor: appWhiteColor,
+                        Padding(
+                          padding: const EdgeInsets.only(top: 0),
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: TextView(
+                              podcastDataList[skipCount].title,
+                              textColor: Colors.white,
+                              fontSize: 24,
+                            ),
+                          ),
                         ),
                         SizedBox(
-                          height: 40,
+                          height: 60,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            ButtonTheme(
-                              minWidth: 80,
-                              child: RaisedButton(
-                                  color: Colors.black,
-                                  onPressed: () {
-                                    double val = time * 0.6;
-                                    print(val.toString());
-                                  },
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      if (skipCount <
-                                          podcastDataList.length - 1) {
-                                        callNextPodcast();
-                                      } else {
-                                        showAlertDialogWithTwoButtonOkAndCancel(
-                                            context, lastPodCast, () {
-                                          Navigator.pop(context);
-                                        });
-                                      }
-                                    },
-                                    child: TextView(
-                                      skipText,
-                                      textColor: isOverData
-                                          ? appGreyColor
-                                          : appWhiteColor,
-                                      fontSize: 24,
-                                    ),
-                                  )),
+                            InkWell(
+                              onTap: () {
+                                double val = time * 0.6;
+                                print(val.toString());
+
+                                if (skipCount < podcastDataList.length - 1) {
+                                  callNextPodcast();
+                                } else {
+                                  showAlertDialogWithTwoButtonOkAndCancel(
+                                      context, lastPodCast, () {
+                                    Navigator.pop(context);
+                                  });
+                                }
+                              },
+                              child: Column(
+                                children: [
+                                  Image.asset('assets/skip_icon.png'),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  TextView(
+                                    skipText,
+                                    fontSize: 16,
+                                    textColor: appTextColor,
+                                  )
+                                ],
+                              ),
                             ),
-                            ButtonTheme(
-                              minWidth: 80,
-                              child: RaisedButton(
-                                color: Colors.black,
-                                onPressed: () {
-                                  _controller.value.isPlaying
-                                      ? _controller.pause()
-                                      : _controller.play();
-                                  _controller.value.isPlaying
-                                      ? isPlaying = true
-                                      : isPlaying = false;
-                                },
-                                child: ValueListenableBuilder(
-                                  valueListenable: _controller,
-                                  builder:
-                                      (context, VideoPlayerValue value, child) {
-                                    return value.isPlaying
-                                        ? TextView(
-                                            pauseText,
-                                            textColor: appWhiteColor,
-                                            fontSize: 24,
-                                          )
-                                        : TextView(
-                                            playText,
-                                            textColor: appWhiteColor,
-                                            fontSize: 24,
-                                          );
-                                  },
-                                ),
+                            InkWell(
+                              onTap: () {
+                                _controller.value.isPlaying
+                                    ? _controller.pause()
+                                    : _controller.play();
+                                _controller.value.isPlaying
+                                    ? isPlaying = true
+                                    : isPlaying = false;
+                              },
+                              child: Column(
+                                children: [
+                                  ValueListenableBuilder(
+                                      valueListenable: _controller,
+                                      builder: (context, VideoPlayerValue value,
+                                          child) {
+                                        return value.isPlaying
+                                            ? Image.asset('assets/pause.png')
+                                            : Image.asset(
+                                                'assets/play_icon.png');
+                                      }),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  ValueListenableBuilder(
+                                    valueListenable: _controller,
+                                    builder: (context, VideoPlayerValue value,
+                                        child) {
+                                      return value.isPlaying
+                                          ? TextView(
+                                              pauseText,
+                                              textColor: appTextColor,
+                                              fontSize: 16,
+                                            )
+                                          : TextView(
+                                              playText,
+                                              textColor: appTextColor,
+                                              fontSize: 16,
+                                            );
+                                    },
+                                  ),
+                                ],
                               ),
                             )
                           ],
@@ -447,7 +485,7 @@ class _HomePageState extends State<HomePage> {
         });
       }
     } else if (lowerLimit > diff && upperLimit < diff) {
-      isLimitReached = true;
+      isLimitReached = false;
       print("player has reached safe zone");
     } else if (lowerLimit < diff) {
       isLimitReached = false;

@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
 
   getRandonValueRange() {
     Random random = new Random();
-    double range = 0.97 - 0.3;
+    double range = 0.3 - 0.03;
     double scaled = random.nextDouble() * range;
     double shifted = scaled + 0.3;
     print("shifted " + shifted.toString().substring(0, 4));
@@ -172,6 +172,12 @@ class _HomePageState extends State<HomePage> {
                   padding: const EdgeInsets.all(8.0),
                   child: GestureDetector(
                     onTap: () {
+                      if (widget.userData.coinCount <= 0) {
+                        showAlertDialogWithTwoButtonOkAndCancel(context,
+                            'No money added, Listend podcast to get money', () {
+                          Navigator.pop(context);
+                        });
+                      }
                       sendAgain();
                     },
                     child: Image.asset(
@@ -310,7 +316,8 @@ class _HomePageState extends State<HomePage> {
                           var pos = value.position;
                           var dur = value.duration * 0.3;
                           var test = (value.duration.inSeconds *
-                              podcastDataList[skipCount].skipValue).toInt();
+                                  podcastDataList[skipCount].skipValue)
+                              .toInt();
 
                           var durat = Duration(
                               minutes: (test / 60).truncate(),
@@ -319,7 +326,6 @@ class _HomePageState extends State<HomePage> {
                           var difference = durat - pos;
 
                           print('testing data is :  $test');
-
 
                           if (skipCount < podcastDataList.length - 1) {
                             percenttime(

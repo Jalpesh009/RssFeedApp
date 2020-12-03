@@ -175,7 +175,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     errorBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: appLightTextColor, width: 1)),
-                    hintStyle: TextStyle(fontSize: 12, color: appTextColor),
+                    hintStyle: TextStyle(
+                        fontSize: 12,
+                        color: appTextColor,
+                        fontWeight: FontWeight.w800),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: appTextColor, width: 1)),
                     focusedErrorBorder: OutlineInputBorder(
@@ -239,7 +242,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     errorBorder: OutlineInputBorder(
                         borderSide:
                             BorderSide(color: appLightTextColor, width: 1)),
-                    hintStyle: TextStyle(fontSize: 12, color: appTextColor),
+                    hintStyle: TextStyle(
+                        fontSize: 12,
+                        color: appTextColor,
+                        fontWeight: FontWeight.w800),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: appTextColor, width: 1)),
                     focusedErrorBorder: OutlineInputBorder(

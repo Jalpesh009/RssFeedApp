@@ -137,7 +137,7 @@ class _EditProfileState extends State<EditProfile> {
                     errorStyle: TextStyle(fontSize: 9, color: appTextColor),
                     errorBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: appTextColor, width: 1)),
-                    hintStyle: TextStyle(fontSize: 12, color: appTextColor),
+                    hintStyle: TextStyle(fontSize: 12, color: appTextColor,fontWeight: FontWeight.w800),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: appTextColor, width: 1)),
                     focusedErrorBorder: OutlineInputBorder(
@@ -200,7 +200,7 @@ class _EditProfileState extends State<EditProfile> {
                     errorStyle: TextStyle(fontSize: 9, color: appTextColor),
                     errorBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: appTextColor, width: 1)),
-                    hintStyle: TextStyle(fontSize: 12, color: appTextColor),
+                    hintStyle: TextStyle(fontSize: 12, color: appTextColor,fontWeight: FontWeight.w800),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: appTextColor, width: 1)),
                     focusedErrorBorder: OutlineInputBorder(

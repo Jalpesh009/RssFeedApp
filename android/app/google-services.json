@@ -8,17 +8,17 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:549657071600:android:2f8505e2047fccf6205735",
+        "mobilesdk_app_id": "1:549657071600:android:c07f7897c7b6f987205735",
         "android_client_info": {
-          "package_name": "com.albio.rss_feed_app"
+          "package_name": "com.albiorix.rssFeedApp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "549657071600-m1c1j75bbptdoul97r98hghqch8jj0tc.apps.googleusercontent.com",
+          "client_id": "549657071600-8k41tn3onhj8idvenfiauesea830ua6l.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.albio.rss_feed_app",
+            "package_name": "com.albiorix.rssFeedApp",
             "certificate_hash": "46f730bdb3071ce2e621ac704c76522c6b6a5f4c"
           }
         },
@@ -38,6 +38,13 @@
             {
               "client_id": "549657071600-q7eha8r9l9q1r13ran1um7pljdlj0sme.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "549657071600-35fdn2ikeijamki35tb9kitc7qao5ha3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.albiorix.rssFeedApp"
+              }
             }
           ]
         }

@@ -34,6 +34,7 @@ dependencies:
   flutter_countdown_timer: ^1.4.0
   firebase_database: ^4.3.0
   shared_preferences: ^0.5.10
+  mailer: ^2.0.2
 
 dev_dependencies:
   flutter_test:
@@ -52,11 +53,18 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/take.png
-    - assets/plus.png
-    - assets/placeholder.jpg
+    - assets/login_image.png
     - assets/logo.png
-    - assets/background.png
+    - assets/menu.png
+    - assets/money.png
+    - assets/next.png
+    - assets/play.png
+    - assets/play_icon.png
+    - assets/pod.png
+    - assets/pause.png
+    - assets/skip.png
+    - assets/skip_icon.png
+    - assets/splash.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

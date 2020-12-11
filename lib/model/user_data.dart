@@ -1,11 +1,9 @@
 class UserData {
-
   final String name;
   final String email;
   final String phone_number;
   final String paypal_id;
   int coinCount;
-
 
   UserData(
       this.email,
@@ -17,7 +15,7 @@ class UserData {
   UserData.fromJson(Map<String, dynamic> json)
       : name = json["name"],
         email = json["email"],
-        phone_number = json["phone_umber"],
+        phone_number = json["phone_number"],
         coinCount = json['coinCount'],
         paypal_id = json['paypal_id'];
 

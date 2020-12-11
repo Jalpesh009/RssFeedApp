@@ -6,10 +6,13 @@ import 'package:rss_feed_app/ui/spalsh.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp();
+
   if (Firebase.apps.length == 0) {
     await Firebase.initializeApp();
   }
+
   runApp(MyApp());
 }
 
@@ -19,14 +22,8 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      color: appSplashColor,
-      theme: ThemeData(
-          primaryColor: appSplashColor,
-          primarySwatch: Colors.purple,
-          backgroundColor: Colors.black),
       home: Splash(),
     );
   }

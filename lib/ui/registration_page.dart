@@ -51,6 +51,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           textColor: appTextMaroonColor,
           fontSize: 21.6,
           fontWeight: FontWeight.bold,
+          fontFamily: 'RobotoCondensed-Bold',
         ),
       ),
       backgroundColor: appBackgroundColor,
@@ -163,7 +164,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       color: appTextMaroonColor,
                       width: 2,
                     )),
-
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -232,7 +232,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       color: appTextMaroonColor,
                       width: 2,
                     )),
-                 
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -291,6 +290,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   child: TextView(
                     loginText,
                     fontSize: 18,
+                    fontFamily: 'RobotoCondensed-Bold',
                   ),
                   color: appBackgroundColor,
                   textColor: appTextMaroonColor,

@@ -7,6 +7,7 @@ Color appTextEditingColor = Color(0xff1E1419);
 
 Color appTextColor = Colors.white;
 Color appTextMaroonColor = Color(0xff46141E);
+Color appSlashColor = Color(0xffC6BCBE);
 Color appOffWhiteColor = Color(0xffE6E6E6);
 Color appTextRedColor = Color(0xffD21E3C);
 Color appBackgroundColor = Color(0xffD2961E);

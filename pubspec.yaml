@@ -57,7 +57,6 @@ flutter:
     - assets/login_image.png
     - assets/logo.png
     - assets/menu.png
-    - assets/logo.svg
     - assets/money.png
     - assets/next.png
     - assets/play.png
@@ -86,6 +85,9 @@ flutter:
       fonts:
         - asset: fonts/RobotoCondensed-Bold.ttf
         - asset: fonts/RobotoCondensed-Regular.ttf
+    - family: Roboto
+      fonts:
+        - asset: fonts/RobotoSlab-Bold.ttf
 
   #   - family: Trajan Pro
   #     fonts:

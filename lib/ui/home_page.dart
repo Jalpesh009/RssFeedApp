@@ -31,7 +31,7 @@ class _HomePageState extends State<HomePage> {
   List<PodcastData> podcastDataList;
   var viewDataCount;
   Map<dynamic, dynamic> map;
-  Duration positionValue;
+  int positionValue;
   bool isLoading = true;
   bool isPlaying = false;
   bool _isPlaying = false;
@@ -185,13 +185,16 @@ class _HomePageState extends State<HomePage> {
       time = event.inSeconds;
     });
     player.onAudioPositionChanged.listen((event) {
-      positionValue = event;
+    Future.delayed(Duration(milliseconds: 500), (){
+      setState(() {
+        positionValue = event.inSeconds;
+      });
+    });
     });
   }
 
   void playPodcast(int position) {
     _controller = VideoPlayerController.network(podcastDataList[position].link);
-    //_controller = VideoPlayerController.network('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
     _controller.initialize().then((_) => setState(() {
           isLimitReached = false;
           time = _controller.value.duration.inSeconds;
@@ -220,11 +223,7 @@ class _HomePageState extends State<HomePage> {
                   elevation: 0,
                   backgroundColor: appOffWhiteColor,
                   iconTheme: IconThemeData(color: appTextMaroonColor),
-                  /* leading: IconButton(
-                      onPressed: () {
-                        Scaffold.of(context).openDrawer();
-                      },
-                      icon: Image.asset('assets/menu.png')),*/
+
                   actions: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(top: 16, right: 16),
@@ -243,6 +242,7 @@ class _HomePageState extends State<HomePage> {
                             '$count Listen Credits',
                             fontSize: 14,
                             textColor: appTextRedColor,
+                            fontFamily: 'RobotoCondensed-Bold',
                           )),
                     ),
                   ],
@@ -269,8 +269,7 @@ class _HomePageState extends State<HomePage> {
                                   width: 60,
                                   decoration: BoxDecoration(
                                       color: appTextEditingColor,
-                                      borderRadius:
-                                          BorderRadius.circular(30)),
+                                      borderRadius: BorderRadius.circular(30)),
                                   child: Center(
                                     child: TextView(
                                       widget.userData.name[0].toUpperCase(),
@@ -295,13 +294,22 @@ class _HomePageState extends State<HomePage> {
                                       height: 5,
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        TextView('$count Listen Credits',fontSize: 14,textColor: appTextRedColor,),
+                                        TextView(
+                                          '$count Listen Credits',
+                                          fontSize: 14,
+                                          textColor: appTextRedColor,
+                                        ),
                                         SizedBox(
                                           width: 10,
                                         ),
-                                        TextView('CASH OUT',fontSize: 14,textColor: appTextRedColor,),
+                                        TextView(
+                                          'CASH OUT',
+                                          fontSize: 14,
+                                          textColor: appTextRedColor,
+                                        ),
                                       ],
                                     )
                                   ],
@@ -378,18 +386,22 @@ class _HomePageState extends State<HomePage> {
                               ),
                             ),
                           )
-                        : Center(
-                            child: _controller.value.initialized
-                                ? AspectRatio(
-                                    aspectRatio: _controller.value.aspectRatio,
-                                    child: VideoPlayer(_controller),
-                                  )
-                                : Container(),
-                          ),
+                        : Padding(
+                          padding: const EdgeInsets.only(top: 80),
+                          child: Align(
+                      alignment: Alignment.topCenter,
+                              child: _controller.value.initialized
+                                  ? AspectRatio(
+                                      aspectRatio: _controller.value.aspectRatio,
+                                      child: VideoPlayer(_controller),
+                                    )
+                                  : Container(),
+                            ),
+                        ),
                     Align(
-                      alignment: Alignment.bottomRight,
+                      alignment: Alignment.center,
                       child: Padding(
-                        padding: const EdgeInsets.only(bottom: 80),
+                        padding: const EdgeInsets.only(bottom: 50),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
@@ -400,50 +412,66 @@ class _HomePageState extends State<HomePage> {
                                 child: TextView(
                                   podcastDataList[skipCount].title,
                                   textColor: appTextMaroonColor,
-                                  fontSize: 24,
+                                  fontSize: 14,
                                 ),
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(top: 30),
+                              padding: const EdgeInsets.only(top: 50),
                               child: podcastDataList[skipCount].type == 'audio'
                                   ? Builder(builder: (context) {
-
-                                      var dur = time ?? 1.0 * 0.3;
-                                      Duration pos = positionValue ?? Duration(milliseconds: 400);
-                                      var test = (dur *
-                                              podcastDataList[skipCount]
-                                                  .skipValue)
-                                          .toInt();
-                                      print(test);
-                                      var durat = Duration(
-                                          minutes: (test / 60).truncate(),
-                                          seconds: (test / 60 % 60).truncate());
-                                      var difference = durat - pos;
-                                      print('testing data is :  $test');
-                                      if (skipCount <
-                                          podcastDataList.length - 1) {
-                                        percenttime(
-                                            dur * 0.7,
-                                            dur * 0.97,
-                                            (dur - pos.inSeconds).toInt(),
-                                            dur *
+                                      if (time == 0) {
+                                        return SizedBox();
+                                      } else {
+                                        int dur = time ;
+                                        int pos = positionValue;
+                                         int skipTime = (dur *
                                                 podcastDataList[skipCount]
-                                                    .skipValue);
+                                                    .skipValue)
+                                            .toInt();
+
+                                         print('Duration is $dur');
+                                         print('Position is $pos');
+                                         print('Skip is $skipTime');
+                                        var difference = skipTime - pos;
+
+                                        print('difference is $difference');
+
+                                        if(pos == skipTime) {
+                                          isLimitReached = true;
+                                          callNextPodcast();
+                                        }
+                                        // if (skipCount <
+                                        //     podcastDataList.length - 1) {
+                                        //   if(difference == skipTime){
+                                        //
+                                        //     if (skipCount < podcastDataList.length - 1) {
+                                        //       callNextPodcast();
+                                        //     } else {
+                                        //       showAlertDialogWithTwoButtonOkAndCancel(context, lastPodCast, () {
+                                        //         Navigator.pop(context);
+                                        //       });
+                                        //     }
+                                        //   }
+                                        // }
+
+
+                                        var remaining = difference
+                                            .toString()
+                                            .lastIndexOf('.');
+
+                                        String result = (pos != -1)
+                                            ? Duration(seconds: difference)
+                                                .toString()
+                                                //.substring(2, remaining)
+                                            : difference;
+                                        return TextView(
+                                                result,
+                                                fontSize: 50,
+                                                textColor: appTextRedColor,
+                                          fontFamily: 'RobotoCondensed-Bold',
+                                              );
                                       }
-                                      var remaining = difference
-                                          .toString()
-                                          .lastIndexOf('.');
-                                      String result = (pos != -1)
-                                          ? difference
-                                              .toString()
-                                              .substring(0, remaining)
-                                          : difference;
-                                      return TextView(
-                                        result,
-                                        fontSize: 50,
-                                        textColor: appTextRedColor,
-                                      );
                                     })
                                   : ValueListenableBuilder(
                                       valueListenable: _controller,
@@ -470,9 +498,7 @@ class _HomePageState extends State<HomePage> {
                                               value.duration.inSeconds * 0.97,
                                               value.duration.inSeconds -
                                                   value.position.inSeconds,
-                                              value.duration.inSeconds *
-                                                  podcastDataList[skipCount]
-                                                      .skipValue);
+                                              test);
                                         }
 
                                         var remaining = difference
@@ -491,10 +517,14 @@ class _HomePageState extends State<HomePage> {
                                       },
                                     ),
                             ),
+                            SizedBox(
+                              height: 10,
+                            ),
                             TextView(
                               'Time Until Next Listen Credit',
                               fontSize: 20,
                               textColor: appTextRedColor,
+                              fontFamily: 'RobotoCondensed-Bold',
                             ),
                             SizedBox(
                               height: 60,
@@ -502,11 +532,10 @@ class _HomePageState extends State<HomePage> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                InkWell(
-                                  onTap: () {
-                                /*    double val = time * 0.6;*/
-                                /*    print(val.toString());*/
-
+                                RaisedButton(
+                                  elevation: 0,
+                                  color: appOffWhiteColor,
+                                  onPressed: () {
                                     if (skipCount <
                                         podcastDataList.length - 1) {
                                       callNextPodcast();
@@ -517,18 +546,22 @@ class _HomePageState extends State<HomePage> {
                                       });
                                     }
                                   },
-                                  child: Column(
-                                    children: [
-                                      TextView(
-                                        skipText,
-                                        fontSize: 16,
-                                        textColor: appTextMaroonColor,
-                                      )
-                                    ],
+                                  child: TextView(
+                                    skipText,
+                                    fontSize: 16,
+                                    textColor: appTextMaroonColor,
+                                    fontFamily: 'RobotoCondensed-Bold',
                                   ),
                                 ),
-                                InkWell(
-                                  onTap:
+                                TextView(
+                                  "/",
+                                  textColor: appSlashColor,
+                                  fontSize: 40,
+                                ),
+                                RaisedButton(
+                                  elevation: 0,
+                                  color: appOffWhiteColor,
+                                  onPressed:
                                       podcastDataList[skipCount].type == 'audio'
                                           ? () {
                                               _isPlaying
@@ -545,46 +578,48 @@ class _HomePageState extends State<HomePage> {
                                                   ? isPlaying = true
                                                   : isPlaying = false;
                                             },
-                                  child: Column(
-                                    children: [
-                                      podcastDataList[skipCount].type == 'audio'
-                                          ? Builder(builder: (context) {
-                                              return _isPlaying
-                                                  ? TextView(
-                                                      pauseText,
-                                                      textColor:
-                                                          appTextMaroonColor,
-                                                      fontSize: 16,
-                                                    )
-                                                  : TextView(
-                                                      playText,
-                                                      textColor:
-                                                          appTextMaroonColor,
-                                                      fontSize: 16,
-                                                    );
-                                            })
-                                          : ValueListenableBuilder(
-                                              valueListenable: _controller,
-                                              builder: (context,
-                                                  VideoPlayerValue value,
-                                                  child) {
-                                                return value.isPlaying
-                                                    ? TextView(
-                                                        pauseText,
-                                                        textColor:
-                                                            appTextMaroonColor,
-                                                        fontSize: 16,
-                                                      )
-                                                    : TextView(
-                                                        playText,
-                                                        textColor:
-                                                            appTextMaroonColor,
-                                                        fontSize: 16,
-                                                      );
-                                              },
-                                            ),
-                                    ],
-                                  ),
+                                  child: podcastDataList[skipCount].type ==
+                                          'audio'
+                                      ? Builder(builder: (context) {
+                                          return _isPlaying
+                                              ? TextView(
+                                                  pauseText,
+                                                  textColor: appTextMaroonColor,
+                                                  fontSize: 16,
+                                                  fontFamily:
+                                                      'RobotoCondensed-Bold',
+                                                )
+                                              : TextView(
+                                                  playText,
+                                                  textColor: appTextMaroonColor,
+                                                  fontSize: 16,
+                                                  fontFamily:
+                                                      'RobotoCondensed-Bold',
+                                                );
+                                        })
+                                      : ValueListenableBuilder(
+                                          valueListenable: _controller,
+                                          builder: (context,
+                                              VideoPlayerValue value, child) {
+                                            return value.isPlaying
+                                                ? TextView(
+                                                    pauseText,
+                                                    textColor:
+                                                        appTextMaroonColor,
+                                                    fontSize: 16,
+                                                    fontFamily:
+                                                        'RobotoCondensed-Bold',
+                                                  )
+                                                : TextView(
+                                                    playText,
+                                                    textColor:
+                                                        appTextMaroonColor,
+                                                    fontSize: 16,
+                                                    fontFamily:
+                                                        'RobotoCondensed-Bold',
+                                                  );
+                                          },
+                                        ),
                                 )
                               ],
                             ),
@@ -600,7 +635,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void percenttime(
-      double upperLimit, double lowerLimit, int diff, double skipValue) {
+      double upperLimit, double lowerLimit, int diff, int skipValue) {
     print("diff " + diff.toString());
     print("skipValue " + skipValue.toInt().toString());
     if (diff == skipValue.toInt()) {
@@ -644,6 +679,8 @@ class _HomePageState extends State<HomePage> {
       });
     });
 
-    playPodcast(skipCount);
+    podcastDataList[skipCount].type == 'audio'
+        ? playAudio(skipCount)
+        : playPodcast(skipCount);
   }
 }

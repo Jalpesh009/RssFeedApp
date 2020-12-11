@@ -89,7 +89,6 @@ class _LoginPageState extends State<LoginPage> {
                       style: simpleTextStyleColor(appTextEditingColor),
                       obscureText: passwordVisible,
                       decoration: InputDecoration(
-
                         focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                           color: appTextMaroonColor,
@@ -157,6 +156,7 @@ class _LoginPageState extends State<LoginPage> {
                         loginText,
                         fontSize: 18,
                         textColor: appTextMaroonColor,
+                        fontFamily: 'RobotoCondensed-Bold',
                       ),
                       color: appBackgroundColor,
                       textColor: appTextMaroonColor,

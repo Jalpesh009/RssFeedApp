@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:rss_feed_app/helper/text_view.dart';
 
-
 Color appYellowColor = Color(0xffd2961e);
 
+Color appTextEditingColor = Color(0xff1E1419);
+
 Color appTextColor = Colors.white;
-Color appBackgroundColor = Color(0xffffff);
+Color appTextMaroonColor = Color(0xff46141E);
+Color appOffWhiteColor = Color(0xffE6E6E6);
+Color appTextRedColor = Color(0xffD21E3C);
+Color appBackgroundColor = Color(0xffD2961E);
 Color appBodyColor = Color(0xff0000);
 Color appLightTextColor = Color.fromRGBO(170, 170, 170, 1);
-
-
-
 
 // Strings
 const rssFeedText = "Rss Feed";
@@ -18,14 +19,14 @@ const emailText = "Email";
 const passwordText = "Password";
 const nameText = "Name";
 const phoneNumberText = "Phone Number";
-const emailHintText = "Email";
+const emailHintText = "Email Login";
 const paypalIdText = "PayPal Email";
-const confirmPasswordText = "Confirm Password";
+const confirmPasswordText = "Password Confirmation";
 const passwordErrorText =
     "Make combination password of 1 Upper case, 1 lowercase, 1 Numeric Number, 1 Special Character ";
-const loginText = "LOGIN";
-const signUpText = "SIGNUP";
-const registerText = "R";
+const loginText = "SUBMIT";
+const signUpText = "NEW USER REGISTRATION";
+const registerText = "REGISTER AS NEW USER";
 const signText = "Don't have an account ? Register";
 const alreadyRegisterText = "Already have an account?";
 const lastNameErrorText = "Please enter last name";
@@ -48,8 +49,8 @@ const okText = "Ok";
 const noText = "No";
 const appTitle = "Rss Feed App";
 const lastPodCast = "This is last podcast";
-const editProfileText = 'Edit Profile';
-const logOutText = 'Log out';
+const editProfileText = 'EDIT PROFILE';
+const logOutText = 'LOG OUT';
 const subjectText = 'RSS FEED Payment';
 const adminEmailText = 'storydutyfirebase@gmail.com';
 const adminEmailPassword = '3%6um%SEuz';
@@ -73,18 +74,22 @@ const buttonHeight = 24.0;
 // Half Screen Width
 double screenWidth;
 
-
-
 showAlertDialogWithTwoButtonOkAndCancel(
     BuildContext context, String message, VoidCallback ontap) {
   // set up the button
   Widget okButton = FlatButton(child: TextView(okText), onPressed: ontap);
 
-
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
-    title: Center(child: TextView(appTitle,fontSize: 20,)),
-    content: TextView(message,fontSize: 16,),
+    title: Center(
+        child: TextView(
+      appTitle,
+      fontSize: 20,
+    )),
+    content: TextView(
+      message,
+      fontSize: 16,
+    ),
     actions: [okButton],
   );
 
@@ -97,31 +102,23 @@ showAlertDialogWithTwoButtonOkAndCancel(
   );
 }
 
-Widget createDrawerItem(
-    {Widget icon, String text, GestureTapCallback onTap}) {
-  return Container(
-    color: appYellowColor,
-    child: ListTile(
-      focusColor: appYellowColor,
-      selectedTileColor: appYellowColor,
-      leading: icon,
-      title: Row(
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(left: 8.0),
-            child: TextView(
-              text,
-              fontSize: 16,
-              textColor: appTextColor,
-            ),
-          )
-        ],
-      ),
-      onTap: onTap,
+Widget createDrawerItem({Widget icon, String text, GestureTapCallback onTap}) {
+  return ListTile(
+    title: Row(
+      children: <Widget>[
+        Padding(
+          padding: EdgeInsets.only(left: 8.0),
+          child: TextView(
+            text,
+            fontSize: 14,
+            textColor: appTextMaroonColor,
+          ),
+        )
+      ],
     ),
+    onTap: onTap,
   );
 }
-
 
 showAlertDialogWithTwoButton(BuildContext context, String message,
     String okButtonText, VoidCallback ontap) {

@@ -35,6 +35,7 @@ dependencies:
   firebase_database: ^4.3.0
   shared_preferences: ^0.5.10
   mailer: ^2.0.2
+  audioplayers: ^0.17.0
 
 dev_dependencies:
   flutter_test:
@@ -56,6 +57,7 @@ flutter:
     - assets/login_image.png
     - assets/logo.png
     - assets/menu.png
+    - assets/logo.svg
     - assets/money.png
     - assets/next.png
     - assets/play.png
@@ -65,6 +67,7 @@ flutter:
     - assets/skip.png
     - assets/skip_icon.png
     - assets/splash.png
+    - assets/story.png
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -78,12 +81,12 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
+  fonts:
+    - family: RobotoCondensed
+      fonts:
+        - asset: fonts/RobotoCondensed-Bold.ttf
+        - asset: fonts/RobotoCondensed-Regular.ttf
+
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf

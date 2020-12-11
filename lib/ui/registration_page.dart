@@ -43,11 +43,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
+        elevation: 0,
+        iconTheme: IconThemeData(color: appTextMaroonColor),
         backgroundColor: appBackgroundColor,
         title: TextView(
           signUpText,
-          textColor: appTextColor,
-          fontSize: 20,
+          textColor: appTextMaroonColor,
+          fontSize: 21.6,
+          fontWeight: FontWeight.bold,
         ),
       ),
       backgroundColor: appBackgroundColor,
@@ -58,11 +61,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
+                SizedBox(
+                  height: 20,
+                ),
                 TextFormField(
                   controller: _nameController,
                   //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyle(),
-                  decoration: textFieldInputDecoration(nameText),
+                  style: simpleTextStyleColor(appTextMaroonColor),
+                  decoration: textFieldInputDecorationColor(
+                      nameText, appTextMaroonColor),
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (v) {
                     FocusScope.of(context).nextFocus();
@@ -81,8 +88,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 TextFormField(
                   controller: _phoneNumberController,
                   //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyle(),
-                  decoration: textFieldInputDecoration(phoneNumberText),
+                  style: simpleTextStyleColor(appTextEditingColor),
+                  decoration: textFieldInputDecorationColor(
+                      phoneNumberText, appTextMaroonColor),
                   keyboardType: TextInputType.number,
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (v) {
@@ -102,8 +110,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 TextFormField(
                   controller: _emailController,
                   //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyle(),
-                  decoration: textFieldInputDecoration(emailHintText),
+                  style: simpleTextStyleColor(appTextEditingColor),
+                  decoration: textFieldInputDecorationColor(
+                      emailHintText, appTextMaroonColor),
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (v) {
                     FocusScope.of(context).nextFocus();
@@ -124,8 +133,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 TextFormField(
                   controller: _paypalIdController,
                   //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyle(),
-                  decoration: textFieldInputDecoration(paypalIdText),
+                  style: simpleTextStyleColor(appTextEditingColor),
+                  decoration: textFieldInputDecorationColor(
+                      paypalIdText, appTextMaroonColor),
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (v) {
                     FocusScope.of(context).nextFocus();
@@ -146,15 +156,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 TextFormField(
                   controller: _passwordController,
                   //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyle(),
+                  style: simpleTextStyleColor(appTextEditingColor),
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                      color: appBodyColor,
+                      color: appTextMaroonColor,
                       width: 2,
                     )),
-                    filled: true,
-                    fillColor: appYellowColor,
+
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -164,29 +173,32 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       icon: passwordVisible
                           ? Icon(
                               Icons.visibility,
-                              color: appTextColor,
+                              color: appTextMaroonColor,
                             )
                           : Icon(
                               Icons.visibility_off,
-                              color: appTextColor,
+                              color: appTextMaroonColor,
                             ),
                     ),
-                    errorStyle: TextStyle(fontSize: 9, color: appTextColor),
+                    errorStyle:
+                        TextStyle(fontSize: 9, color: appTextMaroonColor),
                     errorBorder: OutlineInputBorder(
                         borderSide:
-                            BorderSide(color: appLightTextColor, width: 1)),
+                            BorderSide(color: appTextMaroonColor, width: 1)),
                     hintStyle: TextStyle(
-                        fontSize: 12,
-                        color: appTextColor,
-                        fontWeight: FontWeight.w800),
+                      fontSize: 12,
+                      color: appTextMaroonColor,
+                    ),
                     enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextColor, width: 1)),
+                        borderSide:
+                            BorderSide(color: appTextMaroonColor, width: 1)),
                     focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextColor, width: 1)),
+                        borderSide:
+                            BorderSide(color: appTextMaroonColor, width: 1)),
                     hintText: passwordText,
                     alignLabelWithHint: true,
                     labelText: passwordText,
-                    labelStyle: TextStyle(color: appTextColor),
+                    labelStyle: TextStyle(color: appTextMaroonColor),
                     border: null,
                   ),
                   obscureText: passwordVisible,
@@ -213,15 +225,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 TextFormField(
                   controller: _confirmPasswordController,
                   //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyle(),
+                  style: simpleTextStyleColor(appTextEditingColor),
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                      color: appBodyColor,
+                      color: appTextMaroonColor,
                       width: 2,
                     )),
-                    filled: true,
-                    fillColor: appYellowColor,
+                 
                     suffixIcon: IconButton(
                       onPressed: () {
                         setState(() {
@@ -231,29 +242,32 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       icon: confirmPasswordVisible
                           ? Icon(
                               Icons.visibility,
-                              color: appTextColor,
+                              color: appTextMaroonColor,
                             )
                           : Icon(
                               Icons.visibility_off,
-                              color: appTextColor,
+                              color: appTextMaroonColor,
                             ),
                     ),
-                    errorStyle: TextStyle(fontSize: 9, color: appTextColor),
+                    errorStyle:
+                        TextStyle(fontSize: 9, color: appTextMaroonColor),
                     errorBorder: OutlineInputBorder(
                         borderSide:
-                            BorderSide(color: appLightTextColor, width: 1)),
+                            BorderSide(color: appTextMaroonColor, width: 1)),
                     hintStyle: TextStyle(
-                        fontSize: 12,
-                        color: appTextColor,
-                        fontWeight: FontWeight.w800),
+                      fontSize: 12,
+                      color: appTextMaroonColor,
+                    ),
                     enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextColor, width: 1)),
+                        borderSide:
+                            BorderSide(color: appTextMaroonColor, width: 1)),
                     focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextColor, width: 1)),
+                        borderSide:
+                            BorderSide(color: appTextMaroonColor, width: 1)),
                     hintText: confirmPasswordText,
                     alignLabelWithHint: true,
                     labelText: confirmPasswordText,
-                    labelStyle: TextStyle(color: appTextColor),
+                    labelStyle: TextStyle(color: appTextMaroonColor),
                     border: null,
                   ),
                   obscureText: confirmPasswordVisible,
@@ -272,77 +286,42 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 SizedBox(
                   height: 16,
                 ),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: InkWell(
-                      onTap: () {
-                        FocusManager.instance.primaryFocus.unfocus();
-                        if (_formKey.currentState.validate()) {
-                          registrationData = {
-                            'name': _nameController.text,
-                            'email': _emailController.text,
-                            'phone_number': _phoneNumberController.text,
-                            'paypal_id': _paypalIdController.text,
-                            'password': _passwordController.text,
-                            'coinCount': 0
-                          };
-                          RegistrationQueries()
-                              .register(registrationData, context);
+                RaisedButton(
+                  elevation: 0,
+                  child: TextView(
+                    loginText,
+                    fontSize: 18,
+                  ),
+                  color: appBackgroundColor,
+                  textColor: appTextMaroonColor,
+                  onPressed: () {
+                    FocusManager.instance.primaryFocus.unfocus();
+                    if (_formKey.currentState.validate()) {
+                      registrationData = {
+                        'name': _nameController.text,
+                        'email': _emailController.text,
+                        'phone_number': _phoneNumberController.text,
+                        'paypal_id': _paypalIdController.text,
+                        'password': _passwordController.text,
+                        'coinCount': 0
+                      };
+                      RegistrationQueries().register(registrationData, context);
 
-                          SharedData.isUserLoggedIn(true);
-                          SharedData.saveUserPreferences(registrationData);
-                          UserData userData =
-                              UserData.fromJson(registrationData);
-                          Navigator.of(context).pushAndRemoveUntil(
-                              MaterialPageRoute(
-                                  builder: (context) => HomePage(userData)),
-                              (Route<dynamic> route) => false);
-                          _nameController.clear();
-                          _emailController.clear();
-                          _phoneNumberController.clear();
-                          _paypalIdController.clear();
-                          _passwordController.clear();
-                        }
-                      },
-                      child: Image.asset('assets/next.png'),
-                    )),
-                SizedBox(
-                  height: 16,
+                      SharedData.isUserLoggedIn(true);
+                      SharedData.saveUserPreferences(registrationData);
+                      UserData userData = UserData.fromJson(registrationData);
+                      Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                              builder: (context) => HomePage(userData)),
+                          (Route<dynamic> route) => false);
+                      _nameController.clear();
+                      _emailController.clear();
+                      _phoneNumberController.clear();
+                      _paypalIdController.clear();
+                      _passwordController.clear();
+                    }
+                  },
                 ),
-                Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                      padding: const EdgeInsets.only(bottom: 50),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Divider(
-                              height: 1,
-                              color: appTextColor,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          TextView(
-                            alreadyRegisterText,
-                            textColor: appTextColor,
-                            fontSize: 20,
-                          ),
-                          InkWell(
-                              onTap: () {
-                                Navigator.pop(context);
-                              },
-                              child: TextView(
-                                loginText,
-                                textColor: appYellowColor,
-                                fontSize: 20,
-                              )),
-                        ],
-                      ),
-                    ))
               ],
             ),
           ),

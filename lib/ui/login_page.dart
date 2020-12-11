@@ -32,241 +32,240 @@ class _LoginPageState extends State<LoginPage> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: appBackgroundColor,
-        title: TextView(
-          loginText,
-          fontSize: 20,
-        ),
-      ),
-      backgroundColor: Colors.black26,
-      body: Stack(
-        children: [
-          Align(
-              alignment: Alignment.bottomLeft,child: Image.asset('assets/login_image.png',width: double.infinity,)),
-          Align(
-              alignment: Alignment.bottomCenter,
+      // appBar: AppBar(
+      //   backgroundColor: appBackgroundColor,
+      //   title: TextView(
+      //     loginText,
+      //     fontSize: 20,
+      //     textColor: appTextMaroonColor,
+      //   ),
+      //   elevation: 0,
+      // ),
+      backgroundColor: appBackgroundColor,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Image.asset(
+              'assets/story.png',
+              height: 200,
+              width: 100,
+            ),
+            Form(
+              key: _formKey,
               child: Padding(
-                padding: const EdgeInsets.only(bottom: 240),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Padding(
-                      padding:
-                      const EdgeInsets.symmetric(horizontal: 30),
-                      child: Divider(
-                        height: 1,
-                        color: appTextColor,
-                      ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    TextFormField(
+                      controller: _emailController,
+                      //  initialValue: socialLogin ? name[1] : null,
+                      style: simpleTextStyleColor(appTextEditingColor),
+                      decoration: textFieldInputDecorationColor(
+                          emailText, appTextMaroonColor),
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (v) {
+                        FocusScope.of(context).nextFocus();
+                      },
+                      validator: (value) {
+                        if (RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(value)) {
+                          return null;
+                        } else {
+                          return emailErrorText;
+                        }
+                      },
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 16,
                     ),
-                    TextView(
-                      alreadyRegisterText,
-                      textColor: appTextColor,
-                      fontSize: 20,
-                    ),
-                    InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    RegistrationPage(),
-                              ));
-                        },
-                        child: TextView(
-                          signUpText,
-                          textColor: appYellowColor,
-                          fontSize: 20,
-                        )),
-                  ],
-                ),
-              )),
+                    TextFormField(
+                      controller: _passwordController,
+                      //  initialValue: socialLogin ? name[1] : null,
+                      style: simpleTextStyleColor(appTextEditingColor),
+                      obscureText: passwordVisible,
+                      decoration: InputDecoration(
 
-          Form(
-            key: _formKey,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                children: [
-                  SizedBox(height: 40,),
-                  TextFormField(
-                    controller: _emailController,
-                    //  initialValue: socialLogin ? name[1] : null,
-                    style: simpleTextStyle(),
-                    decoration: textFieldInputDecoration(emailText),
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (v) {
-                      FocusScope.of(context).nextFocus();
-                    },
-                    validator: (value) {
-                      if (RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(value)) {
-                        return null;
-                      } else {
-                        return emailErrorText;
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  TextFormField(
-                    controller: _passwordController,
-                    //  initialValue: socialLogin ? name[1] : null,
-                    style: simpleTextStyle(),
-                    obscureText: passwordVisible,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: appYellowColor,
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                        color: appTextColor,
-                        width: 2,
-                      )),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            passwordVisible = !passwordVisible;
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                          color: appTextMaroonColor,
+                          width: 1,
+                        )),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              passwordVisible = !passwordVisible;
+                            });
+                          },
+                          icon: passwordVisible
+                              ? Icon(
+                                  Icons.visibility,
+                                  color: appTextMaroonColor,
+                                )
+                              : Icon(
+                                  Icons.visibility_off,
+                                  color: appTextMaroonColor,
+                                ),
+                        ),
+                        errorStyle:
+                            TextStyle(fontSize: 9, color: appTextMaroonColor),
+                        errorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: appTextMaroonColor, width: 1)),
+                        hintStyle: TextStyle(
+                          fontSize: 12,
+                          color: appTextMaroonColor,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: appTextMaroonColor, width: 1)),
+                        focusedErrorBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                                color: appTextMaroonColor, width: 1)),
+                        hintText: passwordText,
+                        alignLabelWithHint: true,
+                        labelText: passwordText,
+                        labelStyle: TextStyle(color: appTextMaroonColor),
+                        border: null,
+                      ),
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (v) {
+                        FocusScope.of(context).nextFocus();
+                      },
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return passwordNotNullText;
+                        } else if (RegExp(
+                                r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                            .hasMatch(value)) {
+                          return null;
+                        } else {
+                          return passwordErrorText;
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    RaisedButton(
+                      elevation: 0,
+                      child: TextView(
+                        loginText,
+                        fontSize: 18,
+                        textColor: appTextMaroonColor,
+                      ),
+                      color: appBackgroundColor,
+                      textColor: appTextMaroonColor,
+                      onPressed: () {
+                        FocusManager.instance.primaryFocus.unfocus();
+                        if (_formKey.currentState.validate()) {
+                          var data = FirebaseFirestore.instance
+                              .collection('users')
+                              .where('email', isEqualTo: _emailController.text)
+                              .where('password',
+                                  isEqualTo: _passwordController.text)
+                              .getDocuments()
+                              .then((value) {
+                            if (value.docs.isNotEmpty) {
+                              SharedData.isUserLoggedIn(true);
+                              SharedData.saveUserPreferences(
+                                  value.docs.first.data());
+                              UserData userData =
+                                  UserData.fromJson(value.docs.first.data());
+                              Navigator.of(context).pushAndRemoveUntil(
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePage(userData)),
+                                  (Route<dynamic> route) => false);
+                            } else {
+                              showAlertDialogWithTwoButtonOkAndCancel(
+                                  context, 'Invalid credentials.', () {
+                                Navigator.pop(context);
+                              });
+                            }
                           });
-                        },
-                        icon: passwordVisible
-                            ? Icon(
-                                Icons.visibility,
-                                color: appTextColor,
-                              )
-                            : Icon(
-                                Icons.visibility_off,
+                        }
+                      },
+                    ),
+                    SizedBox(
+                      height: 100,
+                    ),
+                    /*Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  Align(
+                      alignment: Alignment.bottomCenter,child: Image.asset('assets/login_image.png',width: double.infinity,)),
+                  Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 220),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
+                              child: Divider(
+                                height: 1,
                                 color: appTextColor,
                               ),
-                      ),
-                      errorStyle: TextStyle(fontSize: 9, color: appTextColor),
-                      errorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: appTextColor, width: 1)),
-                      hintStyle: TextStyle(fontSize: 12, color: appTextColor,fontWeight: FontWeight.w800),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: appTextColor, width: 1)),
-                      focusedErrorBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: appTextColor, width: 1)),
-                      hintText: passwordText,
-                      alignLabelWithHint: true,
-                      labelText: passwordText,
-                      labelStyle: TextStyle(color: appTextColor),
-                      border: null,
-                    ),
-                    textInputAction: TextInputAction.next,
-                    onFieldSubmitted: (v) {
-                      FocusScope.of(context).nextFocus();
-                    },
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return passwordNotNullText;
-                      } else if (RegExp(
-                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
-                          .hasMatch(value)) {
-                        return null;
-                      } else {
-                        return passwordErrorText;
-                      }
-                    },
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: InkWell(
-                        onTap: () {
-                          FocusManager.instance.primaryFocus.unfocus();
-                          if (_formKey.currentState.validate()) {
-                            var data = FirebaseFirestore.instance
-                                .collection('users')
-                                .where('email', isEqualTo: _emailController.text)
-                                .where('password',
-                                    isEqualTo: _passwordController.text)
-                                .getDocuments()
-                                .then((value) {
-                              if (value.docs.isNotEmpty) {
-                                SharedData.isUserLoggedIn(true);
-                                SharedData.saveUserPreferences(
-                                    value.docs.first.data());
-                                UserData userData =
-                                    UserData.fromJson(value.docs.first.data());
-                                Navigator.of(context).pushAndRemoveUntil(
-                                    MaterialPageRoute(
-                                        builder: (context) => HomePage(userData)),
-                                    (Route<dynamic> route) => false);
-                              } else {
-                                showAlertDialogWithTwoButtonOkAndCancel(
-                                    context, 'Invalid credentials.', () {
-                                  Navigator.pop(context);
-                                });
-                              }
-                            });
-                          }
-                        },
-                        child: Image.asset('assets/next.png')),
-                  ),
-                  SizedBox(
-                    height: 80,
-                  ),
-                  /*Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      Align(
-                          alignment: Alignment.bottomCenter,child: Image.asset('assets/login_image.png',width: double.infinity,)),
-                      Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 220),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(horizontal: 30),
-                                  child: Divider(
-                                    height: 1,
-                                    color: appTextColor,
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                TextView(
-                                  alreadyRegisterText,
-                                  textColor: appTextColor,
-                                  fontSize: 20,
-                                ),
-                                InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                RegistrationPage(),
-                                          ));
-                                    },
-                                    child: TextView(
-                                      signUpText,
-                                      textColor: appYellowColor,
-                                      fontSize: 20,
-                                    )),
-                              ],
                             ),
-                          ))
-                    ],
-                  ),*/
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextView(
+                              alreadyRegisterText,
+                              textColor: appTextColor,
+                              fontSize: 20,
+                            ),
+                            InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            RegistrationPage(),
+                                      ));
+                                },
+                                child: TextView(
+                                  signUpText,
+                                  textColor: appYellowColor,
+                                  fontSize: 20,
+                                )),
+                          ],
+                        ),
+                      ))
                 ],
+              ),*/
+
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 40),
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => RegistrationPage(),
+                                  ));
+                            },
+                            child: TextView(
+                              registerText,
+                              textColor: appTextRedColor,
+                              fontSize: 18,
+                            )),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-
-
-        ],
+          ],
+        ),
       ),
     );
   }

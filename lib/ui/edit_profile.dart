@@ -46,13 +46,14 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: appBackgroundColor,
+      backgroundColor: appOffWhiteColor,
       appBar: AppBar(
-        backgroundColor: appBodyColor,
+        iconTheme: IconThemeData(color: appTextMaroonColor),
+        backgroundColor: appOffWhiteColor,
         title: TextView(
           editProfileText,
-          textColor: appTextColor,
-          fontSize: 20,
+          textColor: appTextMaroonColor,
+          fontSize: 21.6,
         ),
       ),
       body: SingleChildScrollView(
@@ -66,8 +67,9 @@ class _EditProfileState extends State<EditProfile> {
                 TextFormField(
                   controller: _nameController,
                   //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyle(),
-                  decoration: textFieldInputDecoration(nameText),
+                  style: simpleTextStyleColor(appTextEditingColor),
+                  decoration: textFieldInputDecorationColor(
+                      nameText, appTextMaroonColor),
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (v) {
                     FocusScope.of(context).nextFocus();
@@ -86,8 +88,9 @@ class _EditProfileState extends State<EditProfile> {
                 TextFormField(
                   controller: _paypalIdController,
                   //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyle(),
-                  decoration: textFieldInputDecoration(paypalIdText),
+                  style: simpleTextStyleColor(appTextEditingColor),
+                  decoration: textFieldInputDecorationColor(
+                      paypalIdText, appTextMaroonColor),
                   textInputAction: TextInputAction.next,
                   onFieldSubmitted: (v) {
                     FocusScope.of(context).nextFocus();
@@ -109,12 +112,12 @@ class _EditProfileState extends State<EditProfile> {
                   controller: _passwordController,
                   //  initialValue: socialLogin ? name[1] : null,
                   obscureText: passwordVisible,
-                  style: simpleTextStyle(),
+                  style: simpleTextStyleColor(appTextEditingColor),
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                      color: appTextColor,
-                      width: 2,
+                      color: appTextMaroonColor,
+                      width: 1,
                     )),
                     suffixIcon: IconButton(
                       onPressed: () {
@@ -125,27 +128,26 @@ class _EditProfileState extends State<EditProfile> {
                       icon: passwordVisible
                           ? Icon(
                               Icons.visibility,
-                              color: appTextColor,
+                              color: appTextMaroonColor,
                             )
                           : Icon(
                               Icons.visibility_off,
-                              color: appTextColor,
+                              color: appTextMaroonColor,
                             ),
                     ),
-                    filled: true,
-                    fillColor: appYellowColor,
-                    errorStyle: TextStyle(fontSize: 9, color: appTextColor),
+
+                    errorStyle: TextStyle(fontSize: 9, color: appTextMaroonColor),
                     errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextColor, width: 1)),
-                    hintStyle: TextStyle(fontSize: 12, color: appTextColor,fontWeight: FontWeight.w800),
+                        borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
+                    hintStyle: TextStyle(fontSize: 12, color: appTextMaroonColor),
                     enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextColor, width: 1)),
+                        borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
                     focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextColor, width: 1)),
+                        borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
                     hintText: passwordText,
                     alignLabelWithHint: true,
                     labelText: passwordText,
-                    labelStyle: TextStyle(color: appTextColor),
+                    labelStyle: TextStyle(color: appTextMaroonColor),
                     border: null,
                   ),
                   textInputAction: TextInputAction.next,
@@ -172,12 +174,12 @@ class _EditProfileState extends State<EditProfile> {
                   controller: _confirmPasswordController,
                   //  initialValue: socialLogin ? name[1] : null,
                   obscureText: confirmPasswordVisible,
-                  style: simpleTextStyle(),
+                  style: simpleTextStyleColor(appTextEditingColor),
                   decoration: InputDecoration(
                     focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(
-                      color: appTextColor,
-                      width: 2,
+                      color: appTextMaroonColor,
+                      width: 1,
                     )),
                     suffixIcon: IconButton(
                       onPressed: () {
@@ -188,27 +190,26 @@ class _EditProfileState extends State<EditProfile> {
                       icon: confirmPasswordVisible
                           ? Icon(
                               Icons.visibility,
-                              color: appTextColor,
+                              color: appTextMaroonColor,
                             )
                           : Icon(
                               Icons.visibility_off,
-                              color: appTextColor,
+                              color: appTextMaroonColor,
                             ),
                     ),
-                    filled: true,
-                    fillColor: appYellowColor,
-                    errorStyle: TextStyle(fontSize: 9, color: appTextColor),
+
+                    errorStyle: TextStyle(fontSize: 9, color: appTextMaroonColor),
                     errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextColor, width: 1)),
-                    hintStyle: TextStyle(fontSize: 12, color: appTextColor,fontWeight: FontWeight.w800),
+                        borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
+                    hintStyle: TextStyle(fontSize: 12, color: appTextMaroonColor),
                     enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextColor, width: 1)),
+                        borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
                     focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextColor, width: 1)),
+                        borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
                     hintText: confirmPasswordText,
                     alignLabelWithHint: true,
                     labelText: confirmPasswordText,
-                    labelStyle: TextStyle(color: appTextColor),
+                    labelStyle: TextStyle(color: appTextMaroonColor),
                     border: null,
                   ),
                   textInputAction: TextInputAction.next,
@@ -228,8 +229,10 @@ class _EditProfileState extends State<EditProfile> {
                 ),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: InkWell(
-                    onTap: (){
+                  child: RaisedButton(
+                    color: appBackgroundColor,
+                    textColor: appTextMaroonColor,
+                    onPressed: (){
                       if (_editProfile.currentState.validate()) {
                         registrationData = {
                           'name': _nameController.text,
@@ -248,9 +251,13 @@ class _EditProfileState extends State<EditProfile> {
                         _paypalIdController.clear();
                       }
                     },
-                      child: Image.asset('assets/next.png')),
+                      child: TextView(
+                        loginText,
+                        textColor: appTextMaroonColor,
+                        fontSize: 18,
+                      ),
                 ),
-
+                )
               ],
             ),
           ),

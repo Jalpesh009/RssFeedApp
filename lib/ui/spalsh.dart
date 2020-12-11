@@ -57,16 +57,21 @@ class _SplashState extends State<Splash> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image(
-                    image: AssetImage('assets/splash.png'),
-                    // fit: BoxFit.none,
+                  Image.asset(
+                    'assets/splash.png',
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
                   ),
                 ],
               ),
             ),
           ),
           Center(
-            child: Image.asset('assets/logo.png',height: 150,width: 150,),
+            child: Image.asset(
+              'assets/logo.png',
+              height: 150,
+              width: 150,
+            ),
           )
         ],
       ),

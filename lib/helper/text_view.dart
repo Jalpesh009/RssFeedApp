@@ -29,7 +29,7 @@ class TextView extends StatelessWidget {
       this.wordSpacing,
       this.shadows,
       this.textDecoration,
-      this.fontFamily = 'Poppins-Regular'});
+      this.fontFamily = 'RobotoCondensed-Regular'});
 
   @override
   Widget build(BuildContext context) {

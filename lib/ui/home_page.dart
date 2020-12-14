@@ -110,6 +110,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     _controller.dispose();
+    player.dispose();
     super.dispose();
   }
 
@@ -202,6 +203,12 @@ class _HomePageState extends State<HomePage> {
           isLoading = false;
         }));
     _controller.play();
+  }
+
+  @override
+  void didChangeDependencies() {
+
+    super.didChangeDependencies();
   }
 
   @override
@@ -334,6 +341,7 @@ class _HomePageState extends State<HomePage> {
                             text: editProfileText,
                             onTap: () {
                               if(podcastDataList[skipCount].type == 'audio'){
+                                player.pause();
                                 Navigator.pop(context);
                                 Navigator.push(
                                     context,
@@ -368,7 +376,9 @@ class _HomePageState extends State<HomePage> {
                             onTap: () {
                               showAlertDialogWithTwoButton(
                                   context, logOutDialogueText, yesText, () {
+
                                 if(podcastDataList[skipCount].type == 'audio'){
+                                  player.pause();
                                   SharedData.removeAllPrefs();
                                   Navigator.of(context).pushAndRemoveUntil(
                                       MaterialPageRoute(
@@ -399,280 +409,279 @@ class _HomePageState extends State<HomePage> {
                 ),
                 body: Stack(
                   children: [
-                    podcastDataList[skipCount].type == 'audio'
-                        ? Align(
-                          alignment: Alignment.topCenter,
-                          child: Column(
-                            children: [
-                              SizedBox(height: MediaQuery.of(context).size.height / 5,),
-                              Opacity(
-                                opacity: 0.6,
-                                child: Image.asset(
-                                  'assets/pod.png',
-                                  width: MediaQuery.of(context).size.height / 5,
-                                  height: MediaQuery.of(context).size.height / 5,
+
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 50),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          podcastDataList[skipCount].type == 'audio'
+                              ? Align(
+                            alignment: Alignment.topCenter,
+                            child: Column(
+                              children: [
+                                SizedBox(height: MediaQuery.of(context).size.height / 5,),
+                                Opacity(
+                                  opacity: 0.6,
+                                  child: Image.asset(
+                                    'assets/pod.png',
+                                    width: MediaQuery.of(context).size.height / 5,
+                                    height: MediaQuery.of(context).size.height / 5,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
-                        : Align(
-                      alignment: Alignment.topCenter,
+                              ],
+                            ),
+                          )
+                              : Align(
+                            alignment: Alignment.topCenter,
                             child: _controller.value.initialized
                                 ? Column(
-                                  children: [
-                                    SizedBox(height: MediaQuery.of(context).size.height / 5,),
-                                    AspectRatio(
-                                        aspectRatio: _controller.value.aspectRatio,
-                                        child: VideoPlayer(_controller),
-                                      ),
-                                  ],
-                                )
+                              children: [
+                                SizedBox(height: MediaQuery.of(context).size.height / 5,),
+                                AspectRatio(
+                                  aspectRatio: _controller.value.aspectRatio,
+                                  child: VideoPlayer(_controller),
+                                ),
+                              ],
+                            )
                                 : Container(),
                           ),
-                    Align(
-                      alignment: Alignment.center,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 50),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 0),
-                              child: Align(
-                                alignment: Alignment.topCenter,
-                                child: TextView(
-                                  podcastDataList[skipCount].title,
-                                  textColor: appTextMaroonColor,
-                                  fontSize: 14,
-                                  fontFamily: 'RobotoCondensed',
+                          SizedBox(height: 60,),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 0),
+                            child: Align(
+                              alignment: Alignment.topCenter,
+                              child: TextView(
+                                podcastDataList[skipCount].title,
+                                textColor: appTextMaroonColor,
+                                fontSize: 14,
+                                fontFamily: 'RobotoCondensed',
 
-                                ),
                               ),
                             ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 50),
-                              child: podcastDataList[skipCount].type == 'audio'
-                                  ? Builder(builder: (context) {
-                                      if (time == 0) {
-                                        return SizedBox();
-                                      } else {
-                                        int dur = (time * 0.3).toInt();
-                                        int pos = positionValue;
-                                         int skipTime = (dur *
-                                                podcastDataList[skipCount]
-                                                    .skipValue)
-                                            .toInt();
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 50),
+                            child: podcastDataList[skipCount].type == 'audio'
+                                ? Builder(builder: (context) {
+                                    if (time == 0) {
+                                      return SizedBox();
+                                    } else {
+                                      int dur = (time * 0.3).toInt();
+                                      int pos = positionValue;
+                                       int skipTime = (dur *
+                                              podcastDataList[skipCount]
+                                                  .skipValue)
+                                          .toInt();
 
-                                         print('Duration is $dur');
-                                         print('Position is $pos');
-                                         print('Skip is $skipTime');
-                                        var difference = skipTime - pos;
+                                       print('Duration is $dur');
+                                       print('Position is $pos');
+                                       print('Skip is $skipTime');
+                                      var difference = skipTime - pos;
 
-                                        print('difference is $difference');
+                                      print('difference is $difference');
 
-                                        if(pos == skipTime) {
-                                          isLimitReached = true;
-                                          callNextPodcast();
-                                        }
-                                        // if (skipCount <
-                                        //     podcastDataList.length - 1) {
-                                        //   if(difference == skipTime){
-                                        //
-                                        //     if (skipCount < podcastDataList.length - 1) {
-                                        //       callNextPodcast();
-                                        //     } else {
-                                        //       showAlertDialogWithTwoButtonOkAndCancel(context, lastPodCast, () {
-                                        //         Navigator.pop(context);
-                                        //       });
-                                        //     }
-                                        //   }
-                                        // }
-
-
-                                        var remaining = Duration(seconds: difference)
-                                            .toString()
-                                            .lastIndexOf('.');
-
-                                        String result = (pos != -1)
-                                            ? Duration(seconds: difference)
-                                                .toString()
-                                            .substring(2, remaining)
-                                            : difference;
-                                        return TextView(
-                                                result,
-                                                fontSize: 60,
-                                                textColor: appTextRedColor,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'RobotoSlab',
-                                              );
+                                      if(pos == skipTime) {
+                                        isLimitReached = true;
+                                        callNextPodcast();
                                       }
-                                    })
-                                  : ValueListenableBuilder(
-                                      valueListenable: _controller,
-                                      builder: (context, VideoPlayerValue value,
-                                          child) {
-                                        var pos = value.position;
-                                        var dur = (value.duration * 0.3);
-                                        var test = (value.duration.inSeconds *
-                                                podcastDataList[skipCount]
-                                                    .skipValue)
-                                            .toInt();
-                                        var durat = Duration(
-                                            minutes: (test / 60).truncate(),
-                                            seconds:
-                                                (test / 60 % 60).truncate());
-                                        var difference = durat - pos;
+                                      // if (skipCount <
+                                      //     podcastDataList.length - 1) {
+                                      //   if(difference == skipTime){
+                                      //
+                                      //     if (skipCount < podcastDataList.length - 1) {
+                                      //       callNextPodcast();
+                                      //     } else {
+                                      //       showAlertDialogWithTwoButtonOkAndCancel(context, lastPodCast, () {
+                                      //         Navigator.pop(context);
+                                      //       });
+                                      //     }
+                                      //   }
+                                      // }
 
-                                        print('testing data is :  $test');
 
-                                        if (skipCount <
-                                            podcastDataList.length - 1) {
-                                          percenttime(
-                                              value.duration.inSeconds * 0.7,
-                                              value.duration.inSeconds * 0.97,
-                                              value.duration.inSeconds -
-                                                  value.position.inSeconds,
-                                              test);
-                                        }
+                                      var remaining = Duration(seconds: difference)
+                                          .toString()
+                                          .lastIndexOf('.');
 
-                                        var remaining = difference
-                                            .toString()
-                                            .lastIndexOf('.');
-                                        String result = (pos != -1)
-                                            ? difference
-                                                .toString()
-                                                .substring(0, remaining)
-                                            : difference;
-                                        return TextView(
-                                          result,
-                                          fontSize: 60,
-                                          fontFamily: 'RobotoSlab',
-                                          fontWeight: FontWeight.bold,
-                                          textColor: appTextRedColor,
-                                        );
-                                      },
-                                    ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            TextView(
-                              'Time Until Next Listen Credit',
-                              fontSize: 14,
-                              textColor: appTextRedColor,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'RobotoCondensed',
-                            ),
-                            SizedBox(
-                              height: 100,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                children: [
-                                  RaisedButton(
-                                    elevation: 0,
-                                    color: appOffWhiteColor,
-                                    onPressed: () {
+                                      String result = (pos != -1)
+                                          ? Duration(seconds: difference)
+                                              .toString()
+                                          .substring(2, remaining)
+                                          : difference;
+                                      return TextView(
+                                              result,
+                                              fontSize: 60,
+                                              textColor: appTextRedColor,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'RobotoSlab',
+                                            );
+                                    }
+                                  })
+                                : ValueListenableBuilder(
+                                    valueListenable: _controller,
+                                    builder: (context, VideoPlayerValue value,
+                                        child) {
+                                      var pos = value.position;
+                                      var dur = (value.duration * 0.3);
+                                      var test = (value.duration.inSeconds *
+                                              podcastDataList[skipCount]
+                                                  .skipValue)
+                                          .toInt();
+                                      var durat = Duration(
+                                          minutes: (test / 60).truncate(),
+                                          seconds:
+                                              (test / 60 % 60).truncate());
+                                      var difference = durat - pos;
+
+                                      print('testing data is :  $test');
+
                                       if (skipCount <
                                           podcastDataList.length - 1) {
-
-                                          callNextPodcast();
-
-                                      } else {
-                                        showAlertDialogWithTwoButtonOkAndCancel(
-                                            context, lastPodCast, () {
-                                          Navigator.pop(context);
-                                        });
+                                        percenttime(
+                                            value.duration.inSeconds * 0.7,
+                                            value.duration.inSeconds * 0.97,
+                                            value.duration.inSeconds -
+                                                value.position.inSeconds,
+                                            test);
                                       }
+
+                                      var remaining = difference
+                                          .toString()
+                                          .lastIndexOf('.');
+                                      String result = (pos != -1)
+                                          ? difference
+                                              .toString()
+                                              .substring(0, remaining)
+                                          : difference;
+                                      return TextView(
+                                        result,
+                                        fontSize: 60,
+                                        fontFamily: 'RobotoSlab',
+                                        fontWeight: FontWeight.bold,
+                                        textColor: appTextRedColor,
+                                      );
                                     },
-                                    child: TextView(
-                                      skipText,
-                                      fontSize: 14,
-                                      textColor: appTextMaroonColor,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'RobotoCondensed',
-                                    ),
                                   ),
-                                  TextView(
-                                    "/",
-                                    textColor: appSlashColor,
-                                    fontSize: 50,
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          TextView(
+                            'Time Until Next Listen Credit',
+                            fontSize: 14,
+                            textColor: appTextRedColor,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'RobotoCondensed',
+                          ),
+                          SizedBox(
+                            height: 100,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                RaisedButton(
+                                  elevation: 0,
+                                  color: appOffWhiteColor,
+                                  onPressed: () {
+                                    if (skipCount <
+                                        podcastDataList.length - 1) {
+
+                                        callNextPodcast();
+
+                                    } else {
+                                      showAlertDialogWithTwoButtonOkAndCancel(
+                                          context, lastPodCast, () {
+                                        Navigator.pop(context);
+                                      });
+                                    }
+                                  },
+                                  child: TextView(
+                                    skipText,
+                                    fontSize: 14,
+                                    textColor: appTextMaroonColor,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'RobotoCondensed',
                                   ),
-                                  RaisedButton(
-                                    elevation: 0,
-                                    color: appOffWhiteColor,
-                                    onPressed:
-                                        podcastDataList[skipCount].type == 'audio'
-                                            ? () {
-                                                _isPlaying
-                                                    ? pause()
-                                                    : _isPaused
-                                                        ? resume()
-                                                        : play();
-                                              }
-                                            : () {
-                                                _controller.value.isPlaying
-                                                    ? _controller.pause()
-                                                    : _controller.play();
-                                                _controller.value.isPlaying
-                                                    ? isPlaying = true
-                                                    : isPlaying = false;
-                                              },
-                                    child: podcastDataList[skipCount].type ==
-                                            'audio'
-                                        ? Builder(builder: (context) {
-                                            return _isPlaying
+                                ),
+                                TextView(
+                                  "/",
+                                  textColor: appSlashColor,
+                                  fontSize: 50,
+                                ),
+                                RaisedButton(
+                                  elevation: 0,
+                                  color: appOffWhiteColor,
+                                  onPressed:
+                                      podcastDataList[skipCount].type == 'audio'
+                                          ? () {
+                                              _isPlaying
+                                                  ? pause()
+                                                  : _isPaused
+                                                      ? resume()
+                                                      : play();
+                                            }
+                                          : () {
+                                              _controller.value.isPlaying
+                                                  ? _controller.pause()
+                                                  : _controller.play();
+                                              _controller.value.isPlaying
+                                                  ? isPlaying = true
+                                                  : isPlaying = false;
+                                            },
+                                  child: podcastDataList[skipCount].type ==
+                                          'audio'
+                                      ? Builder(builder: (context) {
+                                          return _isPlaying
+                                              ? TextView(
+                                                  pauseText,
+                                                  textColor: appTextMaroonColor,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily:
+                                                      'RobotoCondensed',
+                                                )
+                                              : TextView(
+                                                  playText,
+                                                  textColor: appTextMaroonColor,
+                                                  fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                                  fontFamily:
+                                                      'RobotoCondensed',
+                                                );
+                                        })
+                                      : ValueListenableBuilder(
+                                          valueListenable: _controller,
+                                          builder: (context,
+                                              VideoPlayerValue value, child) {
+                                            return value.isPlaying
                                                 ? TextView(
                                                     pauseText,
-                                                    textColor: appTextMaroonColor,
+                                                    textColor:
+                                                        appTextMaroonColor,
                                                     fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                              fontWeight: FontWeight.bold,
                                                     fontFamily:
                                                         'RobotoCondensed',
                                                   )
                                                 : TextView(
                                                     playText,
-                                                    textColor: appTextMaroonColor,
+                                                    textColor:
+                                                        appTextMaroonColor,
                                                     fontSize: 14,
                                               fontWeight: FontWeight.bold,
                                                     fontFamily:
                                                         'RobotoCondensed',
                                                   );
-                                          })
-                                        : ValueListenableBuilder(
-                                            valueListenable: _controller,
-                                            builder: (context,
-                                                VideoPlayerValue value, child) {
-                                              return value.isPlaying
-                                                  ? TextView(
-                                                      pauseText,
-                                                      textColor:
-                                                          appTextMaroonColor,
-                                                      fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                      fontFamily:
-                                                          'RobotoCondensed',
-                                                    )
-                                                  : TextView(
-                                                      playText,
-                                                      textColor:
-                                                          appTextMaroonColor,
-                                                      fontSize: 14,
-                                                fontWeight: FontWeight.bold,
-                                                      fontFamily:
-                                                          'RobotoCondensed',
-                                                    );
-                                            },
-                                          ),
-                                  )
-                                ],
-                              ),
+                                          },
+                                        ),
+                                )
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ],

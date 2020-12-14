@@ -70,7 +70,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   child: TextFormField(
                     controller: _nameController,
                     //  initialValue: socialLogin ? name[1] : null,
-                    style: simpleTextStyleColor(appTextMaroonColor),
+                    style: simpleTextStyleColor(appTextEditingColor),
                     decoration: textFieldInputDecorationColor(
                         nameText, appTextMaroonColor),
                     textInputAction: TextInputAction.next,
@@ -95,6 +95,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     controller: _phoneNumberController,
                     //  initialValue: socialLogin ? name[1] : null,
                     style: simpleTextStyleColor(appTextEditingColor),
+                    maxLength: 10,
                     decoration: textFieldInputDecorationColor(
                         phoneNumberText, appTextMaroonColor),
                     keyboardType: TextInputType.number,

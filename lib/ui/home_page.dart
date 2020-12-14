@@ -716,9 +716,20 @@ class _HomePageState extends State<HomePage> {
         print(e.toString());
       });
     });
+    if (skipCount <= podcastDataList.length) {
+      podcastDataList[skipCount].type == 'audio'
+          ? playAudio(skipCount)
+          : playPodcast(skipCount);
+    } else {
+      showAlertDialogWithTwoButtonOkAndCancel(context, overList, () {
+        if (podcastDataList[skipCount].type == 'audio') {
+          player.pause();
+        } else {
+          _controller.pause();
+        }
 
-    podcastDataList[skipCount].type == 'audio'
-        ? playAudio(skipCount)
-        : playPodcast(skipCount);
+        Navigator.pop(context);
+      });
+    }
   }
 }

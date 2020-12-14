@@ -50,6 +50,7 @@ const okText = "Ok";
 const noText = "No";
 const appTitle = "Rss Feed App";
 const lastPodCast = "This is last podcast";
+const overList = "Podcast list is over.";
 const editProfileText = 'EDIT PROFILE';
 const logOutText = 'LOG OUT';
 const subjectText = 'RSS FEED Payment';

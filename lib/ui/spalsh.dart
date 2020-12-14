@@ -46,8 +46,13 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: appBackgroundColor,
-      body: Stack(
+      backgroundColor: appTextMaroonColor,
+      body: Center(
+        child: CircularProgressIndicator(
+          valueColor: new AlwaysStoppedAnimation<Color>(appOffWhiteColor),
+        ),
+      )
+      /*Stack(
         children: <Widget>[
           Center(
             child: Container(
@@ -74,7 +79,7 @@ class _SplashState extends State<Splash> {
             ),
           )
         ],
-      ),
+      ),*/
     );
   }
 }

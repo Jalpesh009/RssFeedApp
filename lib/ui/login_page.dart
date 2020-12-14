@@ -32,35 +32,27 @@ class _LoginPageState extends State<LoginPage> {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: appBackgroundColor,
-      //   title: TextView(
-      //     loginText,
-      //     fontSize: 20,
-      //     textColor: appTextMaroonColor,
-      //   ),
-      //   elevation: 0,
-      // ),
+
       backgroundColor: appBackgroundColor,
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Image.asset(
-              'assets/story.png',
-              height: 200,
-              width: 100,
-            ),
-            Form(
-              key: _formKey,
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 40,
-                    ),
-                    TextFormField(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.end,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Image.asset(
+            'assets/story.png',
+            height: height/4,
+            width: width/1.5,
+          ),
+          Form(
+            key: _formKey,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+
+                  Opacity(
+                    opacity: 0.7,
+                    child: TextFormField(
                       controller: _emailController,
                       //  initialValue: socialLogin ? name[1] : null,
                       style: simpleTextStyleColor(appTextEditingColor),
@@ -80,10 +72,13 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       },
                     ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    TextFormField(
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Opacity(
+                    opacity: 0.7,
+                    child: TextFormField(
                       controller: _passwordController,
                       //  initialValue: socialLogin ? name[1] : null,
                       style: simpleTextStyleColor(appTextEditingColor),
@@ -147,125 +142,80 @@ class _LoginPageState extends State<LoginPage> {
                         }
                       },
                     ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    RaisedButton(
-                      elevation: 0,
-                      child: TextView(
-                        loginText,
-                        fontSize: 18,
-                        textColor: appTextMaroonColor,
-                        fontFamily: 'RobotoCondensed-Bold',
-                      ),
-                      color: appBackgroundColor,
+                  ),
+                  SizedBox(
+                    height: 24,
+                  ),
+                  RaisedButton(
+                    elevation: 0,
+                    child: TextView(
+                      loginText,
+                      fontSize: 18,
                       textColor: appTextMaroonColor,
-                      onPressed: () {
-                        FocusManager.instance.primaryFocus.unfocus();
-                        if (_formKey.currentState.validate()) {
-                          var data = FirebaseFirestore.instance
-                              .collection('users')
-                              .where('email', isEqualTo: _emailController.text)
-                              .where('password',
-                                  isEqualTo: _passwordController.text)
-                              .getDocuments()
-                              .then((value) {
-                            if (value.docs.isNotEmpty) {
-                              SharedData.isUserLoggedIn(true);
-                              SharedData.saveUserPreferences(
-                                  value.docs.first.data());
-                              UserData userData =
-                                  UserData.fromJson(value.docs.first.data());
-                              Navigator.of(context).pushAndRemoveUntil(
-                                  MaterialPageRoute(
-                                      builder: (context) => HomePage(userData)),
-                                  (Route<dynamic> route) => false);
-                            } else {
-                              showAlertDialogWithTwoButtonOkAndCancel(
-                                  context, 'Invalid credentials.', () {
-                                Navigator.pop(context);
-                              });
-                            }
-                          });
-                        }
-                      },
+                      fontFamily: 'RobotoCondensed',
+                      fontWeight: FontWeight.bold,
                     ),
-                    SizedBox(
-                      height: 100,
-                    ),
-                    /*Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  Align(
-                      alignment: Alignment.bottomCenter,child: Image.asset('assets/login_image.png',width: double.infinity,)),
-                  Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 220),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 30),
-                              child: Divider(
-                                height: 1,
-                                color: appTextColor,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            TextView(
-                              alreadyRegisterText,
-                              textColor: appTextColor,
-                              fontSize: 20,
-                            ),
-                            InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            RegistrationPage(),
-                                      ));
-                                },
-                                child: TextView(
-                                  signUpText,
-                                  textColor: appYellowColor,
-                                  fontSize: 20,
-                                )),
-                          ],
-                        ),
-                      ))
+                    color: appBackgroundColor,
+                    textColor: appTextMaroonColor,
+                    onPressed: () {
+                      FocusManager.instance.primaryFocus.unfocus();
+                      if (_formKey.currentState.validate()) {
+                        var data = FirebaseFirestore.instance
+                            .collection('users')
+                            .where('email', isEqualTo: _emailController.text)
+                            .where('password',
+                                isEqualTo: _passwordController.text)
+                            .getDocuments()
+                            .then((value) {
+                          if (value.docs.isNotEmpty) {
+                            SharedData.isUserLoggedIn(true);
+                            SharedData.saveUserPreferences(
+                                value.docs.first.data());
+                            UserData userData =
+                                UserData.fromJson(value.docs.first.data());
+                            Navigator.of(context).pushAndRemoveUntil(
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage(userData)),
+                                (Route<dynamic> route) => false);
+                          } else {
+                            showAlertDialogWithTwoButtonOkAndCancel(
+                                context, 'Invalid credentials.', () {
+                              Navigator.pop(context);
+                            });
+                          }
+                        });
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    height: height/3.5,
+                  ),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 24),
+                    child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => RegistrationPage(),
+                              ));
+                        },
+                        child: TextView(
+                          registerText,
+                          textColor: appTextRedColor,
+                          fontSize: 14,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'RobotoCondensed',
+                        )),
+                  ),
+                )
                 ],
-              ),*/
-
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 40),
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: InkWell(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => RegistrationPage(),
-                                  ));
-                            },
-                            child: TextView(
-                              registerText,
-                              textColor: appTextRedColor,
-                              fontSize: 18,
-                            )),
-                      ),
-                    ),
-                  ],
-                ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

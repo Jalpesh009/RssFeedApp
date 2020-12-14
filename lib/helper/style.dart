@@ -5,12 +5,14 @@ import 'Constants.dart';
 TextStyle simpleTextStyle() {
   return TextStyle(
     color: appTextColor,
+    fontFamily: 'RobotoCondensed',
     fontSize: 16,
   );
 }
 
 TextStyle simpleTextStyleColor(Color color) {
   return TextStyle(
+    fontFamily: 'RobotoCondensed',
     color: color,
     fontSize: 16,
   );
@@ -37,6 +39,7 @@ InputDecoration textFieldInputDecoration(String hintText) {
     hintStyle: TextStyle(
       fontSize: 16,
       color: appTextColor,
+      fontFamily: 'RobotoCondensed',
     ),
     enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(color: appTextColor, width: 1)),
@@ -82,7 +85,6 @@ InputDecoration textFieldInputDecorationColor(String hintText, Color color) {
       color: color,
       width: 1,
     )),
-
     errorStyle: TextStyle(fontSize: 9, color: color),
     errorBorder:
         OutlineInputBorder(borderSide: BorderSide(color: color, width: 1)),

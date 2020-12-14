@@ -51,7 +51,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           textColor: appTextMaroonColor,
           fontSize: 21.6,
           fontWeight: FontWeight.bold,
-          fontFamily: 'RobotoCondensed-Bold',
+          fontFamily: 'RobotoCondensed',
         ),
       ),
       backgroundColor: appBackgroundColor,
@@ -65,222 +65,240 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 SizedBox(
                   height: 20,
                 ),
-                TextFormField(
-                  controller: _nameController,
-                  //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyleColor(appTextMaroonColor),
-                  decoration: textFieldInputDecorationColor(
-                      nameText, appTextMaroonColor),
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (v) {
-                    FocusScope.of(context).nextFocus();
-                  },
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return nameErrorText;
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  controller: _phoneNumberController,
-                  //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyleColor(appTextEditingColor),
-                  decoration: textFieldInputDecorationColor(
-                      phoneNumberText, appTextMaroonColor),
-                  keyboardType: TextInputType.number,
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (v) {
-                    FocusScope.of(context).nextFocus();
-                  },
-                  validator: (value) {
-                    if (value.length < 10 || value.length > 10) {
-                      return phoneNumberErrorText;
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  controller: _emailController,
-                  //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyleColor(appTextEditingColor),
-                  decoration: textFieldInputDecorationColor(
-                      emailHintText, appTextMaroonColor),
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (v) {
-                    FocusScope.of(context).nextFocus();
-                  },
-                  validator: (value) {
-                    if (RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value)) {
-                      return null;
-                    } else {
-                      return emailErrorText;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  controller: _paypalIdController,
-                  //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyleColor(appTextEditingColor),
-                  decoration: textFieldInputDecorationColor(
-                      paypalIdText, appTextMaroonColor),
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (v) {
-                    FocusScope.of(context).nextFocus();
-                  },
-                  validator: (value) {
-                    if (RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value)) {
-                      return null;
-                    } else {
-                      return paypalErrorText;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  controller: _passwordController,
-                  //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyleColor(appTextEditingColor),
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                      color: appTextMaroonColor,
-                      width: 2,
-                    )),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          passwordVisible = !passwordVisible;
-                        });
-                      },
-                      icon: passwordVisible
-                          ? Icon(
-                              Icons.visibility,
-                              color: appTextMaroonColor,
-                            )
-                          : Icon(
-                              Icons.visibility_off,
-                              color: appTextMaroonColor,
-                            ),
-                    ),
-                    errorStyle:
-                        TextStyle(fontSize: 9, color: appTextMaroonColor),
-                    errorBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: appTextMaroonColor, width: 1)),
-                    hintStyle: TextStyle(
-                      fontSize: 12,
-                      color: appTextMaroonColor,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: appTextMaroonColor, width: 1)),
-                    focusedErrorBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: appTextMaroonColor, width: 1)),
-                    hintText: passwordText,
-                    alignLabelWithHint: true,
-                    labelText: passwordText,
-                    labelStyle: TextStyle(color: appTextMaroonColor),
-                    border: null,
+                Opacity(
+                  opacity: 0.7,
+                  child: TextFormField(
+                    controller: _nameController,
+                    //  initialValue: socialLogin ? name[1] : null,
+                    style: simpleTextStyleColor(appTextMaroonColor),
+                    decoration: textFieldInputDecorationColor(
+                        nameText, appTextMaroonColor),
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (v) {
+                      FocusScope.of(context).nextFocus();
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return nameErrorText;
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
-                  obscureText: passwordVisible,
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (v) {
-                    FocusScope.of(context).nextFocus();
-                  },
-                  validator: (value) {
-                    pass = value;
-                    if (value.isEmpty) {
-                      return passwordNotNullText;
-                    } else if (RegExp(
-                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
-                        .hasMatch(value)) {
-                      return null;
-                    } else {
-                      return passwordErrorText;
-                    }
-                  },
                 ),
                 SizedBox(
                   height: 16,
                 ),
-                TextFormField(
-                  controller: _confirmPasswordController,
-                  //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyleColor(appTextEditingColor),
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                      color: appTextMaroonColor,
-                      width: 2,
-                    )),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          confirmPasswordVisible = !confirmPasswordVisible;
-                        });
-                      },
-                      icon: confirmPasswordVisible
-                          ? Icon(
-                              Icons.visibility,
-                              color: appTextMaroonColor,
-                            )
-                          : Icon(
-                              Icons.visibility_off,
-                              color: appTextMaroonColor,
-                            ),
-                    ),
-                    errorStyle:
-                        TextStyle(fontSize: 9, color: appTextMaroonColor),
-                    errorBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: appTextMaroonColor, width: 1)),
-                    hintStyle: TextStyle(
-                      fontSize: 12,
-                      color: appTextMaroonColor,
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: appTextMaroonColor, width: 1)),
-                    focusedErrorBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: appTextMaroonColor, width: 1)),
-                    hintText: confirmPasswordText,
-                    alignLabelWithHint: true,
-                    labelText: confirmPasswordText,
-                    labelStyle: TextStyle(color: appTextMaroonColor),
-                    border: null,
+                Opacity(
+                  opacity: 0.7,
+                  child: TextFormField(
+                    controller: _phoneNumberController,
+                    //  initialValue: socialLogin ? name[1] : null,
+                    style: simpleTextStyleColor(appTextEditingColor),
+                    decoration: textFieldInputDecorationColor(
+                        phoneNumberText, appTextMaroonColor),
+                    keyboardType: TextInputType.number,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (v) {
+                      FocusScope.of(context).nextFocus();
+                    },
+                    validator: (value) {
+                      if (value.length < 10 || value.length > 10) {
+                        return phoneNumberErrorText;
+                      } else {
+                        return null;
+                      }
+                    },
                   ),
-                  obscureText: confirmPasswordVisible,
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (v) {
-                    FocusScope.of(context).nextFocus();
-                  },
-                  validator: (value) {
-                    if (value == pass) {
-                      return null;
-                    } else {
-                      return confirmPasswordErrorText;
-                    }
-                  },
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Opacity(
+                  opacity: 0.7,
+                  child: TextFormField(
+                    controller: _emailController,
+                    //  initialValue: socialLogin ? name[1] : null,
+                    style: simpleTextStyleColor(appTextEditingColor),
+                    decoration: textFieldInputDecorationColor(
+                        emailHintText, appTextMaroonColor),
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (v) {
+                      FocusScope.of(context).nextFocus();
+                    },
+                    validator: (value) {
+                      if (RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)) {
+                        return null;
+                      } else {
+                        return emailErrorText;
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Opacity(
+                  opacity: 0.7,
+                  child: TextFormField(
+                    controller: _paypalIdController,
+                    //  initialValue: socialLogin ? name[1] : null,
+                    style: simpleTextStyleColor(appTextEditingColor),
+                    decoration: textFieldInputDecorationColor(
+                        paypalIdText, appTextMaroonColor),
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (v) {
+                      FocusScope.of(context).nextFocus();
+                    },
+                    validator: (value) {
+                      if (RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)) {
+                        return null;
+                      } else {
+                        return paypalErrorText;
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Opacity(
+                  opacity: 0.7,
+                  child: TextFormField(
+                    controller: _passwordController,
+                    //  initialValue: socialLogin ? name[1] : null,
+                    style: simpleTextStyleColor(appTextEditingColor),
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                        color: appTextMaroonColor,
+                        width: 2,
+                      )),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            passwordVisible = !passwordVisible;
+                          });
+                        },
+                        icon: passwordVisible
+                            ? Icon(
+                                Icons.visibility,
+                                color: appTextMaroonColor,
+                              )
+                            : Icon(
+                                Icons.visibility_off,
+                                color: appTextMaroonColor,
+                              ),
+                      ),
+                      errorStyle:
+                          TextStyle(fontSize: 9, color: appTextMaroonColor),
+                      errorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: appTextMaroonColor, width: 1)),
+                      hintStyle: TextStyle(
+                        fontSize: 12,
+                        color: appTextMaroonColor,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: appTextMaroonColor, width: 1)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: appTextMaroonColor, width: 1)),
+                      hintText: passwordText,
+                      alignLabelWithHint: true,
+                      labelText: passwordText,
+                      labelStyle: TextStyle(color: appTextMaroonColor),
+                      border: null,
+                    ),
+                    obscureText: passwordVisible,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (v) {
+                      FocusScope.of(context).nextFocus();
+                    },
+                    validator: (value) {
+                      pass = value;
+                      if (value.isEmpty) {
+                        return passwordNotNullText;
+                      } else if (RegExp(
+                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                          .hasMatch(value)) {
+                        return null;
+                      } else {
+                        return passwordErrorText;
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Opacity(
+                  opacity: 0.7,
+                  child: TextFormField(
+                    controller: _confirmPasswordController,
+                    //  initialValue: socialLogin ? name[1] : null,
+                    style: simpleTextStyleColor(appTextEditingColor),
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                        color: appTextMaroonColor,
+                        width: 2,
+                      )),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            confirmPasswordVisible = !confirmPasswordVisible;
+                          });
+                        },
+                        icon: confirmPasswordVisible
+                            ? Icon(
+                                Icons.visibility,
+                                color: appTextMaroonColor,
+                              )
+                            : Icon(
+                                Icons.visibility_off,
+                                color: appTextMaroonColor,
+                              ),
+                      ),
+                      errorStyle:
+                          TextStyle(fontSize: 9, color: appTextMaroonColor),
+                      errorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: appTextMaroonColor, width: 1)),
+                      hintStyle: TextStyle(
+                        fontSize: 12,
+                        color: appTextMaroonColor,
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: appTextMaroonColor, width: 1)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: appTextMaroonColor, width: 1)),
+                      hintText: confirmPasswordText,
+                      alignLabelWithHint: true,
+                      labelText: confirmPasswordText,
+                      labelStyle: TextStyle(color: appTextMaroonColor),
+                      border: null,
+                    ),
+                    obscureText: confirmPasswordVisible,
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (v) {
+                      FocusScope.of(context).nextFocus();
+                    },
+                    validator: (value) {
+                      if (value == pass) {
+                        return null;
+                      } else {
+                        return confirmPasswordErrorText;
+                      }
+                    },
+                  ),
                 ),
                 SizedBox(
                   height: 16,
@@ -290,7 +308,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   child: TextView(
                     loginText,
                     fontSize: 18,
-                    fontFamily: 'RobotoCondensed-Bold',
+                    fontFamily: 'RobotoCondensed',
+                    fontWeight: FontWeight.bold,
                   ),
                   color: appBackgroundColor,
                   textColor: appTextMaroonColor,

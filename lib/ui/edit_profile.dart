@@ -48,12 +48,15 @@ class _EditProfileState extends State<EditProfile> {
     return Scaffold(
       backgroundColor: appOffWhiteColor,
       appBar: AppBar(
+        elevation: 0,
         iconTheme: IconThemeData(color: appTextMaroonColor),
         backgroundColor: appOffWhiteColor,
         title: TextView(
           editProfileText,
           textColor: appTextMaroonColor,
-          fontSize: 21.6,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'RobotoCondensed',
         ),
       ),
       body: SingleChildScrollView(
@@ -64,199 +67,210 @@ class _EditProfileState extends State<EditProfile> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                TextFormField(
-                  controller: _nameController,
-                  //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyleColor(appTextEditingColor),
-                  decoration: textFieldInputDecorationColor(
-                      nameText, appTextMaroonColor),
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (v) {
-                    FocusScope.of(context).nextFocus();
-                  },
-                  validator: (value) {
-                    if (value.isEmpty) {
-                      return nameErrorText;
-                    } else {
-                      return null;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  controller: _paypalIdController,
-                  //  initialValue: socialLogin ? name[1] : null,
-                  style: simpleTextStyleColor(appTextEditingColor),
-                  decoration: textFieldInputDecorationColor(
-                      paypalIdText, appTextMaroonColor),
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (v) {
-                    FocusScope.of(context).nextFocus();
-                  },
-                  validator: (value) {
-                    if (RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value)) {
-                      return null;
-                    } else {
-                      return paypalErrorText;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  controller: _passwordController,
-                  //  initialValue: socialLogin ? name[1] : null,
-                  obscureText: passwordVisible,
-                  style: simpleTextStyleColor(appTextEditingColor),
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                      color: appTextMaroonColor,
-                      width: 1,
-                    )),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          passwordVisible = !passwordVisible;
-                        });
-                      },
-                      icon: passwordVisible
-                          ? Icon(
-                              Icons.visibility,
-                              color: appTextMaroonColor,
-                            )
-                          : Icon(
-                              Icons.visibility_off,
-                              color: appTextMaroonColor,
-                            ),
-                    ),
-
-                    errorStyle: TextStyle(fontSize: 9, color: appTextMaroonColor),
-                    errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
-                    hintStyle: TextStyle(fontSize: 12, color: appTextMaroonColor),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
-                    focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
-                    hintText: passwordText,
-                    alignLabelWithHint: true,
-                    labelText: passwordText,
-                    labelStyle: TextStyle(color: appTextMaroonColor),
-                    border: null,
-                  ),
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (v) {
-                    FocusScope.of(context).nextFocus();
-                  },
-                  validator: (value) {
-                    pass = value;
-                    if (value.isEmpty) {
-                      return passwordNotNullText;
-                    } else if (RegExp(
-                            r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
-                        .hasMatch(value)) {
-                      return null;
-                    } else {
-                      return passwordErrorText;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                TextFormField(
-                  controller: _confirmPasswordController,
-                  //  initialValue: socialLogin ? name[1] : null,
-                  obscureText: confirmPasswordVisible,
-                  style: simpleTextStyleColor(appTextEditingColor),
-                  decoration: InputDecoration(
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                      color: appTextMaroonColor,
-                      width: 1,
-                    )),
-                    suffixIcon: IconButton(
-                      onPressed: () {
-                        setState(() {
-                          confirmPasswordVisible = !confirmPasswordVisible;
-                        });
-                      },
-                      icon: confirmPasswordVisible
-                          ? Icon(
-                              Icons.visibility,
-                              color: appTextMaroonColor,
-                            )
-                          : Icon(
-                              Icons.visibility_off,
-                              color: appTextMaroonColor,
-                            ),
-                    ),
-
-                    errorStyle: TextStyle(fontSize: 9, color: appTextMaroonColor),
-                    errorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
-                    hintStyle: TextStyle(fontSize: 12, color: appTextMaroonColor),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
-                    focusedErrorBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
-                    hintText: confirmPasswordText,
-                    alignLabelWithHint: true,
-                    labelText: confirmPasswordText,
-                    labelStyle: TextStyle(color: appTextMaroonColor),
-                    border: null,
-                  ),
-                  textInputAction: TextInputAction.next,
-                  onFieldSubmitted: (v) {
-                    FocusScope.of(context).nextFocus();
-                  },
-                  validator: (value) {
-                    if (value == pass) {
-                      return null;
-                    } else {
-                      return confirmPasswordErrorText;
-                    }
-                  },
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: RaisedButton(
-                    color: appBackgroundColor,
-                    textColor: appTextMaroonColor,
-                    onPressed: (){
-                      if (_editProfile.currentState.validate()) {
-                        registrationData = {
-                          'name': _nameController.text,
-                          'paypal_id': _paypalIdController.text,
-                          'password': _passwordController.text,
-                        };
-
-                        SharedData.isUserLoggedIn(true);
-                        SharedData.saveUserPreferences(registrationData);
-                        UserData userData = UserData.fromJson(registrationData);
-                        EditProfileQuery().editRegister(
-                            registrationData, widget.userData.email, context);
-                        _nameController.clear();
-                        _passwordController.clear();
-                        _confirmPasswordController.clear();
-                        _paypalIdController.clear();
+                Opacity(
+                  opacity: 0.7,
+                  child: TextFormField(
+                    controller: _nameController,
+                    //  initialValue: socialLogin ? name[1] : null,
+                    style: simpleTextStyleColor(appTextEditingColor),
+                    decoration: textFieldInputDecorationColor(
+                        nameText, appTextMaroonColor),
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (v) {
+                      FocusScope.of(context).nextFocus();
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) {
+                        return nameErrorText;
+                      } else {
+                        return null;
                       }
                     },
-                      child: TextView(
-                        loginText,
-                        textColor: appTextMaroonColor,
-                        fontSize: 18,
-                      ),
+                  ),
                 ),
+                SizedBox(
+                  height: 16,
+                ),
+                Opacity(
+                  opacity: 0.7,
+                  child: TextFormField(
+                    controller: _paypalIdController,
+                    //  initialValue: socialLogin ? name[1] : null,
+                    style: simpleTextStyleColor(appTextEditingColor),
+                    decoration: textFieldInputDecorationColor(
+                        paypalIdText, appTextMaroonColor),
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (v) {
+                      FocusScope.of(context).nextFocus();
+                    },
+                    validator: (value) {
+                      if (RegExp(
+                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(value)) {
+                        return null;
+                      } else {
+                        return paypalErrorText;
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Opacity(
+                  opacity: 0.7,
+                  child: TextFormField(
+                    controller: _passwordController,
+                    //  initialValue: socialLogin ? name[1] : null,
+                    obscureText: passwordVisible,
+                    style: simpleTextStyleColor(appTextEditingColor),
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                        color: appTextMaroonColor,
+                        width: 1,
+                      )),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            passwordVisible = !passwordVisible;
+                          });
+                        },
+                        icon: passwordVisible
+                            ? Icon(
+                                Icons.visibility,
+                                color: appTextMaroonColor,
+                              )
+                            : Icon(
+                                Icons.visibility_off,
+                                color: appTextMaroonColor,
+                              ),
+                      ),
+
+                      errorStyle: TextStyle(fontSize: 9, color: appTextMaroonColor),
+                      errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
+                      hintStyle: TextStyle(fontSize: 12, color: appTextMaroonColor),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
+                      hintText: passwordText,
+                      alignLabelWithHint: true,
+                      labelText: passwordText,
+                      labelStyle: TextStyle(color: appTextMaroonColor),
+                      border: null,
+                    ),
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (v) {
+                      FocusScope.of(context).nextFocus();
+                    },
+                    validator: (value) {
+                      pass = value;
+                      if (value.isEmpty) {
+                        return passwordNotNullText;
+                      } else if (RegExp(
+                              r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$')
+                          .hasMatch(value)) {
+                        return null;
+                      } else {
+                        return passwordErrorText;
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Opacity(
+                  opacity: 0.7,
+                  child: TextFormField(
+                    controller: _confirmPasswordController,
+                    //  initialValue: socialLogin ? name[1] : null,
+                    obscureText: confirmPasswordVisible,
+                    style: simpleTextStyleColor(appTextEditingColor),
+                    decoration: InputDecoration(
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                        color: appTextMaroonColor,
+                        width: 1,
+                      )),
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            confirmPasswordVisible = !confirmPasswordVisible;
+                          });
+                        },
+                        icon: confirmPasswordVisible
+                            ? Icon(
+                                Icons.visibility,
+                                color: appTextMaroonColor,
+                              )
+                            : Icon(
+                                Icons.visibility_off,
+                                color: appTextMaroonColor,
+                              ),
+                      ),
+
+                      errorStyle: TextStyle(fontSize: 9, color: appTextMaroonColor),
+                      errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
+                      hintStyle: TextStyle(fontSize: 12, color: appTextMaroonColor),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: appTextMaroonColor, width: 1)),
+                      hintText: confirmPasswordText,
+                      alignLabelWithHint: true,
+                      labelText: confirmPasswordText,
+                      labelStyle: TextStyle(color: appTextMaroonColor),
+                      border: null,
+                    ),
+                    textInputAction: TextInputAction.next,
+                    onFieldSubmitted: (v) {
+                      FocusScope.of(context).nextFocus();
+                    },
+                    validator: (value) {
+                      if (value == pass) {
+                        return null;
+                      } else {
+                        return confirmPasswordErrorText;
+                      }
+                    },
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                RaisedButton(
+                  elevation: 0,
+                  color: appOffWhiteColor,
+                  textColor: appTextMaroonColor,
+                  onPressed: (){
+                    if (_editProfile.currentState.validate()) {
+                      registrationData = {
+                        'name': _nameController.text,
+                        'paypal_id': _paypalIdController.text,
+                        'password': _passwordController.text,
+                      };
+
+                      SharedData.isUserLoggedIn(true);
+                      SharedData.saveUserPreferences(registrationData);
+                      UserData userData = UserData.fromJson(registrationData);
+                      EditProfileQuery().editRegister(
+                          registrationData, widget.userData.email, context);
+                      _nameController.clear();
+                      _passwordController.clear();
+                      _confirmPasswordController.clear();
+                      _paypalIdController.clear();
+                    }
+                  },
+                    child: TextView(
+                      loginText,
+                      textColor: appTextMaroonColor,
+                      fontFamily: 'RobotoCondensed',
+                      fontSize: 18,
+                    ),
                 )
               ],
             ),

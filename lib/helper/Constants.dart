@@ -41,9 +41,9 @@ const confirmPasswordErrorText =
     "Your confirm password is not match with password";
 const cashOutText = "Cash Out";
 const timeRemainingText = "Time Remaining";
-const skipText = "Skip";
-const pauseText = "Pause";
-const playText = "Play";
+const skipText = "SKIP";
+const pauseText = "PAUSE";
+const playText = "PLAY";
 const homeText = "Home";
 const yesText = "Yes";
 const okText = "Ok";
@@ -112,6 +112,8 @@ Widget createDrawerItem({Widget icon, String text, GestureTapCallback onTap}) {
           child: TextView(
             text,
             fontSize: 14,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'RobotoCondensed',
             textColor: appTextMaroonColor,
           ),
         )

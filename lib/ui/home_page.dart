@@ -574,6 +574,12 @@ class _HomePageState extends State<HomePage> {
                               color: appOffWhiteColor,
                               onPressed: () {
                                 if (skipCount < podcastDataList.length - 1) {
+                                  if (podcastDataList[skipCount].type ==
+                                      'audio') {
+                                    player.pause();
+                                  } else {
+                                    _controller.pause();
+                                  }
                                   callNextPodcast();
                                 } else {
                                   showAlertDialogWithTwoButtonOkAndCancel(

@@ -39,7 +39,7 @@ const paypalErrorText = "Please enter valid PayPal email";
 const payPalErrorText = "Please enter valid paypal ID";
 const confirmPasswordErrorText =
     "Your confirm password is not match with password";
-const cashOutText = "Cash Out";
+
 const timeRemainingText = "Time Remaining";
 const skipText = "SKIP";
 const pauseText = "PAUSE";
@@ -58,6 +58,7 @@ const adminEmailText = 'storydutyfirebase@gmail.com';
 const adminEmailPassword = '3%6um%SEuz';
 const mailSuccusefully = "Email Successufully send to Admin for your payment.";
 const logOutDialogueText = 'Are you sure you want to logout?';
+const cashOutText = 'CASH OUT';
 
 // Chat username string
 class Const {

@@ -27,6 +27,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final databaseRef = FirebaseDatabase.instance.reference();
   AudioPlayer player = AudioPlayer();
+  UserData _userData;
   VideoPlayerController _controller;
   List<PodcastData> podcastDataList;
   var viewDataCount;
@@ -126,7 +127,7 @@ class _HomePageState extends State<HomePage> {
 
     var envelope = new Envelope()
       ..from = adminEmailText
-      ..recipients.add(adminEmailText)
+      ..recipients.add("storyduty@story-duty.com")
       ..subject = subjectText
       ..html = bodymessage
           .replaceAll("{{podcastNo}}", widget.userData.coinCount.toString())
@@ -140,9 +141,26 @@ class _HomePageState extends State<HomePage> {
         .send(envelope)
         .then((envelope) => showAlertDialogWithTwoButtonOkAndCancel(
                 context, mailSuccusefully, () {
+              count = 0;
+              FirebaseFirestore.instance
+                  .collection('users')
+                  .where('email', isEqualTo: widget.userData.email)
+                  .getDocuments()
+                  .then((value) {
+                String docId = value.docs.first.documentID;
+                FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(docId)
+                    .update({'coinCount': 0}).catchError((e) {
+                  print(e.toString());
+                });
+              });
               Navigator.pop(context);
             }))
-        .catchError((e) => print('Error occurred: $e'));
+        .catchError((e) =>
+            showAlertDialogWithTwoButtonOkAndCancel(context, e.toString(), () {
+              Navigator.pop(context);
+            }));
   }
 
   void _clearPlayer() {
@@ -304,8 +322,19 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                         GestureDetector(
                                           onTap: () {
-                                            if (widget.userData.coinCount <=
-                                                0) {
+                                            FirebaseFirestore.instance
+                                                .collection('users')
+                                                .where('email',
+                                                    isEqualTo:
+                                                        widget.userData.email)
+                                                .getDocuments()
+                                                .then((value) {
+                                              var map = value.docs.first.data();
+                                              count = map['coinCount'];
+                                            });
+                                            if (count > 0) {
+                                              sendAgain();
+                                            } else {
                                               showAlertDialogWithTwoButtonOkAndCancel(
                                                   context,
                                                   'No money added, Listend podcast to get money',
@@ -313,10 +342,9 @@ class _HomePageState extends State<HomePage> {
                                                 Navigator.pop(context);
                                               });
                                             }
-                                            sendAgain();
                                           },
                                           child: TextView(
-                                            'CASH OUT',
+                                            cashOutText,
                                             fontWeight: FontWeight.bold,
                                             fontFamily: 'RobotoCondensed',
                                             fontSize: 14,
@@ -698,10 +726,10 @@ class _HomePageState extends State<HomePage> {
 
   callNextPodcast() {
     isOverData = false;
-    skipCount++;
     if (isLimitReached) {
       count++;
     }
+
     String docId;
     FirebaseFirestore.instance
         .collection('users')
@@ -716,6 +744,8 @@ class _HomePageState extends State<HomePage> {
         print(e.toString());
       });
     });
+    widget.userData.coinCount = count;
+    SharedData.saveUserPreferences(widget.userData);
     if (skipCount <= podcastDataList.length) {
       podcastDataList[skipCount].type == 'audio'
           ? playAudio(skipCount)

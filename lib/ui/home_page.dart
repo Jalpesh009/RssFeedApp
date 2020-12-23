@@ -32,6 +32,8 @@ class _HomePageState extends State<HomePage> {
   var viewDataCount;
   Map<dynamic, dynamic> map;
   int positionValue;
+  bool isShow = true;
+  bool isHide = false;
   bool isLoading = true;
   bool isPlaying = false;
   bool _isPlaying = false;
@@ -209,6 +211,7 @@ class _HomePageState extends State<HomePage> {
     if (result == 1) {
       setState(() {
         _isPlaying = true;
+        isHide = false;
       });
     }
   }
@@ -339,7 +342,7 @@ class _HomePageState extends State<HomePage> {
                                         AbsorbPointer(
                                           absorbing:
                                               _isSecondTime ? true : false,
-                                          child: GestureDetector(
+                                          child: InkWell(
                                             onTap: () {
                                               setState(() {
                                                 _isSecondTime = true;
@@ -532,30 +535,35 @@ class _HomePageState extends State<HomePage> {
                                           podcastDataList[skipCount].skipValue)
                                       .toInt();
 
-                                  print('Duration is $dur');
-                                  print('Position is $pos');
-                                  print('Skip is $skipTime');
+                                  // print('Duration is $dur');
+                                  // print('Position is $pos');
+                                  // print('Skip is $skipTime');
                                   var difference = skipTime - pos;
 
                                   print('difference is $difference');
 
                                   if (pos == skipTime) {
+
                                     player.pause();
                                     isLimitReached = true;
 
                                     WidgetsBinding.instance.addPostFrameCallback((_){
 
-                                      // Add Your Code here.
                                       if (skipCount < podcastDataList.length - 1) {
-                                        callNextPodcast();
-                                      } else {
-                                        showAlertDialogWithTwoButtonOkAndCancel(context, overList, () {
-                                          Navigator.pop(context);
+                                        setState(() {
+                                          isHide = true;
                                         });
+                                        callNextPodcast();
+
+                                      } else {
+                                        if(isShow){
+                                          isShow = false;
+                                          showAlertDialogWithTwoButtonOkAndCancel(context, overList, () {
+                                            Navigator.pop(context);
+                                          });
+                                        }
                                       }
-
                                     });
-
                                   }
 
                                   var remaining = Duration(seconds: difference)
@@ -636,31 +644,37 @@ class _HomePageState extends State<HomePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            RaisedButton(
-                              elevation: 0,
-                              color: appOffWhiteColor,
-                              onPressed: () {
-                                if (skipCount < podcastDataList.length - 1) {
-                                  if (podcastDataList[skipCount].type ==
-                                      'audio') {
-                                    player.pause();
+                            AbsorbPointer(
+                              absorbing : isHide ? true : false,
+                              child: RaisedButton(
+                                elevation: 0,
+                                color: appOffWhiteColor,
+                                onPressed: () {
+                                  if (skipCount < podcastDataList.length - 1) {
+                                    if (podcastDataList[skipCount].type ==
+                                        'audio') {
+                                      player.pause();
+                                    } else {
+                                      _controller.pause();
+                                    }
+                                    setState(() {
+                                      isHide = true;
+                                    });
+                                    callNextPodcast();
                                   } else {
-                                    _controller.pause();
+                                    showAlertDialogWithTwoButtonOkAndCancel(
+                                        context, lastPodCast, () {
+                                      Navigator.pop(context);
+                                    });
                                   }
-                                  callNextPodcast();
-                                } else {
-                                  showAlertDialogWithTwoButtonOkAndCancel(
-                                      context, lastPodCast, () {
-                                    Navigator.pop(context);
-                                  });
-                                }
-                              },
-                              child: TextView(
-                                skipText,
-                                fontSize: 14,
-                                textColor: appTextMaroonColor,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'RobotoCondensed',
+                                },
+                                child: TextView(
+                                  skipText,
+                                  fontSize: 14,
+                                  textColor: appTextMaroonColor,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'RobotoCondensed',
+                                ),
                               ),
                             ),
                             TextView(
@@ -668,49 +682,31 @@ class _HomePageState extends State<HomePage> {
                               textColor: appSlashColor,
                               fontSize: 50,
                             ),
-                            RaisedButton(
-                              elevation: 0,
-                              color: appOffWhiteColor,
-                              onPressed:
-                                  podcastDataList[skipCount].type == 'audio'
-                                      ? () {
-                                          _isPlaying
-                                              ? pause()
-                                              : _isPaused
-                                                  ? resume()
-                                                  : play();
-                                        }
-                                      : () {
-                                          _controller.value.isPlaying
-                                              ? _controller.pause()
-                                              : _controller.play();
-                                          _controller.value.isPlaying
-                                              ? isPlaying = true
-                                              : isPlaying = false;
-                                        },
-                              child: podcastDataList[skipCount].type == 'audio'
-                                  ? Builder(builder: (context) {
-                                      return _isPlaying
-                                          ? TextView(
-                                              pauseText,
-                                              textColor: appTextMaroonColor,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'RobotoCondensed',
-                                            )
-                                          : TextView(
-                                              playText,
-                                              textColor: appTextMaroonColor,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'RobotoCondensed',
-                                            );
-                                    })
-                                  : ValueListenableBuilder(
-                                      valueListenable: _controller,
-                                      builder: (context, VideoPlayerValue value,
-                                          child) {
-                                        return value.isPlaying
+                            AbsorbPointer(
+                              absorbing: isHide ? true : false,
+                              child: RaisedButton(
+                                elevation: 0,
+                                color: appOffWhiteColor,
+                                onPressed:
+                                    podcastDataList[skipCount].type == 'audio'
+                                        ? () {
+                                            _isPlaying
+                                                ? pause()
+                                                : _isPaused
+                                                    ? resume()
+                                                    : play();
+                                          }
+                                        : () {
+                                            _controller.value.isPlaying
+                                                ? _controller.pause()
+                                                : _controller.play();
+                                            _controller.value.isPlaying
+                                                ? isPlaying = true
+                                                : isPlaying = false;
+                                          },
+                                child: podcastDataList[skipCount].type == 'audio'
+                                    ? Builder(builder: (context) {
+                                        return _isPlaying
                                             ? TextView(
                                                 pauseText,
                                                 textColor: appTextMaroonColor,
@@ -725,8 +721,29 @@ class _HomePageState extends State<HomePage> {
                                                 fontWeight: FontWeight.bold,
                                                 fontFamily: 'RobotoCondensed',
                                               );
-                                      },
-                                    ),
+                                      })
+                                    : ValueListenableBuilder(
+                                        valueListenable: _controller,
+                                        builder: (context, VideoPlayerValue value,
+                                            child) {
+                                          return value.isPlaying
+                                              ? TextView(
+                                                  pauseText,
+                                                  textColor: appTextMaroonColor,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'RobotoCondensed',
+                                                )
+                                              : TextView(
+                                                  playText,
+                                                  textColor: appTextMaroonColor,
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'RobotoCondensed',
+                                                );
+                                        },
+                                      ),
+                              ),
                             )
                           ],
                         ),
@@ -741,8 +758,7 @@ class _HomePageState extends State<HomePage> {
 
   void percenttime(
       double upperLimit, double lowerLimit, int diff, int skipValue) {
-    print("diff " + diff.toString());
-    print("skipValue " + skipValue.toInt().toString());
+
     if (diff == skipValue.toInt()) {
       if (skipCount < podcastDataList.length - 1) {
         callNextPodcast();
@@ -788,7 +804,7 @@ class _HomePageState extends State<HomePage> {
     });
     /* widget.userData.coinCount = count;
     SharedData.saveUserPreferences(widget.userData);*/
-    if (skipCount <= podcastDataList.length -1) {
+    if (skipCount <= podcastDataList.length - 1) {
       podcastDataList[skipCount].type == 'audio'
           ? playAudio(skipCount)
           : playPodcast(skipCount);

@@ -155,6 +155,7 @@ class _HomePageState extends State<HomePage> {
         .then((envelope) => showAlertDialogWithTwoButtonOkAndCancel(
                 context, mailSuccusefully, () {
               setState(() {
+                _isSecondTime = false;
                 count = 0;
               });
               FirebaseFirestore.instance
@@ -176,7 +177,6 @@ class _HomePageState extends State<HomePage> {
             showAlertDialogWithTwoButtonOkAndCancel(context, e.toString(), () {
               Navigator.pop(context);
             }));
-    _isSecondTime = false;
   }
 
   void _clearPlayer() {
@@ -214,11 +214,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> playAudio(int position) async {
-    isLoading = false;
     await play(position);
     player.onDurationChanged.listen((event) {
       time = event.inSeconds;
     });
+    isLoading = false;
     player.onAudioPositionChanged.listen((event) {
       Future.delayed(Duration(milliseconds: 800), () {
         setState(() {
@@ -541,6 +541,7 @@ class _HomePageState extends State<HomePage> {
 
                                   if (pos == skipTime) {
                                     isLimitReached = true;
+                                    player.pause();
                                     callNextPodcast();
                                   }
 
@@ -752,6 +753,7 @@ class _HomePageState extends State<HomePage> {
   callNextPodcast() {
     isOverData = false;
     skipCount++;
+
     if (isLimitReached) {
       isLimitReached = false;
       count++;
@@ -773,7 +775,7 @@ class _HomePageState extends State<HomePage> {
     });
     /* widget.userData.coinCount = count;
     SharedData.saveUserPreferences(widget.userData);*/
-    if (skipCount <= podcastDataList.length) {
+    if (skipCount <= podcastDataList.length -1) {
       podcastDataList[skipCount].type == 'audio'
           ? playAudio(skipCount)
           : playPodcast(skipCount);
@@ -787,6 +789,15 @@ class _HomePageState extends State<HomePage> {
 
         Navigator.pop(context);
       });
+     /* showAlertDialogWithTwoButtonOkAndCancel(context, overList, () {
+        // if (podcastDataList[skipCount].type == 'audio') {
+        //   player.pause();
+        // } else {
+        //   _controller.pause();
+        // }
+
+        Navigator.pop(context);
+      });*/
     }
   }
 }

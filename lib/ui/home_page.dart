@@ -543,22 +543,22 @@ class _HomePageState extends State<HomePage> {
                                   print('difference is $difference');
 
                                   if (pos == skipTime) {
-
                                     player.pause();
                                     isLimitReached = true;
 
-                                    WidgetsBinding.instance.addPostFrameCallback((_){
-
-                                      if (skipCount < podcastDataList.length - 1) {
+                                    WidgetsBinding.instance
+                                        .addPostFrameCallback((_) {
+                                      if (skipCount <
+                                          podcastDataList.length - 1) {
                                         setState(() {
                                           isHide = true;
                                         });
                                         callNextPodcast();
-
                                       } else {
-                                        if(isShow){
+                                        if (isShow) {
                                           isShow = false;
-                                          showAlertDialogWithTwoButtonOkAndCancel(context, overList, () {
+                                          showAlertDialogWithTwoButtonOkAndCancel(
+                                              context, overList, () {
                                             Navigator.pop(context);
                                           });
                                         }
@@ -645,7 +645,7 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             AbsorbPointer(
-                              absorbing : isHide ? true : false,
+                              absorbing: isHide ? true : false,
                               child: RaisedButton(
                                 elevation: 0,
                                 color: appOffWhiteColor,
@@ -704,7 +704,8 @@ class _HomePageState extends State<HomePage> {
                                                 ? isPlaying = true
                                                 : isPlaying = false;
                                           },
-                                child: podcastDataList[skipCount].type == 'audio'
+                                child: podcastDataList[skipCount].type ==
+                                        'audio'
                                     ? Builder(builder: (context) {
                                         return _isPlaying
                                             ? TextView(
@@ -724,8 +725,8 @@ class _HomePageState extends State<HomePage> {
                                       })
                                     : ValueListenableBuilder(
                                         valueListenable: _controller,
-                                        builder: (context, VideoPlayerValue value,
-                                            child) {
+                                        builder: (context,
+                                            VideoPlayerValue value, child) {
                                           return value.isPlaying
                                               ? TextView(
                                                   pauseText,
@@ -758,7 +759,6 @@ class _HomePageState extends State<HomePage> {
 
   void percenttime(
       double upperLimit, double lowerLimit, int diff, int skipValue) {
-
     if (diff == skipValue.toInt()) {
       if (skipCount < podcastDataList.length - 1) {
         callNextPodcast();
@@ -815,7 +815,6 @@ class _HomePageState extends State<HomePage> {
         } else {
           _controller.pause();
         }
-
         Navigator.pop(context);
       });
     }

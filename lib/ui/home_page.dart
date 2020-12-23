@@ -540,9 +540,22 @@ class _HomePageState extends State<HomePage> {
                                   print('difference is $difference');
 
                                   if (pos == skipTime) {
-                                    isLimitReached = true;
                                     player.pause();
-                                    callNextPodcast();
+                                    isLimitReached = true;
+
+                                    WidgetsBinding.instance.addPostFrameCallback((_){
+
+                                      // Add Your Code here.
+                                      if (skipCount < podcastDataList.length - 1) {
+                                        callNextPodcast();
+                                      } else {
+                                        showAlertDialogWithTwoButtonOkAndCancel(context, overList, () {
+                                          Navigator.pop(context);
+                                        });
+                                      }
+
+                                    });
+
                                   }
 
                                   var remaining = Duration(seconds: difference)
@@ -789,15 +802,6 @@ class _HomePageState extends State<HomePage> {
 
         Navigator.pop(context);
       });
-     /* showAlertDialogWithTwoButtonOkAndCancel(context, overList, () {
-        // if (podcastDataList[skipCount].type == 'audio') {
-        //   player.pause();
-        // } else {
-        //   _controller.pause();
-        // }
-
-        Navigator.pop(context);
-      });*/
     }
   }
 }

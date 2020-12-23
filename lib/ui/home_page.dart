@@ -89,7 +89,8 @@ class _HomePageState extends State<HomePage> {
   void fetchData(List<dynamic> dataSnapshot) {
     print("listen_id " + widget.userData.listen_id);
     for (int i = 0; i < dataSnapshot.length; i++) {
-      if (!listen_id_data.contains(dataSnapshot[i]['pod_id'])) {
+      if (listen_id_data != null &&
+          !listen_id_data.contains(dataSnapshot[i]['pod_id'])) {
         PodcastData podcastData = new PodcastData();
         podcastData.podId = dataSnapshot[i]['pod_id'];
         podcastData.type = dataSnapshot[i]['type'];

@@ -30,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   VideoPlayerController _controller;
   List<PodcastData> podcastDataList;
   List<String> listen_id;
+  String listen_id_data;
   var viewDataCount;
   Map<dynamic, dynamic> map;
   int positionValue;
@@ -73,6 +74,7 @@ class _HomePageState extends State<HomePage> {
       _userData = value.docs.first.data();
       setState(() {
         count = _userData['coinCount'];
+        listen_id_data = _userData['listen_id'];
       });
     });
 
@@ -87,7 +89,7 @@ class _HomePageState extends State<HomePage> {
   void fetchData(List<dynamic> dataSnapshot) {
     print("listen_id " + widget.userData.listen_id);
     for (int i = 0; i < dataSnapshot.length; i++) {
-      if (!widget.userData.listen_id.contains(dataSnapshot[i]['pod_id'])) {
+      if (!listen_id_data.contains(dataSnapshot[i]['pod_id'])) {
         PodcastData podcastData = new PodcastData();
         podcastData.podId = dataSnapshot[i]['pod_id'];
         podcastData.type = dataSnapshot[i]['type'];

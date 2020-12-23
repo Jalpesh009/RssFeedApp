@@ -323,7 +323,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         'phone_number': _phoneNumberController.text,
                         'paypal_id': _paypalIdController.text,
                         'password': _passwordController.text,
-                        'coinCount': 0
+                        'coinCount': 0,
+                        'listen_id': ""
                       };
                       RegistrationQueries().register(registrationData, context);
 

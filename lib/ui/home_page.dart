@@ -1,5 +1,5 @@
-import 'dart:io';
 import 'dart:math';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   AudioPlayer player = AudioPlayer();
   VideoPlayerController _controller;
   List<PodcastData> podcastDataList;
+  List<String> listen_id;
   var viewDataCount;
   Map<dynamic, dynamic> map;
   int positionValue;
@@ -46,6 +47,7 @@ class _HomePageState extends State<HomePage> {
   int time = 0;
   UserData data;
   var _userData;
+  Map<String, dynamic> registrationData;
 
   loadSharedPref() async {
     try {
@@ -57,6 +59,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Future<void> initState() {
+    listen_id = new List();
     loadSharedPref();
     super.initState();
 
@@ -80,15 +83,19 @@ class _HomePageState extends State<HomePage> {
   }
 
   void fetchData(List<dynamic> dataSnapshot) {
+    print("listen_id " + widget.userData.listen_id);
     for (int i = 0; i < dataSnapshot.length; i++) {
-      PodcastData podcastData = new PodcastData();
-      podcastData.podId = dataSnapshot[i]['pod_id'];
-      podcastData.type = dataSnapshot[i]['type'];
-      podcastData.link = dataSnapshot[i]['link'];
-      podcastData.title = dataSnapshot[i]['title'];
-      podcastData.skipValue = getRandonValueRange();
-      podcastDataList.add(podcastData);
+      if (!widget.userData.listen_id.contains(dataSnapshot[i]['pod_id'])) {
+        PodcastData podcastData = new PodcastData();
+        podcastData.podId = dataSnapshot[i]['pod_id'];
+        podcastData.type = dataSnapshot[i]['type'];
+        podcastData.link = dataSnapshot[i]['link'];
+        podcastData.title = dataSnapshot[i]['title'];
+        podcastData.skipValue = getRandonValueRange();
+        podcastDataList.add(podcastData);
+      }
     }
+    print("listen_id_lengh " + podcastDataList.length.toString());
 
     if (podcastDataList.length != 0) {
       isLoading = false;
@@ -276,11 +283,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ],
-                  // title: TextView(
-                  //   homeText,
-                  //   textColor: appTextColor,
-                  //   fontSize: 20,
-                  // ),
                 ),
                 drawer: Drawer(
                   child: Container(
@@ -770,7 +772,13 @@ class _HomePageState extends State<HomePage> {
     if (isLimitReached) {
       isLimitReached = false;
       count++;
+      listen_id.add(podcastDataList[skipCount].podId);
     }
+
+    registrationData = {
+      'coinCount': count,
+      'listen_id': listen_id.toString(),
+    };
 
     String docId;
     FirebaseFirestore.instance
@@ -782,7 +790,8 @@ class _HomePageState extends State<HomePage> {
       FirebaseFirestore.instance
           .collection('users')
           .doc(docId)
-          .update({'coinCount': count}).catchError((e) {
+          .update(registrationData)
+          .catchError((e) {
         print(e.toString());
       });
     });

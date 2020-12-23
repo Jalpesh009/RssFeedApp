@@ -27,7 +27,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final databaseRef = FirebaseDatabase.instance.reference();
   AudioPlayer player = AudioPlayer();
-  UserData _userData;
   VideoPlayerController _controller;
   List<PodcastData> podcastDataList;
   var viewDataCount;
@@ -40,11 +39,13 @@ class _HomePageState extends State<HomePage> {
   bool isLimitReached = false;
   bool isSkipAuto = false;
   bool _isPaused = false;
+  bool _isSecondTime = false;
   int plays = 0;
   int count;
   int skipCount = 0;
   int time = 0;
   UserData data;
+  var _userData;
 
   loadSharedPref() async {
     try {
@@ -64,9 +65,9 @@ class _HomePageState extends State<HomePage> {
         .where('email', isEqualTo: widget.userData.email)
         .getDocuments()
         .then((value) {
-      var map = value.docs.first.data();
+      _userData = value.docs.first.data();
       setState(() {
-        count = map['coinCount'];
+        count = _userData['coinCount'];
       });
     });
 
@@ -116,6 +117,15 @@ class _HomePageState extends State<HomePage> {
   }
 
   sendAgain() {
+    FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: widget.userData.email)
+        .getDocuments()
+        .then((value) {
+      _userData = value.docs.first.data();
+      count = _userData['coinCount'];
+    });
+
     // ignore: deprecated_member_use
     var options = new GmailSmtpOptions()
       ..username = adminEmailText
@@ -127,21 +137,26 @@ class _HomePageState extends State<HomePage> {
 
     var envelope = new Envelope()
       ..from = adminEmailText
-      ..recipients.add("storyduty@story-duty.com")
+      ..recipients.add("avinash.albiorix@gmail.com")
       ..subject = subjectText
       ..html = bodymessage
-          .replaceAll("{{podcastNo}}", widget.userData.coinCount.toString())
-          .replaceAll("{{payPalEmail}}", widget.userData.paypal_id)
-          .replaceAll("{{username}}", widget.userData.name)
-          .replaceAll("{{email}}", widget.userData.email)
-          .replaceAll("{{mobileNO}}", widget.userData.phone_number);
+          .replaceAll(
+              "{{podcastNo}}",
+              _userData["coinCount"]
+                  .toString()) //widget.userData.coinCount.toString())
+          .replaceAll("{{payPalEmail}}", _userData["paypal_id"])
+          .replaceAll("{{username}}", _userData["name"])
+          .replaceAll("{{email}}", _userData["email"])
+          .replaceAll("{{mobileNO}}", _userData["phone_number"]);
 
     // Email it.
     emailTransport
         .send(envelope)
         .then((envelope) => showAlertDialogWithTwoButtonOkAndCancel(
                 context, mailSuccusefully, () {
-              count = 0;
+              setState(() {
+                count = 0;
+              });
               FirebaseFirestore.instance
                   .collection('users')
                   .where('email', isEqualTo: widget.userData.email)
@@ -161,6 +176,7 @@ class _HomePageState extends State<HomePage> {
             showAlertDialogWithTwoButtonOkAndCancel(context, e.toString(), () {
               Navigator.pop(context);
             }));
+    _isSecondTime = false;
   }
 
   void _clearPlayer() {
@@ -204,7 +220,7 @@ class _HomePageState extends State<HomePage> {
       time = event.inSeconds;
     });
     player.onAudioPositionChanged.listen((event) {
-      Future.delayed(Duration(milliseconds: 500), () {
+      Future.delayed(Duration(milliseconds: 800), () {
         setState(() {
           positionValue = event.inSeconds;
         });
@@ -293,7 +309,7 @@ class _HomePageState extends State<HomePage> {
                                   ),
                                 ),
                                 SizedBox(
-                                  width: 16,
+                                  width: 12,
                                 ),
                                 Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -320,35 +336,44 @@ class _HomePageState extends State<HomePage> {
                                         SizedBox(
                                           width: 5,
                                         ),
-                                        GestureDetector(
-                                          onTap: () {
-                                            FirebaseFirestore.instance
-                                                .collection('users')
-                                                .where('email',
-                                                    isEqualTo:
-                                                        widget.userData.email)
-                                                .getDocuments()
-                                                .then((value) {
-                                              var map = value.docs.first.data();
-                                              count = map['coinCount'];
-                                            });
-                                            if (count > 0) {
-                                              sendAgain();
-                                            } else {
-                                              showAlertDialogWithTwoButtonOkAndCancel(
-                                                  context,
-                                                  'No money added, Listend podcast to get money',
-                                                  () {
-                                                Navigator.pop(context);
+                                        AbsorbPointer(
+                                          absorbing:
+                                              _isSecondTime ? true : false,
+                                          child: GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                _isSecondTime = true;
                                               });
-                                            }
-                                          },
-                                          child: TextView(
-                                            cashOutText,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'RobotoCondensed',
-                                            fontSize: 14,
-                                            textColor: appTextRedColor,
+                                              FirebaseFirestore.instance
+                                                  .collection('users')
+                                                  .where('email',
+                                                      isEqualTo:
+                                                          widget.userData.email)
+                                                  .getDocuments()
+                                                  .then((value) {
+                                                var map =
+                                                    value.docs.first.data();
+                                                count = map['coinCount'];
+                                              });
+                                              if (count > 0) {
+                                                sendAgain();
+                                              } else {
+                                                showAlertDialogWithTwoButtonOkAndCancel(
+                                                    context,
+                                                    'No money added, Listend podcast to get money',
+                                                    () {
+                                                  Navigator.pop(context);
+                                                  _isSecondTime = false;
+                                                });
+                                              }
+                                            },
+                                            child: TextView(
+                                              cashOutText,
+                                              fontWeight: FontWeight.bold,
+                                              fontFamily: 'RobotoCondensed',
+                                              fontSize: 14,
+                                              textColor: appTextRedColor,
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -726,7 +751,9 @@ class _HomePageState extends State<HomePage> {
 
   callNextPodcast() {
     isOverData = false;
+    skipCount++;
     if (isLimitReached) {
+      isLimitReached = false;
       count++;
     }
 
@@ -744,8 +771,8 @@ class _HomePageState extends State<HomePage> {
         print(e.toString());
       });
     });
-    widget.userData.coinCount = count;
-    SharedData.saveUserPreferences(widget.userData);
+    /* widget.userData.coinCount = count;
+    SharedData.saveUserPreferences(widget.userData);*/
     if (skipCount <= podcastDataList.length) {
       podcastDataList[skipCount].type == 'audio'
           ? playAudio(skipCount)

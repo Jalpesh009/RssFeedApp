@@ -558,6 +558,11 @@ class _HomePageState extends State<HomePage> {
                                         setState(() {
                                           isHide = true;
                                         });
+                                        if (isLimitReached) {
+                                          isLimitReached = false;
+                                          count++;
+                                          listen_id.add(podcastDataList[skipCount].podId);
+                                        }
                                         callNextPodcast();
                                       } else {
                                         if (isShow) {
@@ -766,6 +771,11 @@ class _HomePageState extends State<HomePage> {
       double upperLimit, double lowerLimit, int diff, int skipValue) {
     if (diff == skipValue.toInt()) {
       if (skipCount < podcastDataList.length - 1) {
+        if (isLimitReached) {
+          isLimitReached = false;
+          count++;
+          listen_id.add(podcastDataList[skipCount].podId);
+        }
         callNextPodcast();
       } else {
         showAlertDialogWithTwoButtonOkAndCancel(context, lastPodCast, () {
@@ -787,12 +797,6 @@ class _HomePageState extends State<HomePage> {
   callNextPodcast() {
     isOverData = false;
     skipCount++;
-
-    if (isLimitReached) {
-      isLimitReached = false;
-      count++;
-      listen_id.add(podcastDataList[skipCount].podId);
-    }
 
     registrationData = {
       'coinCount': count,

@@ -567,7 +567,8 @@ class _HomePageState extends State<HomePage> {
                                         if (isLimitReached) {
                                           isLimitReached = false;
                                           count++;
-                                          listen_id.add(podcastDataList[skipCount-1].podId);
+                                          listen_id.add(
+                                              podcastDataList[skipCount].podId);
                                         }
                                         callNextPodcast();
                                       } else {
@@ -780,7 +781,7 @@ class _HomePageState extends State<HomePage> {
         if (isLimitReached) {
           isLimitReached = false;
           count++;
-          listen_id.add(podcastDataList[skipCount-1].podId);
+          listen_id.add(podcastDataList[skipCount].podId);
         }
         callNextPodcast();
       } else {

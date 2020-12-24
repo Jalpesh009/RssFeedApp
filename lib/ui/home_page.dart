@@ -75,6 +75,12 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         count = _userData['coinCount'];
         listen_id_data = _userData['listen_id'];
+        if (listen_id_data != null && listen_id_data.length != 0) {
+          final split = listen_id_data.split(',');
+          for (int i = 0; i < split.length; i++) {
+            listen_id.add(split[i]);
+          }
+        }
       });
     });
 
@@ -276,7 +282,6 @@ class _HomePageState extends State<HomePage> {
                   elevation: 0,
                   backgroundColor: appOffWhiteColor,
                   iconTheme: IconThemeData(color: appTextMaroonColor),
-
                   actions: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(top: 16, right: 16),
@@ -791,7 +796,7 @@ class _HomePageState extends State<HomePage> {
     if (isLimitReached) {
       isLimitReached = false;
       count++;
-      listen_id.add(podcastDataList[skipCount].podId);
+      listen_id.add(podcastDataList[skipCount - 1].podId);
     }
 
     registrationData = {

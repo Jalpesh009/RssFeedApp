@@ -807,7 +807,7 @@ class _HomePageState extends State<HomePage> {
 
     registrationData = {
       'coinCount': count,
-      'listen_id': listen_id.toString(),
+      'listen_id': listen_id.toString().replaceAll("[", "").replaceAll("]", ""),
     };
 
     String docId;

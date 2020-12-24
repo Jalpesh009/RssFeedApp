@@ -75,12 +75,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         count = _userData['coinCount'];
         listen_id_data = _userData['listen_id'];
-        if (listen_id_data != null && listen_id_data.length != 0) {
-          final split = listen_id_data.split(',');
-          for (int i = 0; i < split.length; i++) {
-            listen_id.add(split[i]);
-          }
-        }
       });
     });
 
@@ -93,6 +87,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   void fetchData(List<dynamic> dataSnapshot) {
+    if (listen_id_data != null) {
+      if (listen_id_data.length != 0) {
+        final split = listen_id_data.split(',');
+        for (int i = 0; i < split.length; i++) {
+          listen_id.add(split[i]);
+        }
+      }
+    }
     for (int i = 0; i < dataSnapshot.length; i++) {
       if (listen_id_data != null &&
           !listen_id_data.contains(dataSnapshot[i]['pod_id'])) {

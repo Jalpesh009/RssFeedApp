@@ -98,8 +98,7 @@ class _HomePageState extends State<HomePage> {
       }
     }
     for (int i = 0; i < dataSnapshot.length; i++) {
-      if (listen_id_data != null &&
-          !listen_id_data.contains(dataSnapshot[i]['pod_id'])) {
+      if (!listen_id.contains(dataSnapshot[i]['pod_id'])) {
         print("listen_id " + dataSnapshot[i]['pod_id']);
         PodcastData podcastData = new PodcastData();
         podcastData.podId = dataSnapshot[i]['pod_id'];

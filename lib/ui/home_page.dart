@@ -75,7 +75,6 @@ class _HomePageState extends State<HomePage> {
       setState(() {
         count = _userData['coinCount'];
         listen_id_data = _userData['listen_id'];
-
       });
     });
 
@@ -88,7 +87,6 @@ class _HomePageState extends State<HomePage> {
   }
 
   void fetchData(List<dynamic> dataSnapshot) {
-
     if (listen_id_data != null) {
       if (listen_id_data.length != 0) {
         final split = listen_id_data.split(',');
@@ -158,13 +156,11 @@ class _HomePageState extends State<HomePage> {
 
     var envelope = new Envelope()
       ..from = adminEmailText
-      ..recipients.add("avinash.albiorix@gmail.com")
+      ..recipients.add("storyduty@story-duty.com")
       ..subject = subjectText
       ..html = bodymessage
-          .replaceAll(
-              "{{podcastNo}}",
-              _userData["coinCount"]
-                  .toString()) //widget.userData.coinCount.toString())
+          .replaceAll("{{podcastNo}}",
+              count.toString()) //widget.userData.coinCount.toString())
           .replaceAll("{{payPalEmail}}", _userData["paypal_id"])
           .replaceAll("{{username}}", _userData["name"])
           .replaceAll("{{email}}", _userData["email"])
@@ -285,7 +281,6 @@ class _HomePageState extends State<HomePage> {
                   elevation: 0,
                   backgroundColor: appOffWhiteColor,
                   iconTheme: IconThemeData(color: appTextMaroonColor),
-
                   actions: <Widget>[
                     Padding(
                       padding: const EdgeInsets.only(top: 16, right: 16),
@@ -572,6 +567,32 @@ class _HomePageState extends State<HomePage> {
                                       } else {
                                         if (isShow) {
                                           isShow = false;
+                                          count++;
+                                          registrationData = {
+                                            'coinCount': count,
+                                            'listen_id': listen_id
+                                                .toString()
+                                                .replaceAll("[", "")
+                                                .replaceAll("]", ""),
+                                          };
+
+                                          String docId;
+                                          FirebaseFirestore.instance
+                                              .collection('users')
+                                              .where('email',
+                                                  isEqualTo:
+                                                      widget.userData.email)
+                                              .getDocuments()
+                                              .then((value) {
+                                            docId = value.docs.first.documentID;
+                                            FirebaseFirestore.instance
+                                                .collection('users')
+                                                .doc(docId)
+                                                .update(registrationData)
+                                                .catchError((e) {
+                                              print(e.toString());
+                                            });
+                                          });
                                           showAlertDialogWithTwoButtonOkAndCancel(
                                               context, overList, () {
                                             Navigator.pop(context);
@@ -801,8 +822,7 @@ class _HomePageState extends State<HomePage> {
     if (isLimitReached) {
       isLimitReached = false;
       count++;
-      listen_id.add(
-          podcastDataList[skipCount].podId);
+      listen_id.add(podcastDataList[skipCount].podId);
     }
 
     debugPrint('Credit count is : $count');
